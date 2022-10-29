@@ -1,6 +1,8 @@
 import React from 'react'
 import DeckGL from '@deck.gl/react/typed'
 import {LineLayer} from '@deck.gl/layers/typed'
+import Map from 'react-map-gl'
+import maplibregl from 'maplibre-gl'
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
@@ -11,13 +13,11 @@ const INITIAL_VIEW_STATE = {
   bearing: 0
 };
 
-// Data to be used by the LineLayer
 const data = [
   {sourcePosition: [-122.41669, 37.7853], targetPosition: [-122.41669, 37.781]}
 ];
 
-// DeckGL react component
-const Map = () => {
+const MainMap = () => {
   const layers = [
     new LineLayer({id: 'line-layer', data})
   ];
@@ -25,7 +25,14 @@ const Map = () => {
   return <DeckGL
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
-      layers={layers} />;
+      layers={layers} 
+      width={"100vw"}
+      height={"100vh"}
+      >
+        <Map
+          mapLib={maplibregl}
+        />
+      </DeckGL>
 }
 
-export default Map
+export default MainMap

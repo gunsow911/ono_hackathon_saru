@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Map from '../components/Map'
+import MainMap from '../components/MainMap'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Map />
+        <MainMap />
       </main>
     </div>
   )
