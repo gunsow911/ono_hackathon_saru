@@ -1,10 +1,21 @@
 import Head from 'next/head'
 import React from 'react';
 import styles from '../styles/Home.module.css'
+import {ExifParserFactory} from "ts-exif-parser";
 
 export default function Home() {
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files?.item(0));
+    const file = e.target.files?.item(0)
+    if (!file) return 
+
+      file.arrayBuffer().then((value) => {
+        const exifData = ExifParserFactory.create(value).parse()
+        const lat = exifData.tags?.GPSLatitude
+        const lng = exifData.tags?.GPSLongitude
+        const date = exifData.tags?.DateTimeOriginal
+        console.log(lat, lng, date)
+      });
+
   };
   return (
     <div className={styles.container}>
