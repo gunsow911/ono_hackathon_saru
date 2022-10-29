@@ -3,7 +3,7 @@ services:
   web:
     build: .
     tty: true
-    expose:
+    ports:
       - "3000:3000"
     volumes:
       - .:/web
