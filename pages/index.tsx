@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head'
 import React from 'react';
+import Descirption from '../components/Description';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       </Head>
       <main>
         <Map />
+        <Descirption></Descirption>
       </main>
     </div>
   )
