@@ -1,36 +1,36 @@
 import Head from 'next/head'
-import React, {ReactNode, useRef, useState} from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import styles from '../styles/Home.module.css'
 import useUpload from '../hooks/useUpload'
-import { Button, Grid, Box } from '@mui/material';
+import { Button, Grid, Box, Alert } from '@mui/material';
 import Image from "material-ui-image";
 
 export default function Home() {
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const {upload} = useUpload()
+  const { upload } = useUpload()
 
-  const [isSuccess, setIsSuccess] = useState<boolean|undefined>(undefined)
+  const [isSuccess, setIsSuccess] = useState<boolean | undefined>(undefined)
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0)
-    if (!file) return 
+    if (!file) return
     upload(file).then(() => {
-        setIsSuccess(true)
-      }).catch(_ => {
-        setIsSuccess(false)
-      }).finally(() => {
-        if (!inputRef.current) return
-        inputRef.current.value = ''
-      })
+      setIsSuccess(true)
+    }).catch(_ => {
+      setIsSuccess(false)
+    }).finally(() => {
+      if (!inputRef.current) return
+      inputRef.current.value = ''
+    })
   };
 
   const showResult = (): ReactNode => {
-    if (isSuccess === undefined)  return <></>
+    if (isSuccess === undefined) return <></>
     if (isSuccess === true) {
-      return <div>写真のアップロードが完了しました！</div>
+      return <Alert severity="success">写真のアップロードが完了しました！</Alert>
     }
-      return <div>写真のアップロードに失敗しました。位置情報の設定がオンであることを確かめてください。</div>
+    return <Alert severity="error">写真のアップロードに失敗しました。位置情報の設定がオンであることを確かめてください。</Alert>
   }
 
   return (
@@ -54,6 +54,10 @@ export default function Home() {
                 写真をアップロードしてください
                 <input type="file" className={styles.inputFileBtnHide} onChange={onFileInputChange} />
               </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2 }}>
               {showResult()}
             </Box>
           </Grid>
