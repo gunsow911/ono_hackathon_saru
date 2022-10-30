@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import useUpload from '../hooks/useUpload'
 import { Button, Grid, Box, Alert } from '@mui/material';
 import Image from "material-ui-image";
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -47,10 +48,7 @@ export default function Home() {
           </Grid>
           <Grid item xs={12}>
             <Box pt={3}>
-              <Button
-                style={{ color: 'white', backgroundColor: 'blue' }}
-                component="label"
-              >
+              <Button style={{ color: 'white', backgroundColor: '#1E90FF' }}>
                 写真をアップロードしてください
                 <input type="file" className={styles.inputFileBtnHide} onChange={onFileInputChange} />
               </Button>
@@ -59,6 +57,15 @@ export default function Home() {
           <Grid item xs={12}>
             <Box sx={{ mt: 2 }}>
               {showResult()}
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{ mt: 2 }}>
+              <Button variant="outlined">
+                <Link href="/" passHref>
+                  獣害Mapに移動
+                </Link>
+              </Button>
             </Box>
           </Grid>
         </Grid>
