@@ -1,26 +1,38 @@
 import Head from 'next/head'
-import React from 'react';
+import React, {ReactNode, useRef, useState} from 'react';
 import styles from '../styles/Home.module.css'
-import {ExifParserFactory} from "ts-exif-parser";
-import useAddHeatmapData from '../hooks/useAddHeatmapData';
+import useUpload from '../hooks/useUpload';
 
 export default function Home() {
 
-  const {postData} = useAddHeatmapData()
+  const inputRef = useRef<HTMLInputElement>(null);
+  const {upload} = useUpload()
+
+  const [isSuccess, setIsSuccess] = useState<boolean|undefined>(undefined)
+
+  console.log(isSuccess)
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0)
     if (!file) return 
-    file.arrayBuffer().then((value) => {
-      const exifData = ExifParserFactory.create(value).parse()
-      const lat = exifData.tags?.GPSLatitude
-      const lng = exifData.tags?.GPSLongitude
-      const date = exifData.tags?.DateTimeOriginal ? new Date(exifData.tags?.DateTimeOriginal) : undefined
-      if (!lat || !lng || !date) return
-      postData(lat.toString(), lng.toString(), date.toString())
-    });
-
+    upload(file).then(() => {
+        setIsSuccess(true)
+      }).catch(_ => {
+        setIsSuccess(false)
+      }).finally(() => {
+        if (!inputRef.current) return
+        inputRef.current.value = ''
+      })
   };
+
+  const showResult = (): ReactNode => {
+    if (isSuccess === undefined)  return <></>
+    if (isSuccess === true) {
+      return <div>写真のアップロードが完了しました！</div>
+    }
+      return <div>写真のアップロードに失敗しました。位置情報の設定がオンであることを確かめてください。</div>
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -31,7 +43,8 @@ export default function Home() {
         <div>
           写真をアップロードしてください
         </div>
-        <input type='file' onChange={onFileInputChange} />
+        <input type='file' ref={inputRef} onChange={onFileInputChange} />
+        {showResult()}
       </main>
     </div>
   )
