@@ -9,7 +9,7 @@ const MainMap = () => {
   const {data} = useHeatmapData()
   return (
   <>
-    <MapContainer center={[34.1046934,131.3046877]} zoom={13} style={{width: '100%', height: '90vh'}}>
+    <MapContainer center={[34.1046934,131.3046877]} zoom={13} style={{width: '100%', height: '80vh'}}>
       {data &&
         <HeatmapLayer
           points={data}

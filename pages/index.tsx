@@ -21,7 +21,7 @@ export default function Home() {
       </Head>
       <main>
         <Map />
-        <Descirption></Descirption>
+        <Descirption />
       </main>
     </div>
   )
