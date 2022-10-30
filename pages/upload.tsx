@@ -1,16 +1,19 @@
 import Head from 'next/head'
 import React from 'react';
 import styles from '../styles/Home.module.css'
-import {ExifParserFactory} from "ts-exif-parser";
+import { ExifParserFactory } from "ts-exif-parser";
 import useAddHeatmapData from '../hooks/useAddHeatmapData';
+import { Button, Grid, Box, Avatar, Paper } from '@mui/material';
+import SaruPhoto from '../public/image/saru_photo.png';
+import Image from "material-ui-image";
 
 export default function Home() {
 
-  const {postData} = useAddHeatmapData()
+  const { postData } = useAddHeatmapData()
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0)
-    if (!file) return 
+    if (!file) return
     file.arrayBuffer().then((value) => {
       const exifData = ExifParserFactory.create(value).parse()
       const lat = exifData.tags?.GPSLatitude
@@ -28,11 +31,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>
-          写真をアップロードしてください
-        </div>
-        <input type='file' onChange={onFileInputChange} />
+
+        <Grid container alignItems='center' justifyContent='center' direction="column">
+          <Grid item xs={12}>
+            <p>位置情報のある写真を選択してください</p>
+            <Image src="/image/saru_photo.png" width={100} height={100} alt="" />
+          </Grid>
+          <Grid item xs={12}>
+            <Box pt={3}>
+              <Button
+                style={{ color: 'white', backgroundColor: 'blue' }}
+                component="label"
+              >
+                写真をアップロードしてください
+                <input type="file" className={styles.inputFileBtnHide} onChange={onFileInputChange} />
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
       </main>
-    </div>
+    </div >
   )
 }
