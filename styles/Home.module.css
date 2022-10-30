@@ -11,3 +11,9 @@
   justify-content: center;
   align-items: center;
 }
+
+.inputFileBtnHide {
+  opacity: 0;
+  appearance: none;
+  position: absolute;
+}

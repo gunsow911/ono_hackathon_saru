@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import React, {ReactNode, useRef, useState} from 'react';
 import styles from '../styles/Home.module.css'
-import useUpload from '../hooks/useUpload';
+import useUpload from '../hooks/useUpload'
+import { Button, Grid, Box } from '@mui/material';
+import Image from "material-ui-image";
 
 export default function Home() {
 
@@ -38,12 +40,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>
-          写真をアップロードしてください
-        </div>
-        <input type='file' ref={inputRef} onChange={onFileInputChange} />
-        {showResult()}
+        <Grid container alignItems='center' justifyContent='center' direction="column">
+          <Grid item xs={12}>
+            <p>位置情報のある写真を選択してください</p>
+            <Image src="/image/saru_photo.png" width={100} height={100} alt="" />
+          </Grid>
+          <Grid item xs={12}>
+            <Box pt={3}>
+              <Button
+                style={{ color: 'white', backgroundColor: 'blue' }}
+                component="label"
+              >
+                写真をアップロードしてください
+                <input type="file" className={styles.inputFileBtnHide} onChange={onFileInputChange} />
+              </Button>
+              {showResult()}
+            </Box>
+          </Grid>
+        </Grid>
       </main>
-    </div>
+    </div >
   )
 }
