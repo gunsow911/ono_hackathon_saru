@@ -1,8 +1,9 @@
 import dayjs from "dayjs"
 import timezone from "dayjs/plugin/timezone"
+import utc from "dayjs/plugin/utc"
 import {ExifParserFactory} from "ts-exif-parser"
+dayjs.extend(utc)
 dayjs.extend(timezone)
-dayjs.tz.setDefault('Asia/Tokyo')
 
 const useUpload = () => {
   const upload = async (file: File) => {
@@ -10,8 +11,7 @@ const useUpload = () => {
       const exifData = ExifParserFactory.create(value).parse()
       const lat = exifData.tags?.GPSLatitude
       const lng = exifData.tags?.GPSLongitude
-      const date = exifData.tags?.DateTimeOriginal ? dayjs.unix(exifData.tags?.DateTimeOriginal).format('YYYY-MM-DD HH:mm:ss') : undefined
-      console.log(lat, lng, date)
+      const date = exifData.tags?.DateTimeOriginal ? dayjs.unix(exifData.tags?.DateTimeOriginal).tz("Asia/Tokyo").format('YYYY-MM-DD HH:mm:ss') : undefined
       if (!lat || !lng || !date) return Promise.reject()
         return  {
           lat: lat.toString(),

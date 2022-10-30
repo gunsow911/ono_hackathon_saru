@@ -10,8 +10,6 @@ export default function Home() {
 
   const [isSuccess, setIsSuccess] = useState<boolean|undefined>(undefined)
 
-  console.log(isSuccess)
-
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0)
     if (!file) return 
