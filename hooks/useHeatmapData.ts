@@ -15,6 +15,10 @@ const useHeatmapData = () => {
   }, [])
 
   const load = () => {
+    loadSpreadSheet()
+  }
+
+  const loadLocalFile = () => {
     fetch("/assets/data.csv")
       .then(res => res.text())
       .then(text => {
@@ -32,6 +36,21 @@ const useHeatmapData = () => {
         })
         setInformations(infos) 
       })
+  }
+
+  const loadSpreadSheet = () => {
+    const url = "https://script.google.com/macros/s/AKfycbxxulXc2WYyEGODo9Kh6xSG_xDJDSipOL2YbsDp_6wPfq5BxBqadzLmYTxCnS_xkyW4jA/exec"
+    fetch(url).then((res) => res.json())
+    .then(value => {
+      const data = value as {lat: number, lng: number, date: string}[]
+      const infos = data.map<Information>(v => {
+        return {
+          latLng: new LatLng(v.lat, v.lng),
+          date: new Date(v.date)
+        }
+      })
+      setInformations(infos)
+    })
   }
 
 
