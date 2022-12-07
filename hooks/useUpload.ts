@@ -11,13 +11,12 @@ const useUpload = () => {
       const exifData = ExifParserFactory.create(value).parse()
       const lat = exifData.tags?.GPSLatitude
       const lng = exifData.tags?.GPSLongitude
-      const date = exifData.tags?.DateTimeOriginal ? dayjs.unix(exifData.tags?.DateTimeOriginal).tz("Asia/Tokyo").format('YYYY-MM-DD HH:mm:ss') : undefined
-      if (!lat || !lng || !date) return Promise.reject()
-        return  {
-          lat: lat.toString(),
-          lng: lng.toString(),
-          date: date
-        }
+      if (!lat || !lng) return Promise.reject()
+      return  {
+        lat: lat.toString(),
+        lng: lng.toString(),
+        date: '2022-01-01 00:00:00',
+      }
     }).then(({lat, lng, date}) => {
       return postData(lat, lng, date)
     })
