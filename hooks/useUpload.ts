@@ -1,16 +1,15 @@
 import dayjs from "dayjs"
 import timezone from "dayjs/plugin/timezone"
 import utc from "dayjs/plugin/utc"
-import {ExifParserFactory} from "ts-exif-parser"
+import ExifReader from 'exifreader'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const useUpload = () => {
   const upload = async (file: File) => {
-    return file.arrayBuffer().then((value) => {
-      const exifData = ExifParserFactory.create(value).parse()
-      const lat = exifData.tags?.GPSLatitude
-      const lng = exifData.tags?.GPSLongitude
+    return ExifReader.load(file, {expanded: true}).then((tags) => {
+      const lat = tags.gps?.Latitude
+      const lng = tags.gps?.Longitude
       if (!lat || !lng) return Promise.reject()
       return  {
         lat: lat.toString(),
