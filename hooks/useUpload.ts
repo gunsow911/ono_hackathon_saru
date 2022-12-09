@@ -1,45 +1,37 @@
-import dayjs from "dayjs"
+import dayjs, {Dayjs} from "dayjs"
 import timezone from "dayjs/plugin/timezone"
 import utc from "dayjs/plugin/utc"
-import ExifReader from 'exifreader'
+import {useState} from "react"
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const useUpload = () => {
-  const upload = async (file: File) => {
-    return ExifReader.load(file, {expanded: true}).then((tags) => {
-      const lat = tags.gps?.Latitude
-      const lng = tags.gps?.Longitude
-      if (!lat || !lng) return Promise.reject()
-      return  {
-        lat: lat.toString(),
-        lng: lng.toString(),
-        date: '2022-01-01 00:00:00',
-      }
-    }).then(({lat, lng, date}) => {
-      return postData(lat, lng, date)
-    })
-  }
 
-  const postData = async (lat: string, lng: string, date: string): Promise<void> => {
+  const [loading, setLoading] = useState(false)
+
+  const upload = async (lat: number, lng: number, date: Dayjs): Promise<void> => {
+      setLoading(true)
       const url = "https://script.google.com/macros/s/AKfycbxxulXc2WYyEGODo9Kh6xSG_xDJDSipOL2YbsDp_6wPfq5BxBqadzLmYTxCnS_xkyW4jA/exec"
       var form = new FormData()
-      form.append('lat', lat)
-      form.append('lng', lng)
-      form.append('date', date)
+      form.append('lat',lat.toString())
+      form.append('lng', lng.toString())
+      form.append('date', date.format('YYYY-MM-DD HH:mm:ss'))
       return fetch(url, {
         method: "POST",
         body: form 
         }).then((_) => {
           return Promise.resolve();
+        }).finally(() => {
+          setLoading(true)
         });
   }
 
   return {
     upload,
+    loading,
   }
 }
 
-export default  useUpload
+export default useUpload
 
 
