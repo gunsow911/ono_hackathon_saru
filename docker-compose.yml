@@ -1,10 +1,15 @@
 version: "3.8"
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
     tty: true
     ports:
-      - "3000:3000"
+      - "80:3000"
     volumes:
-      - .:/web
+      - ./web:/web
     command: "yarn run dev"
+    stdin_open: true
+    tty: true
+    restart: always
