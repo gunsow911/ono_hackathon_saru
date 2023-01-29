@@ -1,0 +1,13 @@
+{
+  "intelephense.environment.phpVersion": "8.1",
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "php",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.autoFixOnSave": true,
+  "php-cs-fixer.config": "api/.php-cs-fixer.dist.php",
+  "prettier.bracketSpacing": true
+}
+
