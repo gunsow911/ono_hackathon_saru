@@ -1,30 +1,36 @@
-import React from 'react'
-import {MapContainer, TileLayer} from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import HeatmapLayer from 'react-leaflet-heatmap-layer-v3/lib/HeatmapLayer'
-import useHeatmapData, {Information} from '../hooks/useHeatmapData'
+import { HeatmapLayer } from '@deck.gl/aggregation-layers/typed'
+import useHeatmapData, { Information } from '../hooks/useHeatmapData'
+import DeckGLMap from './DeckGLMap'
 
 const MainMap = () => {
+  const { data } = useHeatmapData()
 
-  const {data} = useHeatmapData()
+  const heatmapLayer = new HeatmapLayer<Information>({
+    id: 'heatmapLayer',
+    data,
+    getPosition: (d) => d.coordinate,
+    colorRange: [
+      [50, 136, 189, 200],
+      [153, 213, 148, 200],
+      [230, 245, 152, 200],
+      [254, 224, 139, 200],
+      [252, 141, 89, 200],
+      [213, 62, 79, 200],
+    ],
+  })
+
   return (
-  <>
-    <MapContainer center={[34.1046934,131.3046877]} zoom={13} style={{width: '100%', height: '80vh'}}>
-      {data &&
-        <HeatmapLayer
-          points={data}
-          longitudeExtractor={m => (m as Information).latLng.lng}
-          latitudeExtractor={m => (m as Information).latLng.lat}
-          intensityExtractor={_ => 1} 
-          radius={30}
-          />
-      }
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-    </MapContainer>
-  </>
+    <DeckGLMap
+      layers={[heatmapLayer]}
+      style={{ height: '80vh' }}
+      initialViewState={{
+        longitude: 131.3046877,
+        latitude: 34.1046934,
+        zoom: 12,
+        pitch: 0,
+        bearing: 0,
+      }}
+    />
   )
 }
 

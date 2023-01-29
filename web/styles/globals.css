@@ -15,3 +15,13 @@ a {
   box-sizing: border-box;
 }
 
+.attribution {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  font: 11px Helvetica Neue, Arial, Helvetica, sans-serif;
+  line-height: 12.5px;
+  padding: 2px;
+  z-index: 800;
+}
