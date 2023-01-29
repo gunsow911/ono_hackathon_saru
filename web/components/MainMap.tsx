@@ -9,6 +9,14 @@ const MainMap = () => {
     id: 'heatmapLayer',
     data,
     getPosition: (d) => d.coordinate,
+    colorRange: [
+      [50, 136, 189, 200],
+      [153, 213, 148, 200],
+      [230, 245, 152, 200],
+      [254, 224, 139, 200],
+      [252, 141, 89, 200],
+      [213, 62, 79, 200],
+    ],
   })
 
   return (
