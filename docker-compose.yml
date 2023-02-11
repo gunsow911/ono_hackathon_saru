@@ -14,8 +14,6 @@ services:
       context: .
       dockerfile: docker/web/Dockerfile
     tty: true
-    ports:
-      - "80:3000"
     volumes:
       - ./web:/web
     command: "yarn run dev"
@@ -35,3 +33,18 @@ services:
       - 9000
     tty: true
     restart: always
+  db:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    environment:
+      MYSQL_USERNAME: 'user'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 13306:3306
+    volumes:
+      - ./.data:/var/lib/mysql
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+volumes:
+  db:
