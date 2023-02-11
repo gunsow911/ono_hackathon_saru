@@ -1,5 +1,14 @@
 version: "3.8"
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile.dev
+    ports:
+      - "80:80"
+    tty: true
+    depends_on:
+      - web
   web:
     build:
       context: .
@@ -10,16 +19,19 @@ services:
     volumes:
       - ./web:/web
     command: "yarn run dev"
+    expose:
+      - 3000
     stdin_open: true
     tty: true
     restart: always
   api:
     build:
       context: .
-      dockerfile: docker/api/Dockerfile
-    ports:
-      - "3000:8080"
-    tty: true
-    stdin_open: true
+      dockerfile: docker/api/Dockerfile.dev
+    volumes:
+      - ./api:/app
+      - ./docker/api/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    expose:
+      - 9000
     tty: true
     restart: always
