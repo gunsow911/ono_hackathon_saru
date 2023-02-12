@@ -1,15 +1,15 @@
 import Head from 'next/head'
 import React, { ReactNode, useEffect, useState } from 'react'
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 import { Button, Grid, Box, Alert } from '@mui/material'
 import Link from 'next/link'
 import { useGeolocated } from 'react-geolocated'
-import useUpload from '../hooks/useUpload'
+import useUpload from '../../hooks/useUpload'
 import dayjs from 'dayjs'
 import { NoSsr } from '@material-ui/core'
-import UploadMap from '../components/UploadMap'
+import UploadMap from '../../components/UploadMap'
 
-export default function Home() {
+export default function Upload() {
   const [isSuccess, setIsSuccess] = useState<boolean | undefined>(undefined)
   const [location, setLocation] = useState<{ lat: number; lng: number }>()
 
