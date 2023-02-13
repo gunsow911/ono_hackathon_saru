@@ -19,12 +19,7 @@ class UserResource extends JsonResource
         $resource = $this->resource;
         return [
             'id' => $resource->id,
-            'email' => $resource->email,
             'name' => $resource->name,
-            'phone_number' => $resource->phone_number,
-            'notification_method' => $resource->notification_method,
-            'created_at' => $resource->created_at,
-            'updated_at' => $resource->updated_at,
         ];
     }
 }

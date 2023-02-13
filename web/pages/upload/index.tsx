@@ -4,16 +4,22 @@ import styles from '../../styles/Home.module.css'
 import { Button, Grid, Box, Alert } from '@mui/material'
 import Link from 'next/link'
 import { useGeolocated } from 'react-geolocated'
-import useUpload from '../../hooks/useUpload'
-import dayjs from 'dayjs'
 import { NoSsr } from '@material-ui/core'
 import UploadMap from '../../components/UploadMap'
+import useAddMatter from '../../hooks/useAddMatter'
+import useAxios from 'axios-hooks'
 
 export default function Upload() {
-  const [isSuccess, setIsSuccess] = useState<boolean | undefined>(undefined)
+  useAxios<void>(
+    {
+      url: '/sanctum/csrf-cookie',
+      method: 'GET',
+    },
+    { manual: false },
+  )
   const [location, setLocation] = useState<{ lat: number; lng: number }>()
 
-  const { upload, loading } = useUpload()
+  const { data, execute, loading, error } = useAddMatter()
 
   const {
     coords,
@@ -36,25 +42,22 @@ export default function Upload() {
 
   const onClick = () => {
     if (!location) return
-    upload(location.lat, location.lng, dayjs())
-      .then(() => {
-        setIsSuccess(true)
-      })
-      .catch((_) => {
-        setIsSuccess(false)
-      })
+    execute({ lat: location.lat, lng: location.lng })
   }
 
   const showResult = (): ReactNode => {
-    if (isSuccess === undefined) return <></>
-    if (isSuccess === true) {
+    if (data === undefined) return <></>
+    if (error !== null) {
+      return (
+        <Alert severity='error'>
+          報告に失敗しました。インターネットの接続や位置情報の設定がオンであることを確かめてください。
+        </Alert>
+      )
+    }
+    if (data && !loading) {
       return <Alert severity='success'>報告が完了しました！</Alert>
     }
-    return (
-      <Alert severity='error'>
-        報告に失敗しました。インターネットの接続や位置情報の設定がオンであることを確かめてください。
-      </Alert>
-    )
+    return <></>
   }
 
   const onChangeLocation = (lat: number, lng: number) => {
@@ -116,7 +119,7 @@ export default function Upload() {
                 )}
               </Box>
             </>
-            {isSuccess === undefined && (
+            {data === undefined && (
               <Box pt={3}>
                 <Button
                   disabled={isDisable()}

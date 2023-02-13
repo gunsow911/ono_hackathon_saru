@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     // ユーザ情報フェッチ
     Route::get('user', [UserController::class, 'fetch']);
-
 });
 
 Route::get('matters', [MatterController::class, 'index']);
+Route::post('matters', [MatterController::class, 'create']);
