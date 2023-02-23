@@ -2,6 +2,8 @@ import '../styles/globals.css'
 import { configure } from 'axios-hooks'
 import type { AppProps } from 'next/app'
 import axios from '../lib/axios'
+import styles from '../styles/Home.module.css'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }: AppProps) {
   configure({
@@ -10,5 +12,14 @@ export default function App({ Component, pageProps }: AppProps) {
       manual: true,
     },
   })
-  return <Component {...pageProps} />
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>小野地区獣害マッピング</title>
+      </Head>
+      <main>
+        <Component {...pageProps} />
+      </main>
+    </div>
+  )
 }

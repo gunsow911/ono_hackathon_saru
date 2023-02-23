@@ -1,6 +1,4 @@
-import Head from 'next/head'
 import React, { ReactNode, useEffect, useState } from 'react'
-import styles from '../../styles/Home.module.css'
 import { Button, Grid, Box, Alert } from '@mui/material'
 import Link from 'next/link'
 import { useGeolocated } from 'react-geolocated'
@@ -71,79 +69,71 @@ export default function Upload() {
   }
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>小野地区獣害マッピング</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <main>
-        <Grid
-          container
-          alignItems='center'
-          justifyContent='center'
-          direction='column'
-        >
-          <NoSsr>
-            {!isGeolocationAvailable && (
-              <Box pt={3}>
-                <Alert severity='error'>
-                  位置情報取得ができないブラウザです。別のブラウザをお試しください。
-                </Alert>
-              </Box>
+    <Grid
+      container
+      alignItems='center'
+      justifyContent='center'
+      direction='column'
+    >
+      <NoSsr>
+        {!isGeolocationAvailable && (
+          <Box pt={3}>
+            <Alert severity='error'>
+              位置情報取得ができないブラウザです。別のブラウザをお試しください。
+            </Alert>
+          </Box>
+        )}
+        {isGeolocationAvailable && !isGeolocationEnabled && (
+          <Box pt={3}>
+            <Alert severity='warning'>
+              位置情報を取得できませんでした。位置情報へのアクセスを許可してください。
+            </Alert>
+          </Box>
+        )}
+        <>
+          <Box pt={2}>獣害を受けた場所を選択してください</Box>
+          <Box pt={1}>
+            {location ? (
+              <UploadMap
+                latLng={{ ...location }}
+                onChangeLocation={onChangeLocation}
+              />
+            ) : (
+              <Box style={{ width: 400, height: 300 }}></Box>
             )}
-            {isGeolocationAvailable && !isGeolocationEnabled && (
-              <Box pt={3}>
-                <Alert severity='warning'>
-                  位置情報を取得できませんでした。位置情報へのアクセスを許可してください。
-                </Alert>
-              </Box>
+          </Box>
+          <Box pt={1}>
+            {location && (
+              <>
+                <div>緯度： {location.lng}</div>
+                <div>経度： {location.lat}</div>
+              </>
             )}
-            <>
-              <Box pt={2}>獣害を受けた場所を選択してください</Box>
-              <Box pt={1}>
-                {location ? (
-                  <UploadMap
-                    latLng={{ ...location }}
-                    onChangeLocation={onChangeLocation}
-                  />
-                ) : (
-                  <Box style={{ width: 400, height: 300 }}></Box>
-                )}
-              </Box>
-              <Box pt={1}>
-                {location && (
-                  <>
-                    <div>緯度： {location.lng}</div>
-                    <div>経度： {location.lat}</div>
-                  </>
-                )}
-              </Box>
-            </>
-            {data === undefined && (
-              <Box pt={3}>
-                <Button
-                  disabled={isDisable()}
-                  style={{
-                    color: 'white',
-                    backgroundColor: '#1E90FF',
-                  }}
-                  onClick={onClick}
-                >
-                  {loading ? <>報告中…</> : <>獣害報告！</>}
-                </Button>
-              </Box>
-            )}
-            <Box sx={{ mt: 2 }}>{showResult()}</Box>
-            <Box sx={{ mt: 2 }}>
-              <Button variant='outlined'>
-                <Link href='/' passHref>
-                  獣害Mapに移動
-                </Link>
-              </Button>
-            </Box>
-          </NoSsr>
-        </Grid>
-      </main>
-    </div>
+          </Box>
+        </>
+        {data === undefined && (
+          <Box pt={3}>
+            <Button
+              disabled={isDisable()}
+              style={{
+                color: 'white',
+                backgroundColor: '#1E90FF',
+              }}
+              onClick={onClick}
+            >
+              {loading ? <>報告中…</> : <>獣害報告！</>}
+            </Button>
+          </Box>
+        )}
+        <Box sx={{ mt: 2 }}>{showResult()}</Box>
+        <Box sx={{ mt: 2 }}>
+          <Button variant='outlined'>
+            <Link href='/' passHref>
+              獣害Mapに移動
+            </Link>
+          </Button>
+        </Box>
+      </NoSsr>
+    </Grid>
   )
 }
