@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import axios from '../lib/axios'
 import styles from '../styles/Home.module.css'
 import Head from 'next/head'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function App({ Component, pageProps }: AppProps) {
   configure({

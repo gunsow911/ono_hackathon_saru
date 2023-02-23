@@ -1,11 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { Button, Grid, Box, Alert } from '@mui/material'
-import Link from 'next/link'
 import { useGeolocated } from 'react-geolocated'
-import { NoSsr } from '@material-ui/core'
-import UploadMap from '../../components/UploadMap'
 import useAddMatter from '../../hooks/useAddMatter'
 import useAxios from 'axios-hooks'
+import UploadMap from '../../components/UploadMap'
+import Link from 'next/link'
+import { useClient } from '../../hooks/useClient'
+import { Alert, Button } from 'react-bootstrap'
 
 export default function Upload() {
   useAxios<void>(
@@ -25,6 +25,8 @@ export default function Upload() {
     isGeolocationAvailable,
     positionError,
   } = useGeolocated()
+
+  const isClient = useClient()
 
   useEffect(() => {
     if (!coords) return
@@ -47,13 +49,13 @@ export default function Upload() {
     if (data === undefined) return <></>
     if (error !== null) {
       return (
-        <Alert severity='error'>
+        <Alert variant='danger'>
           報告に失敗しました。インターネットの接続や位置情報の設定がオンであることを確かめてください。
         </Alert>
       )
     }
     if (data && !loading) {
-      return <Alert severity='success'>報告が完了しました！</Alert>
+      return <Alert variant='success'>報告が完了しました！</Alert>
     }
     return <></>
   }
@@ -69,71 +71,57 @@ export default function Upload() {
   }
 
   return (
-    <Grid
-      container
-      alignItems='center'
-      justifyContent='center'
-      direction='column'
-    >
-      <NoSsr>
-        {!isGeolocationAvailable && (
-          <Box pt={3}>
-            <Alert severity='error'>
-              位置情報取得ができないブラウザです。別のブラウザをお試しください。
-            </Alert>
-          </Box>
-        )}
-        {isGeolocationAvailable && !isGeolocationEnabled && (
-          <Box pt={3}>
-            <Alert severity='warning'>
-              位置情報を取得できませんでした。位置情報へのアクセスを許可してください。
-            </Alert>
-          </Box>
-        )}
-        <>
-          <Box pt={2}>獣害を受けた場所を選択してください</Box>
-          <Box pt={1}>
-            {location ? (
-              <UploadMap
-                latLng={{ ...location }}
-                onChangeLocation={onChangeLocation}
-              />
-            ) : (
-              <Box style={{ width: 400, height: 300 }}></Box>
-            )}
-          </Box>
-          <Box pt={1}>
-            {location && (
-              <>
-                <div>緯度： {location.lng}</div>
-                <div>経度： {location.lat}</div>
-              </>
-            )}
-          </Box>
-        </>
-        {data === undefined && (
-          <Box pt={3}>
-            <Button
-              disabled={isDisable()}
-              style={{
-                color: 'white',
-                backgroundColor: '#1E90FF',
-              }}
-              onClick={onClick}
-            >
-              {loading ? <>報告中…</> : <>獣害報告！</>}
-            </Button>
-          </Box>
-        )}
-        <Box sx={{ mt: 2 }}>{showResult()}</Box>
-        <Box sx={{ mt: 2 }}>
-          <Button variant='outlined'>
-            <Link href='/' passHref>
-              獣害Mapに移動
-            </Link>
+    <div>
+      {isClient && !isGeolocationAvailable && (
+        <div className='d-flex justify-content-center'>
+          <Alert variant='warning'>
+            位置情報取得ができないブラウザです。別のブラウザをお試しください。
+          </Alert>
+        </div>
+      )}
+      {isClient && isGeolocationAvailable && !isGeolocationEnabled && (
+        <div className='d-flex justify-content-center'>
+          <Alert variant='warning'>
+            位置情報を取得できませんでした。位置情報へのアクセスを許可してください。
+          </Alert>
+        </div>
+      )}
+      <>
+        <div className='d-flex justify-content-center'>
+          獣害を受けた場所を選択してください
+        </div>
+        <div className='d-flex justify-content-center'>
+          {location ? (
+            <UploadMap
+              latLng={{ ...location }}
+              onChangeLocation={onChangeLocation}
+            />
+          ) : (
+            <div style={{ width: 400, height: 300 }}></div>
+          )}
+        </div>
+        <div className='d-flex justify-content-center'>
+          {location && (
+            <>
+              <div>緯度： {location.lng}</div>
+              <div>経度： {location.lat}</div>
+            </>
+          )}
+        </div>
+      </>
+      {data === undefined && (
+        <div className='d-flex justify-content-center'>
+          <Button disabled={isDisable()} onClick={onClick}>
+            {loading ? <>報告中…</> : <>獣害報告！</>}
           </Button>
-        </Box>
-      </NoSsr>
-    </Grid>
+        </div>
+      )}
+      <div>{showResult()}</div>
+      <div className='d-flex justify-content-center'>
+        <Link href='/' passHref>
+          <Button variant='link'>獣害マップに移動</Button>
+        </Link>
+      </div>
+    </div>
   )
 }
