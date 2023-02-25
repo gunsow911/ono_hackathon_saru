@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Matter;
 
+use App\Models\User;
 use App\UseCases\Matter\SaveEntity;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -10,6 +11,7 @@ class SaveRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required|uuid|exists:users,id',
             'lat' => 'present|numeric',
             'lng' => 'present|numeric',
         ];
@@ -18,9 +20,18 @@ class SaveRequest extends FormRequest
     public function attributes()
     {
         return [
+            'user_id' => 'ユーザーID',
             'lat' => '緯度',
             'lng' => '経度',
         ];
+    }
+
+    /**
+     * ユーザの生成
+     */
+    public function makeUser(): User
+    {
+        return User::whereId($this->input('user_id'))->firstOrFail();
     }
 
     /**

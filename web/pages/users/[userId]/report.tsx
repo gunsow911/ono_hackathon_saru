@@ -1,23 +1,25 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useGeolocated } from 'react-geolocated'
-import useAddMatter from '../../hooks/useAddMatter'
-import useAxios from 'axios-hooks'
-import UploadMap from '../../components/UploadMap'
-import Link from 'next/link'
-import { useClient } from '../../hooks/useClient'
+import useAddMatter from 'hooks/matter/useAddMatter'
+import UploadMap from 'components/maps/UploadMap'
+import { useClient } from 'hooks/util/useClient'
 import { Alert, Button } from 'react-bootstrap'
+import Layout from 'components/layouts/MenuLayout'
+import { NextPageWithLayout } from '_app'
+import { useRouter } from 'next/router'
+import useVerifyUser from 'hooks/user/useVerifyUser'
 
-export default function Upload() {
-  useAxios<void>(
-    {
-      url: '/sanctum/csrf-cookie',
-      method: 'GET',
-    },
-    { manual: false },
-  )
+const Report: NextPageWithLayout = () => {
   const [location, setLocation] = useState<{ lat: number; lng: number }>()
-
   const { data, execute, loading, error } = useAddMatter()
+  const router = useRouter()
+  const { userId } = router.query
+  const { verify, isVerify } = useVerifyUser()
+
+  useEffect(() => {
+    if (userId === undefined) return
+    verify(userId as string)
+  }, [userId])
 
   const {
     coords,
@@ -42,7 +44,8 @@ export default function Upload() {
 
   const onClick = () => {
     if (!location) return
-    execute({ lat: location.lat, lng: location.lng })
+    if (!userId) return
+    execute(userId as string, { lat: location.lat, lng: location.lng })
   }
 
   const showResult = (): ReactNode => {
@@ -68,6 +71,19 @@ export default function Upload() {
     return (
       !isGeolocationAvailable || !isGeolocationEnabled || !location || loading
     )
+  }
+
+  console.log(isVerify)
+
+  if (isVerify === undefined) {
+    // ユーザ確認中
+    return <></>
+  }
+  if (isVerify === false) {
+    // 存在しないユーザ
+    // 404ページにリダイレクト
+    router.replace('/404')
+    return <></>
   }
 
   return (
@@ -109,19 +125,18 @@ export default function Upload() {
           )}
         </div>
       </>
-      {data === undefined && (
-        <div className='d-flex justify-content-center'>
-          <Button disabled={isDisable()} onClick={onClick}>
-            {loading ? <>報告中…</> : <>獣害報告！</>}
-          </Button>
-        </div>
-      )}
-      <div>{showResult()}</div>
       <div className='d-flex justify-content-center'>
-        <Link href='/' passHref>
-          <Button variant='link'>獣害マップに移動</Button>
-        </Link>
+        <Button disabled={isDisable()} onClick={onClick}>
+          {loading ? <>報告中…</> : <>獣害報告！</>}
+        </Button>
       </div>
+      <div>{showResult()}</div>
     </div>
   )
 }
+
+Report.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}
+
+export default Report

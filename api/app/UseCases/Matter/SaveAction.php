@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace App\UseCases\Matter;
 
+use App\Enums\AnimalKind;
 use App\Models\Matter;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,11 @@ class SaveAction
             }
             $saveMatter->location = new Point($entity->getLat(), $entity->getLng());
             $saveMatter->user_id = $user->id;
+            // 現状はサル固定
+            $saveMatter->kind = AnimalKind::MONKY;
+            // 現状は複数いることにする
+            $saveMatter->is_alone = false;
+
             $saveMatter->saveOrFail();
             return $saveMatter;
         });

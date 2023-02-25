@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks'
-import { Matter } from '../models/Matter'
+import { Matter } from 'models/Matter'
 
 export type AddMatterForm = {
   lat: number
@@ -12,9 +12,10 @@ const useAddMatter = () => {
     method: 'POST',
   })
 
-  const execute = (form: AddMatterForm) => {
+  const execute = (userId: string, form: AddMatterForm) => {
     exec({
       data: {
+        userId: userId,
         lat: form.lat,
         lng: form.lng,
       },

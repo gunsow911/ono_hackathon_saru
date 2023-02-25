@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import DeckGLMap from './DeckGLMap'
+import DeckGLMap from '../atoms/DeckGLMap'
 import { IconLayer } from '@deck.gl/layers/typed'
 
 const ICON_MAPPING = {
@@ -48,22 +48,6 @@ const UploadMap = (props: Props) => {
       }
     />
   )
-  // return (
-  //   <>
-  //     <MapContainer
-  //       center={[props.latLng.lat, props.latLng.lng]}
-  //       zoom={16}
-  //       style={{ width: 400, height: 300 }}
-  //     >
-  //       <TileLayer
-  //         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  //         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-  //       />
-  //       <Marker position={{ ...props.latLng }} />
-  //       <UploadMapEvent onChangeLocation={onChangeLocation} />
-  //     </MapContainer>
-  //   </>
-  // )
 }
 
 export default UploadMap

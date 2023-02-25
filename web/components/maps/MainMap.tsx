@@ -1,14 +1,16 @@
 import { HeatmapLayer } from '@deck.gl/aggregation-layers/typed'
-import useHeatmapData, { Information } from '../hooks/useHeatmapData'
-import DeckGLMap from './DeckGLMap'
+import DeckGLMap from 'components/atoms/DeckGLMap'
+import useListMatter from 'hooks/matter/useListMatter'
+import { Matter } from 'models/Matter'
 
 const MainMap = () => {
-  const { data } = useHeatmapData()
+  const { data } = useListMatter()
+  // const { data } = useHeatmapData()
 
-  const heatmapLayer = new HeatmapLayer<Information>({
+  const heatmapLayer = new HeatmapLayer<Matter>({
     id: 'heatmapLayer',
     data,
-    getPosition: (d) => d.coordinate,
+    getPosition: (d) => [d.lng, d.lat],
     colorRange: [
       [50, 136, 189, 200],
       [153, 213, 148, 200],
@@ -22,7 +24,7 @@ const MainMap = () => {
   return (
     <DeckGLMap
       layers={[heatmapLayer]}
-      style={{ height: '80vh' }}
+      style={{ height: '100%', position: 'relative' }}
       initialViewState={{
         longitude: 131.3046877,
         latitude: 34.1046934,

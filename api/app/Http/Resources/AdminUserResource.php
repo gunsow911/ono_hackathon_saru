@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Matter;
+use App\Models\AdminUser;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MatterResource extends JsonResource
+class AdminUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +15,11 @@ class MatterResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var Matter */
+        /** @var AdminUser */
         $resource = $this->resource;
         return [
             'id' => $resource->id,
-            'lat' => $resource->location->latitude,
-            'lng' => $resource->location->longitude,
-            'applied_at' => $resource->applied_at,
-            'user_id' => $resource->user_id,
-            'user' => new UserResource($this->whenLoaded('user')),
+            'name' => $resource->name,
         ];
     }
 }

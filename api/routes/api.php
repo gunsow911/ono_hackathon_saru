@@ -16,9 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    // ユーザ情報フェッチ
-    Route::get('user', [UserController::class, 'fetch']);
+    // 認証が必要なルーティングの場合ここに記述する
 });
 
 Route::get('matters', [MatterController::class, 'index']);
 Route::post('matters', [MatterController::class, 'create']);
+
+// ユーザ確認
+Route::get('users/{user}/verify', [UserController::class, 'verify'])
+    ->whereUuid('user');

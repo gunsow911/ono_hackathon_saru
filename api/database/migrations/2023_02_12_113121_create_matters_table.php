@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('matters', function (Blueprint $table) {
             $table->ulid('id');
-            $table->ulid('user_id');
+            $table->uuid('user_id');
             $table->point('location');
-            $table->dateTime('applied_at');
+            $table->timestamp('applied_at');
             $table->unsignedTinyInteger('kind');
+            $table->boolean('is_alone');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal_access_tokens');
+        Schema::dropIfExists('matters');
     }
 };

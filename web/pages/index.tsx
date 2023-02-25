@@ -1,14 +1,20 @@
 import React from 'react'
-import Descirption from '../components/Description'
-import MainMap from '../components/MainMap'
+import MainMap from 'components/maps/MainMap'
+import { NextPageWithLayout } from '_app'
+import Layout from 'components/layouts/MenuLayout'
 
-export default function Home() {
+const Home: NextPageWithLayout = () => {
   return (
     <>
       <div style={{ height: '80vh' }}>
         <MainMap />
       </div>
-      <Descirption />
     </>
   )
 }
+
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}
+
+export default Home
