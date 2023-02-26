@@ -1,18 +1,14 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "license": "MIT",
-  "scripts": {
-    "build": "tsc",
-    "start": "functions-framework --target=TypescriptFunction",
-    "prestart": "yarn run build",
-    "gcp-build": "yarn run build"
-  },
-  "dependencies": {
-    "@google-cloud/functions-framework": "^3.1.3"
-  },
-  "devDependencies": {
-    "typescript": "^4.9.4"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "^1.1.2",
+        "laravel-vite-plugin": "^0.7.2",
+        "lodash": "^4.17.19",
+        "postcss": "^8.1.14",
+        "vite": "^4.0.0"
+    }
 }

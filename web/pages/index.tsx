@@ -1,22 +1,20 @@
-import Head from "next/head";
-import React from "react";
-import Descirption from "../components/Description";
-import MainMap from "../components/MainMap";
-import styles from "../styles/Home.module.css";
+import React from 'react'
+import MainMap from 'components/maps/MainMap'
+import { NextPageWithLayout } from '_app'
+import Layout from 'components/layouts/MenuLayout'
 
-export default function Home() {
+const Home: NextPageWithLayout = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>小野地区獣害マッピング</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>
-        <div style={{ height: "80vh" }}>
-          <MainMap />
-        </div>
-        <Descirption />
-      </main>
-    </div>
-  );
+    <>
+      <div style={{ height: '80vh' }}>
+        <MainMap />
+      </div>
+    </>
+  )
 }
+
+Home.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>
+}
+
+export default Home
