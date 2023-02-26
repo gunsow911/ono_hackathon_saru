@@ -14,7 +14,7 @@ use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
  *
  * @property string $id
  * @property string $user_id
- * @property \MatanYadaev\EloquentSpatial\Objects\Geometry|null $location
+ * @property \MatanYadaev\EloquentSpatial\Objects\Point|null $location
  * @property \Illuminate\Support\Carbon $applied_at
  * @property AnimalKind $kind
  * @property bool $is_alone

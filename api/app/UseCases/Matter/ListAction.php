@@ -15,7 +15,7 @@ class ListAction
     {
         // とりあえずすべて取得
         // TODO: 違和感のない程度で絞り込みなどをして、データ数が大きすぎないようにする必要がある
-        $list = Matter::all();
+        $list = Matter::orderBy('applied_at', 'asc');
         return $list;
     }
 }
