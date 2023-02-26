@@ -2,13 +2,7 @@
 
 ### 以下をインストール済みであること
 
-- [composer](https://getcomposer.org/)
-
-- [yarn](https://yarnpkg.com/)
-
 - [docker(docker-compose)](https://docs.docker.com/)
-
-- [make](http://gnuwin32.sourceforge.net/packages/make.htm)
 
 # インストール
 
