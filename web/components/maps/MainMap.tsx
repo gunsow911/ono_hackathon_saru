@@ -5,7 +5,6 @@ import { Matter } from 'models/Matter'
 
 const MainMap = () => {
   const { data } = useListMatter()
-  // const { data } = useHeatmapData()
 
   const heatmapLayer = new HeatmapLayer<Matter>({
     id: 'heatmapLayer',
