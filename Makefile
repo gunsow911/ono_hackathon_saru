@@ -1,6 +1,5 @@
 install:
 	cp ./api/.env.example ./api/.env && \
-	cp ./web/.env.development.example ./web/.env.development.local && \
 	docker-compose run --rm web yarn install
 	docker-compose run --rm api sh -c 'composer install && php artisan key:generate'
 	docker-compose run --rm api chmod -R 777 storage
