@@ -10,6 +10,7 @@ class ListAction
 {
     /**
      * 害獣情報一覧を取得する
+     * @return \MatanYadaev\EloquentSpatial\SpatialBuilder 害獣情報一覧クエリ
      */
     public function __invoke()
     {

@@ -11,7 +11,7 @@ use Illuminate\Support\Arr;
 use function count;
 
 
-class CreateRequestTest extends FormRequestTestCase
+class SaveRequestTest extends FormRequestTestCase
 {
     use RefreshDatabase;
 
