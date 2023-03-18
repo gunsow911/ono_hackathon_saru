@@ -4,12 +4,15 @@ import Layout from 'components/layouts/NoneLayout'
 import LoginForm from 'components/logins/LoginForm'
 import { Card, Container, Row } from 'react-bootstrap'
 import useLogin, { LoginInput } from 'hooks/adminUsers/useLogin'
+import useInitCsrfToken from 'hooks/csrf/useInitCsrfToken'
 
 const ConsoleLogin: NextPageWithLayout = () => {
-  const { execute: login, loading } = useLogin()
+  const { execute: initToken, loading: csrfTokenLoading } = useInitCsrfToken()
+  const { execute: login, loading: loginLoading } = useLogin()
 
-  const onSubmit = (input: LoginInput) => {
-    login(input)
+  const onSubmit = async (input: LoginInput) => {
+    await initToken()
+    await login(input)
   }
 
   return (
@@ -19,7 +22,10 @@ const ConsoleLogin: NextPageWithLayout = () => {
       </Row>
       <Row>
         <Card className='p-3'>
-          <LoginForm loading={loading} onSubmit={onSubmit}></LoginForm>
+          <LoginForm
+            loading={loginLoading || csrfTokenLoading}
+            onSubmit={onSubmit}
+          ></LoginForm>
         </Card>
       </Row>
     </Container>

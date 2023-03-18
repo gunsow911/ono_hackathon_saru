@@ -13,7 +13,7 @@ const useLogin = () => {
   })
 
   const execute = (input: LoginInput) => {
-    exec({
+    return exec({
       data: { ...input },
     })
   }
