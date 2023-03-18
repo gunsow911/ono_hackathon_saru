@@ -16,7 +16,7 @@ class SaveAction
 {
     /**
      * 害獣情報を保存する
-     * @param CreateEntity $enitiy 取引先データ
+     * @param CreateEntity $enitiy 害獣データ
      * @param User $user 実行ユーザ
      * @param Matter $matter 獣害情報 nullの場合は新規作成
      * @return Matter 害獣情報
