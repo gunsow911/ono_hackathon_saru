@@ -16,7 +16,7 @@ class RemoveAction
      */
     public function __invoke(User $user): void
     {
-        return DB::transaction(function () use ($user) {
+        DB::transaction(function () use ($user) {
             /** @var User */
             $removeUser = User::where('id', '=', $user->id)
                 ->first();
