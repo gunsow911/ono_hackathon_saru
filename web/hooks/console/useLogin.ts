@@ -1,5 +1,4 @@
 import useAxios from 'axios-hooks'
-import { AdminUser } from 'models/AdminUser'
 
 export type LoginInput = {
   username: string
@@ -7,7 +6,7 @@ export type LoginInput = {
 }
 
 const useLogin = () => {
-  const [{ data, loading, error }, exec] = useAxios<AdminUser>({
+  const [{ data, loading, error }, exec] = useAxios<void>({
     url: `/api/console/login`,
     method: 'POST',
   })

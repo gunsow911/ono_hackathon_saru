@@ -73,8 +73,6 @@ const Report: NextPageWithLayout = () => {
     )
   }
 
-  console.log(isVerify)
-
   if (isVerify === undefined) {
     // ユーザ確認中
     return <></>

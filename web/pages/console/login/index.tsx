@@ -3,16 +3,27 @@ import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/NoneLayout'
 import LoginForm from 'components/logins/LoginForm'
 import { Card, Container, Row } from 'react-bootstrap'
-import useLogin, { LoginInput } from 'hooks/adminUsers/useLogin'
+import useLogin, { LoginInput } from 'hooks/console/useLogin'
 import useInitCsrfToken from 'hooks/csrf/useInitCsrfToken'
+import { useRouter } from 'next/router'
+import useGetMe from 'hooks/adminUser/useGetMe'
 
 const ConsoleLogin: NextPageWithLayout = () => {
+  const router = useRouter()
+  const { execute: getMe } = useGetMe()
   const { execute: initToken, loading: csrfTokenLoading } = useInitCsrfToken()
   const { execute: login, loading: loginLoading } = useLogin()
 
   const onSubmit = async (input: LoginInput) => {
     await initToken()
-    await login(input)
+    await login(input).then((value) => {
+      if (!value) {
+        return
+      }
+      getMe().then(() => {
+        router.push('/console/matters')
+      })
+    })
   }
 
   return (

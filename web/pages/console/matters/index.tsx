@@ -3,7 +3,7 @@ import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 
 const ConsoleMatterList: NextPageWithLayout = () => {
-  return <></>
+  return <>獣害情報一覧</>
 }
 
 ConsoleMatterList.getLayout = function getLayout(page) {
