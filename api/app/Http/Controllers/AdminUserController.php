@@ -20,6 +20,7 @@ class AdminUserController extends Controller
      * 管理者情報取得
      */
     public function me() {
+        // 管理者を取得
         $admin = Auth::guard('admin')->user();
         return response()->json(new AdminUserResource($admin), 200);
     }
@@ -28,6 +29,7 @@ class AdminUserController extends Controller
      * 管理者ログイン
      */
     public function login(LoginRequest $req) {
+        // 管理者認証
         if (Auth::guard('admin')->attempt(['name' => $req->input('username'), 'password' => $req->input('password')])) {
             return response()->json(['message' => 'OK'], 200);
         }
@@ -38,6 +40,7 @@ class AdminUserController extends Controller
      * 管理者ログアウト
      */
     public function logout() {
+        // 管理者ログアウト
         Auth::guard('admin')->logout();
         return response()->json(['message' => 'OK'], 200);
     }
@@ -56,6 +59,7 @@ class AdminUserController extends Controller
      */
     public function fetch()
     {
+        // 管理者を取得
         /**  @var AdminUser */
         $admin = Auth::user();
         return response()->json(new AdminUserResource($admin), 200);
