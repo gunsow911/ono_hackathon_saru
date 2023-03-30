@@ -61,3 +61,19 @@ docker-compose exec api sh
 ```shell
 docker-compose exec web yarn build
 ```
+
+# データベースのマイグレーション
+データベースの更新は、Laravelのマイグレーション機能を利用して更新します。
+マイグレーションを行うためには、apiコンテナ内で、以下コマンドを実行してください。
+```sh
+php artisan migrate
+```
+その他にも、マイグレーションのロールバックなどが可能です。詳しくは以下URLを参照してください。
+https://readouble.com/laravel/9.x/ja/migrations.html
+
+# 管理者ユーザの作成
+apiコンテナ内で、以下コマンドを実行してください。
+管理者ユーザが作成されます。
+```sh
+php artisan admin_user:create {ユーザ名} {メールアドレス} {パスワード}
+```
