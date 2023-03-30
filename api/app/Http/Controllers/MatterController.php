@@ -15,7 +15,7 @@ class MatterController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
-        return MatterResource::collection($list);
+        return MatterResource::collection($list->get());
     }
 
     /**
