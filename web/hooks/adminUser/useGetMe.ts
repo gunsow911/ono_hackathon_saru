@@ -6,7 +6,7 @@ import { AdminUser } from 'models/AdminUser'
  */
 const useGetMe = () => {
   const [, exec] = useAxios<AdminUser>({
-    url: `/api/admin-users/me`,
+    url: `/api/console/admin-users/me`,
     method: 'GET',
   })
   return {

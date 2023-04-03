@@ -10,7 +10,7 @@ import { AxiosError } from 'axios'
  */
 const useRequireAuth = (url: string) => {
   const { data, mutate, error } = useSWR<AdminUser | null, AxiosError>(
-    '/api/admin-users/me',
+    '/api/console/admin-users/me',
     null,
     {
       keepPreviousData: true,
