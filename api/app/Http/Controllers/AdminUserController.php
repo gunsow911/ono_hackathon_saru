@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUser\LoginRequest;
-use App\Http\Requests\User\CreateRequest;
 use App\Http\Resources\AdminUserResource;
 use Illuminate\Support\Facades\Auth;
-use App\Models\AdminUser;
-use App\UseCases\AdminUser\CreateAction as AdminUserCreateAction;
 
 
 class AdminUserController extends Controller
@@ -44,25 +41,5 @@ class AdminUserController extends Controller
         // 管理者ログアウト
         Auth::guard('admin')->logout();
         return response()->json(['message' => 'OK'], 200);
-    }
-
-    /**
-     * 管理者ユーザ情報を作成する
-     */
-    public function create(CreateRequest $req, AdminUserCreateAction $action)
-    {
-        $admin = $action($req->makeEnitiy());
-        return response()->json(new AdminUserResource($admin), 201);
-    }
-
-    /**
-     * 管理者ユーザ情報を取得する
-     */
-    public function fetch()
-    {
-        // 管理者を取得
-        /**  @var AdminUser */
-        $admin = Auth::user();
-        return response()->json(new AdminUserResource($admin), 200);
     }
 }

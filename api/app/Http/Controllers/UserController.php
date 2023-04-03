@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\UseCases\User\VerifyAction;
 
 class UserController extends Controller
 {
     /**
      * ユーザが存在するかどうか確認する
      */
-    public function verify(User $user)
+    public function verify(string $userId, VerifyAction $action)
     {
-        return response()->json("OK", 200);
+        $result = $action($userId);
+        if ($result) {
+            return response()->json(['message' => 'OK'], 200);
+        }
+        return response()->json(['message' => '指定されたユーザは存在しません。'], 404);
     }
 }
 
