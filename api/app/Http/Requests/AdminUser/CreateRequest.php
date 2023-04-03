@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\AdminUser;
 
-use App\UseCases\User\CreateEntity;
+use App\UseCases\AdminUser\CreateEntity;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Http\FormRequest;
 

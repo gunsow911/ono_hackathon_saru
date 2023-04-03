@@ -17,21 +17,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 管理者機能
-Route::middleware('auth:admin')->group(function () {
-    // 管理者による認証が必要な場合ここに記述する
-    Route::delete('console/logout', [AdminUserController::class, 'logout']);
-    Route::get('admin-users/me', [AdminUserController::class, 'me']);
+Route::prefix('console')->group(function () {
+    // ログイン
+    Route::post('login', [AdminUserController::class, 'login']);
+
+    // 認証が必要なルート
+    Route::middleware('auth:admin')->group(function () {
+        // ログアウト
+        Route::delete('logout', [AdminUserController::class, 'logout']);
+
+        // 管理者情報取得
+        Route::get('admin-users/me', [AdminUserController::class, 'me']);
+
+    });
 });
-Route::post('console/login', [AdminUserController::class, 'login']);
 
-
-
-
+// 害獣情報一覧
 Route::get('matters', [MatterController::class, 'index']);
+// 害獣情報作成
 Route::post('matters', [MatterController::class, 'create']);
 
 // ユーザ確認
-Route::get('users/{user}/verify', [UserController::class, 'verify'])
+Route::get('users/{userId}/verify', [UserController::class, 'verify'])
     ->whereUuid('user');
 
 
