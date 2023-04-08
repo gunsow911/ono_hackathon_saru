@@ -33,7 +33,7 @@ Route::prefix('console')->group(function () {
     });
 });
 
-
+// 獣害情報機能
 Route::prefix('console')->group(function () {
     // 害獣情報一覧
     Route::get('matters', [MatterController::class, 'index']);
