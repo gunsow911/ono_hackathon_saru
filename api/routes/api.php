@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\MatterController;
@@ -16,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * 管理者用
+ */
 // 管理者機能
 Route::prefix('console')->group(function () {
     // ログイン
@@ -28,10 +33,15 @@ Route::prefix('console')->group(function () {
 
         // 管理者情報取得
         Route::get('admin-users/me', [AdminUserController::class, 'me']);
-
     });
+
+    // ユーザ一覧
+    Route::get('users', [UserController::class, 'index']);
 });
 
+/**
+ * 一般ユーザー用
+ */
 // 害獣情報一覧
 Route::get('matters', [MatterController::class, 'index']);
 // 害獣情報作成
@@ -40,5 +50,3 @@ Route::post('matters', [MatterController::class, 'create']);
 // ユーザ確認
 Route::get('users/{userId}/verify', [UserController::class, 'verify'])
     ->whereUuid('user');
-
-
