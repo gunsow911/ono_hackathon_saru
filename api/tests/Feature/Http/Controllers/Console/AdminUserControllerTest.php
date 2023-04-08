@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Feature\Http\Controllers;
+namespace Tests\Feature\Http\Controllers\Console;
 
 use App\Models\AdminUser;
 use Tests\ControllerTestCase;
