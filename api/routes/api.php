@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\MatterController;
@@ -28,17 +30,17 @@ Route::prefix('console')->group(function () {
 
         // 管理者情報取得
         Route::get('admin-users/me', [AdminUserController::class, 'me']);
-
     });
 });
 
-// 害獣情報一覧
-Route::get('matters', [MatterController::class, 'index']);
-// 害獣情報作成
-Route::post('matters', [MatterController::class, 'create']);
+
+Route::prefix('console')->group(function () {
+    // 害獣情報一覧
+    Route::get('matters', [MatterController::class, 'index']);
+    // 害獣情報作成
+    Route::post('matters', [MatterController::class, 'create']);
+});
 
 // ユーザ確認
 Route::get('users/{userId}/verify', [UserController::class, 'verify'])
     ->whereUuid('user');
-
-
