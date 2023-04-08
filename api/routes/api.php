@@ -30,16 +30,18 @@ Route::prefix('console')->group(function () {
 
         // 管理者情報取得
         Route::get('admin-users/me', [AdminUserController::class, 'me']);
+
+        // 害獣情報一覧
+        Route::get('matters', [MatterController::class, 'index']);
+        // 害獣情報作成
+        Route::post('matters', [MatterController::class, 'create']);
     });
 });
 
-// 獣害情報機能
-Route::prefix('console')->group(function () {
-    // 害獣情報一覧
-    Route::get('matters', [MatterController::class, 'index']);
-    // 害獣情報作成
-    Route::post('matters', [MatterController::class, 'create']);
-});
+// 害獣情報一覧
+Route::get('matters', [MatterController::class, 'index']);
+// 害獣情報作成
+Route::post('matters', [MatterController::class, 'create']);
 
 // ユーザ確認
 Route::get('users/{userId}/verify', [UserController::class, 'verify'])
