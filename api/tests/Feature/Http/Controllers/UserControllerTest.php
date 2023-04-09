@@ -80,12 +80,6 @@ class UserControllerTest extends ControllerTestCase
             'description' => 'テストユーザ3の説明',
         ]);
 
-        // $action = new ListAction();
-
-        // テスト実行
-        /** @var User[] */
-        // $results = $action()->get();
-
         // アクションの戻り値をモックする
         /** @var SpatialBuilder|MockInterface */
         $builder = Mockery::mock(SpatialBuilder::class);
@@ -93,7 +87,6 @@ class UserControllerTest extends ControllerTestCase
             ->andReturn([$user1, $user2, $user3]);
 
         $this->mockAction(ListAction::class, $builder);
-
 
         $response = $this->getJson("api/console/users");
 
