@@ -1,7 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use App\Http\Controllers\Console\AdminUserController;
 use App\Http\Controllers\MatterController;
+// ユーザ用のMatterControllerで名前がかぶるので、as で別名を付けています。
+use App\Http\Controllers\Console\MatterController as ConsoleMatterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +33,10 @@ Route::prefix('console')->group(function () {
         // 管理者情報取得
         Route::get('admin-users/me', [AdminUserController::class, 'me']);
 
+        // 害獣情報一覧
+        Route::get('matters', [ConsoleMatterController::class, 'index']);
+        // 害獣情報作成
+        Route::post('matters', [ConsoleMatterController::class, 'create']);
     });
 });
 
@@ -40,5 +48,3 @@ Route::post('matters', [MatterController::class, 'create']);
 // ユーザ確認
 Route::get('users/{userId}/verify', [UserController::class, 'verify'])
     ->whereUuid('user');
-
-
