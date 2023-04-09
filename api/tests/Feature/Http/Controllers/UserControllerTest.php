@@ -8,6 +8,7 @@ use App\Models\User;
 use App\UseCases\User\ListAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 use Ramsey\Uuid\Uuid;
 
 class UserControllerTest extends ControllerTestCase
@@ -79,18 +80,27 @@ class UserControllerTest extends ControllerTestCase
             'description' => 'テストユーザ3の説明',
         ]);
 
-        $user_list = [$user1, $user2, $user3];
+        // $action = new ListAction();
 
+        // テスト実行
         /** @var User[] */
-        $results = $action()->get();
+        // $results = $action()->get();
+
+        // アクションの戻り値をモックする
+        /** @var SpatialBuilder|MockInterface */
+        $builder = Mockery::mock(SpatialBuilder::class);
+        $builder->shouldReceive('get')
+            ->andReturn([$user1, $user2, $user3]);
+
+        $this->mockAction(ListAction::class, $builder);
+
 
         $response = $this->getJson("api/console/users");
 
         // テスト確認
         // ステータスコードの検証
         // JSONの検証
-        // 200 OK
-        $response->assertStatus(200)->assertSame(3, count($results));
-                // ->assertJson(['message' => 'OK']);
+        $response->assertStatus(200) // 200 OK
+            ->assertJsonCount(3); // 3件ある
     }
 }
