@@ -36,6 +36,10 @@ Route::prefix('console')->group(function () {
         // 管理者情報取得
         Route::get('admin-users/me', [AdminUserController::class, 'me']);
 
+        // 害獣情報一覧
+        Route::get('matters', [ConsoleMatterController::class, 'index']);
+        // 害獣情報作成
+        Route::post('matters', [ConsoleMatterController::class, 'create']);
     });
 
     // ユーザ一覧
