@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\Console\AdminUserController;
 use App\Http\Controllers\MatterController;
+// ユーザ用のMatterControllerで名前がかぶるので、as で別名を付けています。
+use App\Http\Controllers\Console\MatterController as ConsoleMatterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,7 @@ Route::prefix('console')->group(function () {
 
         // 管理者情報取得
         Route::get('admin-users/me', [AdminUserController::class, 'me']);
+
     });
 
     // ユーザ一覧

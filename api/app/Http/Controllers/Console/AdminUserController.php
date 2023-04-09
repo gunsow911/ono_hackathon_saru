@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Console;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminUser\LoginRequest;
 use App\Http\Resources\AdminUserResource;
 use Illuminate\Support\Facades\Auth;
