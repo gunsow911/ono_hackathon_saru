@@ -1,10 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
+use App\UseCases\User\ListAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 use Ramsey\Uuid\Uuid;
 
 class UserControllerTest extends ControllerTestCase
@@ -32,7 +36,7 @@ class UserControllerTest extends ControllerTestCase
         // ステータスコードの検証
         // JSONの検証
         $response->assertStatus(200) // 200 OK
-                 ->assertJson(['message' => 'OK']);
+                ->assertJson(['message' => 'OK']);
     }
 
     /**
@@ -52,9 +56,44 @@ class UserControllerTest extends ControllerTestCase
         // ステータスコードの検証
         // JSONの検証
         $response->assertStatus(404) // 404 NotFound
-                 ->assertJson(['message' => '指定されたユーザは存在しません。']);
+                ->assertJson(['message' => '指定されたユーザは存在しません。']);
     }
 
+    /**
+     * 登録ユーザーの一覧が取得できること
+     */
+    public function testIndex()
+    {
+        // テスト準備
+        // ユーザを作成する
+        /** @var User */
+        $user1 = User::factory()->create([
+            'name' => 'テストユーザ1',
+            'description' => 'テストユーザ1の説明',
+        ]);
+        $user2 = User::factory()->create([
+            'name' => 'テストユーザ2',
+            'description' => 'テストユーザ2の説明',
+        ]);
+        $user3 = User::factory()->create([
+            'name' => 'テストユーザ3',
+            'description' => 'テストユーザ3の説明',
+        ]);
+
+        // アクションの戻り値をモックする
+        /** @var SpatialBuilder|MockInterface */
+        $builder = Mockery::mock(SpatialBuilder::class);
+        $builder->shouldReceive('get')
+            ->andReturn([$user1, $user2, $user3]);
+
+        $this->mockAction(ListAction::class, $builder);
+
+        $response = $this->getJson("api/console/users");
+
+        // テスト確認
+        // ステータスコードの検証
+        // JSONの検証
+        $response->assertStatus(200) // 200 OK
+            ->assertJsonCount(3); // 3件ある
+    }
 }
-
-

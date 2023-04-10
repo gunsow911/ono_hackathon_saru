@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * 管理者用
+ */
 // 管理者機能
 Route::prefix('console')->group(function () {
     // ログイン
@@ -38,8 +41,14 @@ Route::prefix('console')->group(function () {
         // 害獣情報作成
         Route::post('matters', [ConsoleMatterController::class, 'create']);
     });
+
+    // ユーザ一覧
+    Route::get('users', [UserController::class, 'index']);
 });
 
+/**
+ * 一般ユーザー用
+ */
 // 害獣情報一覧
 Route::get('matters', [MatterController::class, 'index']);
 // 害獣情報作成
