@@ -6,6 +6,7 @@ use App\Http\Controllers\Console\AdminUserController;
 use App\Http\Controllers\MatterController;
 // ユーザ用のMatterControllerで名前がかぶるので、as で別名を付けています。
 use App\Http\Controllers\Console\MatterController as ConsoleMatterController;
+use App\Http\Controllers\Console\UserController as ConsoleUserController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,9 @@ Route::prefix('console')->group(function () {
         Route::get('matters', [ConsoleMatterController::class, 'index']);
         // 害獣情報作成
         Route::post('matters', [ConsoleMatterController::class, 'create']);
+
+        // ユーザ情報作成
+        Route::post('users', [ConsoleUserController::class, 'create']);
     });
 
     // ユーザ一覧
