@@ -1,5 +1,5 @@
 import InputForm from 'components/atoms/InputForm'
-import { LoginInput } from 'hooks/adminUsers/useLogin'
+import { LoginInput } from 'hooks/console/useLogin'
 import React from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
