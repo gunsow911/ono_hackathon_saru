@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -15,7 +17,17 @@ class MatterController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
-        return MatterResource::collection($list->get());
+        $list->wirh([
+            'userId',
+            'location',
+            'appliedAt',
+            'kind',
+            'isAlone',
+            'deleteAt',
+            'createdAt',
+            'updatedAt',
+        ]);
+        return MatterResource::collection($list->paginate(20));
     }
 
     /**
