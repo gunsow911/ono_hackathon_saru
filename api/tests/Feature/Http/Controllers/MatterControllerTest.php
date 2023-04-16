@@ -26,7 +26,7 @@ class MatterControllerTest extends ControllerTestCase
         // テスト準備
         $matter1 = Matter::factory()->create();
         $matter1->load([
-            // 'userId',
+            'userId',
             'location',
             'appliedAt',
             'kind',
@@ -37,7 +37,7 @@ class MatterControllerTest extends ControllerTestCase
         ]);
         $matter2 = Matter::factory()->create();
         $matter2->load([
-            // 'userId',
+            'userId',
             'location',
             'appliedAt',
             'kind',
@@ -48,7 +48,7 @@ class MatterControllerTest extends ControllerTestCase
         ]);
         $matter3 = Matter::factory()->create();
         $matter3->load([
-            // 'userId',
+            'userId',
             'location',
             'appliedAt',
             'kind',
@@ -66,7 +66,7 @@ class MatterControllerTest extends ControllerTestCase
         $builder = Mockery::mock(SpatialBuilder::class);
         $builder->shouldReceive('with')
             ->withArgs([[
-                // 'userId',
+                'userId',
                 'location',
                 'appliedAt',
                 'kind',
