@@ -17,7 +17,7 @@ class MatterController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
-        $list->wirh([
+        $list->with([
             'userId',
             'location',
             'appliedAt',
