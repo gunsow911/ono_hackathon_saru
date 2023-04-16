@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Console;
 
@@ -10,6 +12,7 @@ use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\SaveAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Pagination\LengthAwarePaginator;
 use MatanYadaev\EloquentSpatial\SpatialBuilder;
 
 /**
@@ -27,17 +30,63 @@ class MatterControllerTest extends ControllerTestCase
         // 管理者ユーザを用意
         /** @var AdminUser */
         $admin = AdminUser::factory()->create();
-        
+
         // テスト準備
         $matter1 = Matter::factory()->create();
+        $matter1->load([
+            'userId',
+            'location',
+            'appliedAt',
+            'kind',
+            'isAlone',
+            'deleteAt',
+            'createdAt',
+            'updatedAt',
+        ]);
         $matter2 = Matter::factory()->create();
+        $matter2->load([
+            'userId',
+            'location',
+            'appliedAt',
+            'kind',
+            'isAlone',
+            'deleteAt',
+            'createdAt',
+            'updatedAt',
+        ]);
         $matter3 = Matter::factory()->create();
+        $matter3->load([
+            'userId',
+            'location',
+            'appliedAt',
+            'kind',
+            'isAlone',
+            'deleteAt',
+            'createdAt',
+            'updatedAt',
+        ]);
+
+        // ペジネータ作成
+        $paginator = new LengthAwarePaginator([$matter1, $matter2, $matter3], 3, 20);
 
         // アクションの戻り値をモックする
         /** @var SpatialBuilder|MockInterface */
         $builder = Mockery::mock(SpatialBuilder::class);
-        $builder->shouldReceive('get')
-            ->andReturn([$matter1, $matter2, $matter3]);
+        $builder->shouldReceive('with')
+            ->withArgs([[
+                'userId',
+                'location',
+                'appliedAt',
+                'kind',
+                'isAlone',
+                'deleteAt',
+                'createdAt',
+                'updatedAt',
+            ]])
+            ->andReturn($paginator);
+            $builder->shouldReceive('paginate')
+            ->withArgs([20])
+            ->andReturn([$paginator]);
 
         $this->mockAction(ListAction::class, $builder);
 
@@ -90,4 +139,3 @@ class MatterControllerTest extends ControllerTestCase
         $response->assertStatus(201); // 201 Cerated
     }
 }
-
