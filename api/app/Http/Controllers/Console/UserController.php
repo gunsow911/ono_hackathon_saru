@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
-        return UserResource::collection($list->get());
+        return UserResource::collection($list->paginate(20));
     }
 
     /**

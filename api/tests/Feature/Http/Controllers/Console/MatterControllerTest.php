@@ -10,6 +10,7 @@ use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\SaveAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Pagination\LengthAwarePaginator;
 use MatanYadaev\EloquentSpatial\SpatialBuilder;
 
 /**
@@ -33,11 +34,16 @@ class MatterControllerTest extends ControllerTestCase
         $matter2 = Matter::factory()->create();
         $matter3 = Matter::factory()->create();
 
+        // ペジネータ作成
+        // LengthAwarePaginatorで、ペジネータを手動生成できます。
+        $paginator = new LengthAwarePaginator([$matter1, $matter2, $matter3], 2, 20);
+
         // アクションの戻り値をモックする
         /** @var SpatialBuilder|MockInterface */
         $builder = Mockery::mock(SpatialBuilder::class);
-        $builder->shouldReceive('get')
-            ->andReturn([$matter1, $matter2, $matter3]);
+        $builder->shouldReceive('paginate')
+            ->withArgs([20])
+            ->andReturn($paginator);
 
         $this->mockAction(ListAction::class, $builder);
 

@@ -6,9 +6,10 @@ use App\Models\AdminUser;
 use App\Models\User;
 use App\UseCases\User\ListAction;
 use App\UseCases\User\SaveAction;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Mockery;
 
 /**
@@ -69,11 +70,16 @@ class UserControllerTest extends ControllerTestCase
             'description' => 'テストユーザ3の説明',
         ]);
 
+        // ペジネータ作成
+        // LengthAwarePaginatorで、ペジネータを手動生成できます。
+        $paginator = new LengthAwarePaginator([$user1, $user2, $user3], 2, 20);
+
         // アクションの戻り値をモックする
-        /** @var SpatialBuilder|MockInterface */
+        /** @var Builder|MockInterface */
         $builder = Mockery::mock(Builder::class);
-        $builder->shouldReceive('get')
-            ->andReturn([$user1, $user2, $user3]);
+        $builder->shouldReceive('paginate')
+            ->withArgs([20])
+            ->andReturn($paginator);
 
         $this->mockAction(ListAction::class, $builder);
 

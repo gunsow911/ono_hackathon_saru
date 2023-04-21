@@ -2,7 +2,7 @@
 namespace App\UseCases\User;
 
 use App\Models\User;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * ユーザー情報一覧取得アクション
