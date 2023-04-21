@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // 名前空間を変えることで、同名のクラスを作成することができます。
 // 通常、名前空間はフォルダの階層と一致させる(Controllers/Console)ほうが望ましいです。
+
 namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
@@ -21,16 +24,6 @@ class MatterController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
-        $list->with([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
         return MatterResource::collection($list->paginate(20));
     }
 
