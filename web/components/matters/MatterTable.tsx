@@ -12,15 +12,9 @@ const MatterTable = (props: Props) => {
   const columns: ColumnDef<Matter>[] = useMemo(() => {
     const columns: ColumnDef<Matter>[] = [
       {
-        accessorKey: 'id',
-        header: 'ID',
-        cell: (v) => {
-          return <span style={{ fontSize: 10 }}>{v.row.original.id}</span>
-        },
-      },
-      {
         accessorKey: 'appliedAt',
         header: '日付',
+        enableSorting: false,
         cell: (v) => {
           return dayjs(v.row.original.appliedAt).format('YYYY-MM-DD')
         },
@@ -28,6 +22,7 @@ const MatterTable = (props: Props) => {
       {
         accessorKey: 'user',
         header: 'ユーザー',
+        enableSorting: false,
         cell: (v) => {
           return v.row.original.user?.name
         },
@@ -35,6 +30,7 @@ const MatterTable = (props: Props) => {
       {
         accessorKey: 'lat',
         header: '緯度',
+        enableSorting: false,
         cell: (v) => {
           return v.row.original.lat
         },
@@ -42,6 +38,7 @@ const MatterTable = (props: Props) => {
       {
         accessorKey: 'lng',
         header: '経度',
+        enableSorting: false,
         cell: (v) => {
           return v.row.original.lng
         },
@@ -49,7 +46,8 @@ const MatterTable = (props: Props) => {
       {
         accessorKey: 'operation',
         header: '操作',
-        cell: (v) => {
+        enableSorting: false,
+        cell: (_) => {
           return (
             <>
               <Button size='sm' variant='info' className='mx-1'>

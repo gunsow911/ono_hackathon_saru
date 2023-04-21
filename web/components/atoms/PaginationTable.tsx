@@ -105,7 +105,7 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
 
   return (
     <>
-      <Table striped bordered hover responsive>
+      <Table striped bordered responsive>
         <thead color='light'>
           {getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
