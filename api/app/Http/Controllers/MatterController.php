@@ -17,17 +17,7 @@ class MatterController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
-        $list->with([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
-        return MatterResource::collection($list->paginate(20));
+        return MatterResource::collection($list);
     }
 
     /**
