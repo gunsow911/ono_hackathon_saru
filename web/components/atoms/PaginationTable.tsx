@@ -43,7 +43,6 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
     getCanNextPage,
     getCanPreviousPage,
     setPageIndex,
-    options,
   } = useReactTable({
     columns: props.columns,
     data: props.pagination?.data ?? [],
@@ -85,14 +84,10 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
     if (header.column.getIsSorted() === false) {
       return {
         cursor: header.column.getCanSort() ? 'pointer' : 'auto',
-        backgroundColor: '#d8dbe0',
       }
     }
     return {
       cursor: header.column.getCanSort() ? 'pointer' : 'auto',
-      color: '#f8f9fa',
-      backgroundColor: '#343a40',
-      borderBottomColor: '#343a40',
     }
   }
 
@@ -110,17 +105,7 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
 
   return (
     <>
-      {props.pagination && (
-        <div className='d-flex justify-content-end align-items-center my-1'>
-          <PaginationLink
-            {...props.pagination.meta}
-            canNextPage={getCanNextPage()}
-            canPreviousPage={getCanPreviousPage()}
-            onChangePage={(page) => setPageIndex(page)}
-          ></PaginationLink>
-        </div>
-      )}
-      <Table hover responsive>
+      <Table striped bordered responsive>
         <thead color='light'>
           {getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
