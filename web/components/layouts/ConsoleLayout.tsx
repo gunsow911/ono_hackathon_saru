@@ -37,7 +37,7 @@ const ConsoleLayout = ({ children }: LayoutProps) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {children}
+      <Container className='my-2'>{children}</Container>
     </>
   )
 }
