@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -56,7 +58,9 @@ use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
  */
 class Matter extends Model
 {
-    use HasFactory, HasSpatial, HasUlids;
+    use HasFactory;
+    use HasSpatial;
+    use HasUlids;
 
     protected $casts = [
         'applied_at' => 'datetime',
@@ -72,29 +76,4 @@ class Matter extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     * 目撃された場所
-     */
-    public function location()
-    {
-        return $this->hasOne(Point::class);
-    }
-
-    /**
-     * 目撃された動物の種類
-     */
-    public function animalKind()
-    {
-        return $this->hasOne(AnimalKind::class);
-    }
-
-    /**
-     * 目撃された動物の種類
-     */
-    public function isAlone()
-    {
-        return $this->hasOne(AnimalKind::class);
-    }
 }
-
