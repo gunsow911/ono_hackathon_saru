@@ -79,6 +79,8 @@ const MatterTable = (props: Props) => {
         user: {
           id: 'e6903c19-0b3e-4157-8a64-497762cb5b1b',
           name: 'テスト太郎',
+          createdAt: '2023-04-01',
+          updatedAt: '2023-04-01',
         },
       },
       {
@@ -90,6 +92,8 @@ const MatterTable = (props: Props) => {
         user: {
           id: 'c9d5f476-455c-45b8-97eb-f8bc4063f30a',
           name: 'テスト次郎',
+          createdAt: '2023-03-01',
+          updatedAt: '2023-03-01',
         },
       },
     ],
