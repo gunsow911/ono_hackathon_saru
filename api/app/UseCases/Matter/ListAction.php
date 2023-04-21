@@ -16,21 +16,11 @@ class ListAction
      * @return \MatanYadaev\EloquentSpatial\SpatialBuilder 害獣情報一覧クエリ
      * @return Builder<Matter>
      */
-    // public function __invoke()
-    // {
-    //     // とりあえずすべて取得
-    //     // TODO: 違和感のない程度で絞り込みなどをして、データ数が大きすぎないようにする必要がある
-    //     $list = Matter::orderBy('applied_at', 'asc');
-    //     return $list;
-    // }
-
     public function __invoke()
     {
-        $query = Matter::select('*')
-        ->matters()
-        ->orderBy('applied_at', 'asc')
-        ->get();
-        return $query;
-
+        // とりあえずすべて取得
+        // TODO: 違和感のない程度で絞り込みなどをして、データ数が大きすぎないようにする必要がある
+        $list = Matter::orderBy('applied_at', 'asc');
+        return $list;
     }
 }
