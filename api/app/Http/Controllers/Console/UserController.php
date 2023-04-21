@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Console;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\SaveRequest;
 use App\Http\Resources\UserResource;
+use App\UseCases\User\ListAction;
 use App\UseCases\User\SaveAction;
 
 /**
@@ -12,6 +13,15 @@ use App\UseCases\User\SaveAction;
  */
 class UserController extends Controller
 {
+    /**
+     * ユーザ情報一覧
+     */
+    public function index(ListAction $action)
+    {
+        $list = $action();
+        return UserResource::collection($list->paginate(20));
+    }
+
     /**
      * ユーザ情報作成
      */

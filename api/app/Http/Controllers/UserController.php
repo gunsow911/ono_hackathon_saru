@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserResource;
-use App\UseCases\User\ListAction;
 use App\UseCases\User\VerifyAction;
 
 class UserController extends Controller
@@ -20,14 +18,5 @@ class UserController extends Controller
             return response()->json(['message' => 'OK'], 200);
         }
         return response()->json(['message' => '指定されたユーザは存在しません。'], 404);
-    }
-
-    /**
-     * ユーザー情報一覧
-     */
-    public function index(ListAction $action)
-    {
-        $list = $action();
-        return UserResource::collection($list->get());
     }
 }
