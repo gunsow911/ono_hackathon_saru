@@ -4,9 +4,12 @@ namespace Tests\Feature\Http\Controllers\Console;
 
 use App\Models\AdminUser;
 use App\Models\User;
+use App\UseCases\User\ListAction;
 use App\UseCases\User\SaveAction;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 
 /**
  * 管理者コンソールのユーザコントローラテスト
@@ -40,6 +43,48 @@ class UserControllerTest extends ControllerTestCase
         // テスト確認
         // ステータスコードの検証
         $response->assertStatus(201); // 201 Cerated
+    }
+
+    /**
+     * 登録ユーザーの一覧が取得できること
+     */
+    public function testIndex()
+    {
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        // ユーザを作成する
+        /** @var User */
+        $user1 = User::factory()->create([
+            'name' => 'テストユーザ1',
+            'description' => 'テストユーザ1の説明',
+        ]);
+        $user2 = User::factory()->create([
+            'name' => 'テストユーザ2',
+            'description' => 'テストユーザ2の説明',
+        ]);
+        $user3 = User::factory()->create([
+            'name' => 'テストユーザ3',
+            'description' => 'テストユーザ3の説明',
+        ]);
+
+        // アクションの戻り値をモックする
+        /** @var SpatialBuilder|MockInterface */
+        $builder = Mockery::mock(Builder::class);
+        $builder->shouldReceive('get')
+            ->andReturn([$user1, $user2, $user3]);
+
+        $this->mockAction(ListAction::class, $builder);
+
+        $response = $this->actingAs($admin, 'admin')
+                         ->getJson("api/console/users");
+
+        // テスト確認
+        // ステータスコードの検証
+        // JSONの検証
+        $response->assertStatus(200) // 200 OK
+            ->assertJsonCount(3); // 3件ある
     }
 }
 

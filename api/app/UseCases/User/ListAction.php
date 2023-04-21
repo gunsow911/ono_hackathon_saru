@@ -2,6 +2,7 @@
 namespace App\UseCases\User;
 
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 /**
  * ユーザー情報一覧取得アクション
@@ -10,9 +11,9 @@ class ListAction
 {
     /**
      * ユーザー情報一覧を取得する
-     * @return \MatanYadaev\EloquentSpatial\SpatialBuilder ユーザー情報一覧クエリ
+     * @return Builder<User> ユーザー情報一覧クエリ
      */
-    public function __invoke()
+    public function __invoke(): Builder
     {
         // とりあえずすべて取得
         // id順に並べる
