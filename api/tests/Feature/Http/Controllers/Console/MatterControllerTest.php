@@ -55,38 +55,17 @@ class MatterControllerTest extends ControllerTestCase
             'updatedAt',
         ]);
         $matter3 = Matter::factory()->create();
-        $matter3->load([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
 
         // ペジネータ作成
-        $paginator = new LengthAwarePaginator([$matter1, $matter2, $matter3], 3, 20);
+        // LengthAwarePaginatorで、ペジネータを手動生成できます。
+        $paginator = new LengthAwarePaginator([$matter1, $matter2, $matter3], 2, 20);
 
         // アクションの戻り値をモックする
         /** @var SpatialBuilder|MockInterface */
         $builder = Mockery::mock(SpatialBuilder::class);
-        $builder->shouldReceive('with')
-            ->withArgs([[
-                'userId',
-                'location',
-                'appliedAt',
-                'kind',
-                'isAlone',
-                'deleteAt',
-                'createdAt',
-                'updatedAt',
-            ]])
-            ->andReturn($paginator);
-            $builder->shouldReceive('paginate')
+        $builder->shouldReceive('paginate')
             ->withArgs([20])
-            ->andReturn([$paginator]);
+            ->andReturn($paginator);
 
         $this->mockAction(ListAction::class, $builder);
 

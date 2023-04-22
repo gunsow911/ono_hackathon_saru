@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
-import { Pagination } from 'models/Pagination'
+import useGetUserPage from 'hooks/console/user/useGetUserPage'
 import { User } from 'models/User'
 import React, { useMemo } from 'react'
 import { Button } from 'react-bootstrap'
@@ -8,6 +8,8 @@ import { Button } from 'react-bootstrap'
 type Props = {}
 
 const UserTable = (props: Props) => {
+  const { data } = useGetUserPage()
+
   const columns: ColumnDef<User>[] = useMemo(() => {
     const columns: ColumnDef<User>[] = [
       {
@@ -39,39 +41,7 @@ const UserTable = (props: Props) => {
     return columns
   }, [])
 
-  //仮データ
-  const pagination: Pagination<User> = {
-    data: [
-      {
-        id: 'e6903c19-0b3e-4157-8a64-497762cb5b1b',
-        name: 'テスト太郎',
-        createdAt: '2023-04-01',
-        updatedAt: '2023-04-01',
-      },
-      {
-        id: 'c9d5f476-455c-45b8-97eb-f8bc4063f30a',
-        name: 'テスト次郎',
-        createdAt: '2023-03-01',
-        updatedAt: '2023-03-01',
-      },
-    ],
-    meta: {
-      currentPage: 1,
-      from: 1,
-      lastPage: 1,
-      path: '',
-      perPage: 20,
-      to: 2,
-      total: 2,
-    },
-  }
-
-  return (
-    <PaginationTable
-      columns={columns}
-      pagination={pagination}
-    ></PaginationTable>
-  )
+  return <PaginationTable columns={columns} pagination={data}></PaginationTable>
 }
 
 export default UserTable

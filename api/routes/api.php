@@ -42,12 +42,11 @@ Route::prefix('console')->group(function () {
         // 害獣情報作成
         Route::post('matters', [ConsoleMatterController::class, 'create']);
 
+        // ユーザ情報一覧
+        Route::get('users', [ConsoleUserController::class, 'index']);
         // ユーザ情報作成
         Route::post('users', [ConsoleUserController::class, 'create']);
     });
-
-    // ユーザ一覧
-    Route::get('users', [UserController::class, 'index']);
 });
 
 /**
