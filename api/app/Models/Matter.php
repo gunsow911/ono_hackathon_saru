@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -58,9 +56,7 @@ use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
  */
 class Matter extends Model
 {
-    use HasFactory;
-    use HasSpatial;
-    use HasUlids;
+    use HasFactory, HasSpatial, HasUlids;
 
     protected $casts = [
         'applied_at' => 'datetime',

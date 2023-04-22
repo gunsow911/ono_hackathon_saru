@@ -11,8 +11,8 @@ use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\SaveAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Pagination\LengthAwarePaginator;
 use MatanYadaev\EloquentSpatial\SpatialBuilder;
+use Mockery\MockInterface;
 
 class MatterControllerTest extends ControllerTestCase
 {
@@ -29,11 +29,12 @@ class MatterControllerTest extends ControllerTestCase
         $matter3 = Matter::factory()->create();
 
         // アクションの戻り値をモックする
-        $action = Mockery::mock(ListAction::class);
-        $action->shouldReceive('__invoke')
-        ->andReturn([$matter1, $matter2, $matter3]);
+        /** @var SpatialBuilder|MockInterface */
+        $builder = Mockery::mock(SpatialBuilder::class);
+        $builder->shouldReceive('get')
+            ->andReturn([$matter1, $matter2, $matter3]);
 
-        $this->instance(ListAction::class, $action);
+        $this->mockAction(ListAction::class, $builder);
 
         // テスト実行
         // リクエストを送信する
@@ -45,7 +46,6 @@ class MatterControllerTest extends ControllerTestCase
         $response->assertStatus(200) // 200 OK
             ->assertJsonCount(3); // 3件ある
     }
-
 
     /**
      * 獣害情報を作成できること
