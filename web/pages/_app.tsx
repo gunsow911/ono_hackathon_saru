@@ -1,11 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/globals.css'
+import styles from '../styles/Home.module.css'
 import { configure } from 'axios-hooks'
 import type { AppProps } from 'next/app'
 import axios from 'libs/axios'
 import { SWRConfig } from 'swr'
-import styles from '../styles/Home.module.css'
 import Head from 'next/head'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { FunctionComponent, ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
 
