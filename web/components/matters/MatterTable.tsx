@@ -6,9 +6,7 @@ import { Pagination } from 'models/Pagination'
 import React, { useMemo } from 'react'
 import { Button } from 'react-bootstrap'
 
-type Props = {}
-
-const MatterTable = (props: Props) => {
+const MatterTable = () => {
   const columns: ColumnDef<Matter>[] = useMemo(() => {
     const columns: ColumnDef<Matter>[] = [
       {
@@ -110,6 +108,7 @@ const MatterTable = (props: Props) => {
 
   return (
     <PaginationTable
+      smallTable
       columns={columns}
       pagination={pagination}
     ></PaginationTable>

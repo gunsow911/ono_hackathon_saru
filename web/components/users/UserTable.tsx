@@ -2,13 +2,14 @@ import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
 import useGetUserPage from 'hooks/console/user/useGetUserPage'
 import { User } from 'models/User'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Button } from 'react-bootstrap'
 
 type Props = {}
 
 const UserTable = (props: Props) => {
-  const { data } = useGetUserPage()
+  const [page, setPage] = useState(1)
+  const { data, isLoading } = useGetUserPage(page)
 
   const columns: ColumnDef<User>[] = useMemo(() => {
     const columns: ColumnDef<User>[] = [
@@ -41,7 +42,15 @@ const UserTable = (props: Props) => {
     return columns
   }, [])
 
-  return <PaginationTable columns={columns} pagination={data}></PaginationTable>
+  return (
+    <PaginationTable
+      isLoading={isLoading}
+      smallTable
+      columns={columns}
+      pagination={data}
+      onPageChange={(page) => setPage(page)}
+    ></PaginationTable>
+  )
 }
 
 export default UserTable
