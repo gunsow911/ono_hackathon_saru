@@ -27,10 +27,7 @@ type Props<T extends object> = {
   sort?: ColumnSort
   onSortChange?: (sort?: ColumnSort) => void
   onPageChange?: (page: number) => void
-}
-
-interface IIndexable {
-  [key: string]: string
+  smallTable?: boolean
 }
 
 /**
@@ -105,7 +102,12 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
 
   return (
     <>
-      <Table striped bordered responsive>
+      <Table
+        striped
+        bordered
+        responsive
+        size={props.smallTable ? 'sm' : undefined}
+      >
         <thead color='light'>
           {getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
