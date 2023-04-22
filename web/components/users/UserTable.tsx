@@ -30,6 +30,9 @@ const UserTable = (props: Props) => {
               <Button size='sm' variant='info' className='mx-1'>
                 詳細
               </Button>
+              <Button size='sm' variant='primary' className='mx-1'>
+                編集
+              </Button>
               <Button size='sm' variant='danger' className='mx-1'>
                 削除
               </Button>
