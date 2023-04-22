@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Console;
 
@@ -31,5 +33,14 @@ class UserController extends Controller
         $user = $action($entity, null);
         return response()->json(new UserResource($user), 201);
     }
-}
 
+    /**
+     * ユーザ情報編集
+     */
+    public function edit(SaveRequest $req, SaveAction $action)
+    {
+        $entity = $req->makeEntity();
+        $user = $action($entity, null);
+        return response()->json(new UserResource($user), 201);
+    }
+}
