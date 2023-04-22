@@ -43,4 +43,14 @@ class UserController extends Controller
         $user = $action($entity, null);
         return response()->json(new UserResource($user), 201);
     }
+
+    /**
+     * ユーザ情報削除
+     */
+    public function delete(SaveRequest $req, SaveAction $action)
+    {
+        $entity = $req->makeEntity();
+        $user = $action($entity, null);
+        return response()->json(new UserResource($user), 201);
+    }
 }
