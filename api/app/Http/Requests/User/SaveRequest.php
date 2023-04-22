@@ -19,7 +19,7 @@ class SaveRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'description' => 'required|max:10000', // DB的にはTEXT型なので文字制限は無いが、とりあえず上限を10000字とする
+            'description' => 'present|max:10000', // DB的にはTEXT型なので文字制限は無いが、とりあえず上限を10000字とする
         ];
     }
 

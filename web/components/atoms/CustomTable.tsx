@@ -3,6 +3,7 @@ import { get, useController, useFormContext } from 'react-hook-form'
 
 type Props = {
   name: string
+  label?: string
 } & FormControlProps
 
 /**
@@ -20,11 +21,17 @@ const InputForm = (props: Props) => {
   })
   return (
     <>
+      {props.label !== undefined && <Form.Label>{props.label}</Form.Label>}
       <Form.Control
         {...field}
         {...formControlProps}
         isInvalid={!!get(errors, name)}
       />
+      {errors.name && (
+        <Form.Control.Feedback type='invalid'>
+          {errors.name.message?.toString()}
+        </Form.Control.Feedback>
+      )}
     </>
   )
 }

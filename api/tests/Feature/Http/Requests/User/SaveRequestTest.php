@@ -85,7 +85,7 @@ class SaveRequestTest extends FormRequestTestCase
         unset($this->data['description']);
         $actual = $this->getValidateErrors($this->data, SaveRequest::class);
         $this->assertSame(1, count($actual));
-        $this->assertSame('概要は必ず指定してください。', Arr::get($actual, 'description.0'));
+        $this->assertSame('概要が存在していません。', Arr::get($actual, 'description.0'));
     }
 
     /**
@@ -105,6 +105,18 @@ class SaveRequestTest extends FormRequestTestCase
         $actual = $this->getValidateErrors($data, SaveRequest::class);
         $this->assertSame(1, count($actual));
         $this->assertSame('概要は、10000文字以下で指定してください。', Arr::get($actual, 'description.0'));
+    }
+
+    /**
+     * 概要は空でも良いこと
+     */
+    public function testDescription03()
+    {
+        $data = array_merge($this->data, [
+            'description' => "", 
+        ]);
+        $actual = $this->getValidateErrors($this->data, SaveRequest::class);
+        $this->assertSame(0, count($actual));
     }
 }
 
