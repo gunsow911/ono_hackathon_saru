@@ -40,6 +40,8 @@ class MatterControllerTest extends ControllerTestCase
         // アクションの戻り値をモックする
         /** @var SpatialBuilder|MockInterface */
         $builder = Mockery::mock(SpatialBuilder::class);
+        $builder->shouldReceive('with')
+            ->withArgs([['user']]);
         $builder->shouldReceive('paginate')
             ->withArgs([20])
             ->andReturn($paginator);

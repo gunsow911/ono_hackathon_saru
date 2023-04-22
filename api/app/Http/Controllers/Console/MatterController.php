@@ -21,6 +21,7 @@ class MatterController extends Controller
     public function index(ListAction $action)
     {
         $list = $action();
+        $list->with(['user']);
         return MatterResource::collection($list->paginate(20));
     }
 
