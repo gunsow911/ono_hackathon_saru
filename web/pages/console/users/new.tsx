@@ -9,8 +9,11 @@ import useAddUser, {
 } from 'hooks/console/user/useAddUser'
 import UserForm from 'components/users/UserForm'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const ConsoleUserNew: NextPageWithLayout = () => {
+  const router = useRouter()
   const form = useForm<AddUserForm>({
     mode: 'onSubmit',
     resolver: yupResolver(userSchema),
@@ -23,8 +26,11 @@ const ConsoleUserNew: NextPageWithLayout = () => {
   const { execute, loading } = useAddUser()
 
   const onSubmit = () => {
-    console.log(getValues())
-    // execute(getValues())
+    execute(getValues()).then(() => {
+      // 作成に成功
+      // 一覧ページにリダイレクトする
+      router.push('/console/users')
+    })
   }
 
   return (
@@ -41,14 +47,21 @@ const ConsoleUserNew: NextPageWithLayout = () => {
               <FormProvider {...form}>
                 <UserForm />
               </FormProvider>
-              <Button
-                className='float-end mt-2'
-                variant='primary'
-                onClick={onSubmit}
-                disabled={loading}
-              >
-                新規作成
-              </Button>
+              <div className='float-end mt-2'>
+                <Link href='/console/users'>
+                  <Button variant='secondary' className='ms-1'>
+                    一覧に戻る
+                  </Button>
+                </Link>
+                <Button
+                  variant='primary'
+                  className='ms-1'
+                  onClick={handleSubmit(onSubmit)}
+                  disabled={loading}
+                >
+                  新規作成
+                </Button>
+              </div>
             </Form>
           </Card>
         </Col>

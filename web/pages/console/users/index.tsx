@@ -1,8 +1,9 @@
 import React from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
-import { Col, Row } from 'react-bootstrap'
+import { Button, Card, Col, Row } from 'react-bootstrap'
 import UserTable from 'components/users/UserTable'
+import Link from 'next/link'
 
 const ConsoleUserList: NextPageWithLayout = () => {
   return (
@@ -14,7 +15,14 @@ const ConsoleUserList: NextPageWithLayout = () => {
       </Row>
       <Row>
         <Col>
-          <UserTable />
+          <Card className='py-3 px-4'>
+            <Link href='/console/users/new'>
+              <div className='float-end mb-2'>
+                <Button variant='primary'>ユーザ新規作成</Button>
+              </div>
+            </Link>
+            <UserTable />
+          </Card>
         </Col>
       </Row>
     </>

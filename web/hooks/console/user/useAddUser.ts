@@ -17,12 +17,12 @@ export const userSchema = yup.object<AddUserForm>().shape({
  */
 const useAddUser = () => {
   const [{ loading, error }, exec] = useAxios<User>({
-    url: `/api/users`,
+    url: `/api/console/users`,
     method: 'POST',
   })
 
   const execute = (form: AddUserForm) => {
-    exec({
+    return exec({
       data: {
         name: form.name,
         description: form.description,
