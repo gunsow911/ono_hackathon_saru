@@ -31,6 +31,7 @@
     "react-geolocated": "^4.0.3",
     "react-hook-form": "^7.43.2",
     "react-icons": "^4.8.0",
+    "react-toastify": "^9.1.2",
     "swr": "^2.0.4",
     "yup": "^1.1.1",
     "yup-locale-ja": "^1.0.0"

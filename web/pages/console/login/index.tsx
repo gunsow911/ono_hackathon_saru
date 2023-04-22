@@ -7,6 +7,8 @@ import useLogin, { LoginInput } from 'hooks/console/useLogin'
 import useInitCsrfToken from 'hooks/csrf/useInitCsrfToken'
 import { useRouter } from 'next/router'
 import useGetMe from 'hooks/adminUser/useGetMe'
+import { toast } from 'react-toastify'
+import { AxiosError } from 'axios'
 
 const ConsoleLogin: NextPageWithLayout = () => {
   const router = useRouter()
@@ -16,14 +18,18 @@ const ConsoleLogin: NextPageWithLayout = () => {
 
   const onSubmit = async (input: LoginInput) => {
     await initToken()
-    await login(input).then((value) => {
-      if (!value) {
-        return
-      }
-      getMe().then(() => {
-        router.push('/console/matters')
+    await login(input)
+      .then((value) => {
+        if (!value) {
+          return
+        }
+        getMe().then(() => {
+          router.push('/console/matters')
+        })
       })
-    })
+      .catch((reason: AxiosError<{ message: string }>) => {
+        toast.error(reason.response?.data.message)
+      })
   }
 
   return (
