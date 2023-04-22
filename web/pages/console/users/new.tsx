@@ -11,6 +11,7 @@ import UserForm from 'components/users/UserForm'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 const ConsoleUserNew: NextPageWithLayout = () => {
   const router = useRouter()
@@ -28,6 +29,7 @@ const ConsoleUserNew: NextPageWithLayout = () => {
   const onSubmit = () => {
     execute(getValues()).then(() => {
       // 作成に成功
+      toast.success('ユーザーを作成しました！')
       // 一覧ページにリダイレクトする
       router.push('/console/users')
     })
