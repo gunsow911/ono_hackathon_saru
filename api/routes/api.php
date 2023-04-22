@@ -46,6 +46,10 @@ Route::prefix('console')->group(function () {
         Route::get('users', [ConsoleUserController::class, 'index']);
         // ユーザ情報作成
         Route::post('users', [ConsoleUserController::class, 'create']);
+        // ユーザ情報編集
+        Route::put('users/{userId}', [ConsoleUserController::class, 'edit']);
+        // ユーザ情報削除
+        Route::delete('users/{userId}', [ConsoleUserController::class, 'delete']);
     });
 });
 
