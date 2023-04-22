@@ -8,6 +8,8 @@ import { SWRConfig } from 'swr'
 import Head from 'next/head'
 import { FunctionComponent, ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -37,6 +39,17 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           fetcher: (url: string) => axios(url).then((r) => r.data),
         }}
       >
+        <ToastContainer
+          position='top-right'
+          hideProgressBar={false}
+          newestOnTop={false}
+          autoClose={5000}
+          closeOnClick
+          theme='light'
+          pauseOnHover
+          draggable={false}
+          style={{ width: '400px' }}
+        />
         <main>{getLayout(<CustomComponent {...pageProps} />)}</main>
       </SWRConfig>
     </div>

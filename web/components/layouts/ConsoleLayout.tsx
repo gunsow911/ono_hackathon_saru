@@ -3,6 +3,7 @@ import useLogout from 'hooks/console/useLogout'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
 type LayoutProps = Required<{
   readonly children: ReactElement
@@ -18,6 +19,7 @@ const ConsoleLayout = ({ children }: LayoutProps) => {
 
   const onClickLogout = () => {
     logout().then(() => {
+      toast.success('ログアウトしました')
       router.push('/console/login')
     })
   }
