@@ -70,7 +70,8 @@ class Matter extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        // 獣害情報に紐づくユーザについて、削除済のユーザも取得できるようにする
+        return $this->belongsTo(User::class)->withTrashed();
     }
 }
 
