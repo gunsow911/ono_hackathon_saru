@@ -10,6 +10,7 @@ use App\UseCases\Matter\SaveAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use MatanYadaev\EloquentSpatial\SpatialBuilder;
+use Mockery\MockInterface;
 
 class MatterControllerTest extends ControllerTestCase
 {
@@ -44,7 +45,6 @@ class MatterControllerTest extends ControllerTestCase
             ->assertJsonCount(3); // 3件ある
     }
 
-
     /**
      * 獣害情報を作成できること
      */
@@ -70,4 +70,3 @@ class MatterControllerTest extends ControllerTestCase
         $response->assertStatus(201); // 201 Cerated
     }
 }
-

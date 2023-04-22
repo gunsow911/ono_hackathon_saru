@@ -28,7 +28,6 @@ class MatterControllerTest extends ControllerTestCase
         // 管理者ユーザを用意
         /** @var AdminUser */
         $admin = AdminUser::factory()->create();
-        
         // テスト準備
         $matter1 = Matter::factory()->create();
         $matter2 = Matter::factory()->create();
@@ -96,4 +95,3 @@ class MatterControllerTest extends ControllerTestCase
         $response->assertStatus(201); // 201 Cerated
     }
 }
-
