@@ -33,27 +33,7 @@ class MatterControllerTest extends ControllerTestCase
 
         // テスト準備
         $matter1 = Matter::factory()->create();
-        $matter1->load([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
         $matter2 = Matter::factory()->create();
-        $matter2->load([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
         $matter3 = Matter::factory()->create();
 
         // ペジネータ作成

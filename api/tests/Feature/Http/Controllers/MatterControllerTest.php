@@ -25,63 +25,15 @@ class MatterControllerTest extends ControllerTestCase
     {
         // テスト準備
         $matter1 = Matter::factory()->create();
-        $matter1->load([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
         $matter2 = Matter::factory()->create();
-        $matter2->load([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
         $matter3 = Matter::factory()->create();
-        $matter3->load([
-            'userId',
-            'location',
-            'appliedAt',
-            'kind',
-            'isAlone',
-            'deleteAt',
-            'createdAt',
-            'updatedAt',
-        ]);
-
-        // ペジネータ作成
-        $paginator = new LengthAwarePaginator([$matter1, $matter2, $matter3], 3, 20);
 
         // アクションの戻り値をモックする
-        /** @var SpatialBuilder|MockInterface */
-        $builder = Mockery::mock(SpatialBuilder::class);
-        $builder->shouldReceive('with')
-            ->withArgs([[
-                'userId',
-                'location',
-                'appliedAt',
-                'kind',
-                'isAlone',
-                'deleteAt',
-                'createdAt',
-                'updatedAt',
-            ]])
-            ->andReturn($paginator);
-        $builder->shouldReceive('paginate')
-        ->withArgs([20])
-        ->andReturn($paginator);
+        $action = Mockery::mock(ListAction::class);
+        $action->shouldReceive('__invoke')
+        ->andReturn([$matter1, $matter2, $matter3]);
 
-        $this->mockAction(ListAction::class, $builder);
-        // policyができれば、ここにmockpolicyが入ることになる？
+        $this->instance(ListAction::class, $action);
 
         // テスト実行
         // リクエストを送信する
