@@ -16,11 +16,13 @@ const ConsoleUserList: NextPageWithLayout = () => {
       <Row>
         <Col>
           <Card className='py-3 px-4'>
-            <Link href='/console/users/new'>
-              <div className='float-end mb-2'>
-                <Button variant='primary'>ユーザ新規作成</Button>
-              </div>
-            </Link>
+            <div className='mb-2'>
+              <Link href='/console/users/new'>
+                <Button className='float-end' variant='primary'>
+                  ユーザ新規作成
+                </Button>
+              </Link>
+            </div>
             <UserTable />
           </Card>
         </Col>
