@@ -39,6 +39,9 @@ Route::prefix('console')->group(function () {
 
         // 害獣情報一覧
         Route::get('matters', [ConsoleMatterController::class, 'index']);
+        // 害獣情報詳細
+        Route::get('matters/{matter}', [ConsoleMatterController::class, 'detail'])
+            ->whereUlid('matter');
         // 害獣情報更新
         Route::put('matters/{matter}', [ConsoleMatterController::class, 'update'])
             ->whereUlid('matter');

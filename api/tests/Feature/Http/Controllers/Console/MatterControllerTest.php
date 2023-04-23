@@ -64,6 +64,32 @@ class MatterControllerTest extends ControllerTestCase
     }
 
     /**
+     * 獣害情報を取得できること
+     */
+    public function testDetail()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        /** @var Matter */
+        $matter = Matter::factory()->create();
+
+        // テスト実行
+        // リクエストを送信する
+        // actingAsは、第1引数のユーザでログインしたことにするテスト用のメソッドです。
+        // 通常、第2引数を使うことはありませんが、ログインする「ユーザ」が複数ある場合は設定が必要です。
+        // これは、今後の開発で、通常ユーザのログインが必要になることを見越しています
+        $response = $this->actingAs($admin, 'admin')
+            ->getJson("api/console/matters/{$matter->id}");
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200);
+    }
+
+    /**
      * 獣害情報を更新できること
      */
     public function testUpdate()

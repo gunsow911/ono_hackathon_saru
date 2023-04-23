@@ -28,6 +28,19 @@ class MatterController extends Controller
     }
 
     /**
+     * 害獣情報詳細
+     */
+    public function detail(Matter $matter)
+    {
+        // withもloadもリレーションをEagerLoadすることを自体は変わらないのですが、使い分けが必要です。
+        // クエリに対して使うのがwith
+        // Eloquentのオブジェクトに対して使うのがloadです。
+        // 今回のケースではすでに$matterはEloquentのオブジェクトなので、loadを使います。
+        $matter->load(['user']);
+        return response()->json(new MatterResource($matter), 200);
+    }
+
+    /**
      * 害獣情報編集
      */
     public function update(UpdateRequest $req, UpdateAction $action, Matter $matter)
