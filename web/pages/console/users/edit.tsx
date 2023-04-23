@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 import { Button, Card, Col, Form, Row } from 'react-bootstrap'
@@ -13,14 +13,26 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 
-const ConsoleUserNew: NextPageWithLayout = () => {
+// type Props = {
+//   name: string
+//   description: string
+// }
+
+const ConsoleUserEdit: NextPageWithLayout = (props) => {
+
+  // const currentName = ;
+  // const currentDescription = ;
+
+  const [ newName, setnewName ] = useState('最初')
+  const [ newDescription, setnewDescription ] = useState('編集のディスクリプション欄に入る文章')
+
   const router = useRouter()
   const form = useForm<AddUserForm>({
     mode: 'onSubmit',
     resolver: yupResolver(userSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: newName,
+      description: newDescription,
     },
   })
   const { handleSubmit, getValues } = form
@@ -61,7 +73,7 @@ const ConsoleUserNew: NextPageWithLayout = () => {
                   onClick={handleSubmit(onSubmit)}
                   disabled={loading}
                 >
-                  編集
+                  更新
                 </Button>
               </div>
             </Form>
@@ -72,8 +84,8 @@ const ConsoleUserNew: NextPageWithLayout = () => {
   )
 }
 
-ConsoleUserNew.getLayout = function getLayout(page) {
+ConsoleUserEdit.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }
 
-export default ConsoleUserNew
+export default ConsoleUserEdit
