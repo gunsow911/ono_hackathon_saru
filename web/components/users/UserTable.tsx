@@ -29,9 +29,10 @@ const UserTable = () => {
   //   )
   // }
 
-  // const handleSubmit = (e) => {
-  //   edit
-  // }
+
+  const onSubmit = (data: ) => {
+
+  }
 
   console.log(data)
 
@@ -60,6 +61,7 @@ const UserTable = () => {
                   size='sm'
                   variant='primary'
                   className='mx-1'
+                  onClick={(data)=>(onSubmit)}
                 >
                   編集
                 </Button>
