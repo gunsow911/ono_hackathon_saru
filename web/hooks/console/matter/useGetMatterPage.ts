@@ -6,7 +6,7 @@ import useSWR from 'swr'
  * ページングされた獣害情報を取得する
  */
 const useGetMatterPage = (page: number = 1) => {
-  const { data, isLoading } = useSWR<Pagination<Matter>>(
+  const { data, isLoading, mutate } = useSWR<Pagination<Matter>>(
     '/api/console/matters?' +
       new URLSearchParams({ page: page.toString() }).toString(),
     null,
@@ -16,6 +16,7 @@ const useGetMatterPage = (page: number = 1) => {
   )
   return {
     data,
+    mutate,
     isLoading,
   }
 }
