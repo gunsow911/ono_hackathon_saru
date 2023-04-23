@@ -2,13 +2,30 @@ import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
 import dayjs from 'dayjs'
 import useGetMatterPage from 'hooks/console/matter/useGetMatterPage'
+import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import { Matter } from 'models/Matter'
+import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
 import { Button } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
-const MatterTable = () => {
+type Props = {
+  onRemove?: (matterId: string) => void
+}
+
+const MatterTable = (props: Props) => {
   const [page, setPage] = useState(1)
-  const { data, isLoading } = useGetMatterPage(page)
+  const { data, isLoading, mutate } = useGetMatterPage(page)
+  const { execute: executeRemove } = useRemoveMatter()
+
+  const onRemove = (matterId: string) => {
+    executeRemove(matterId).then((_) => {
+      // 削除後に獣害情報一覧を再取得する
+      mutate()
+      toast.success('獣害情報を削除しました。')
+      props.onRemove && props.onRemove(matterId)
+    })
+  }
 
   const columns: ColumnDef<Matter>[] = useMemo(() => {
     const columns: ColumnDef<Matter>[] = [
@@ -48,13 +65,22 @@ const MatterTable = () => {
         accessorKey: 'operation',
         header: '操作',
         enableSorting: false,
-        cell: (_) => {
+        cell: (value) => {
+          // 引数のvalueには行の情報が入っているので、獣害情報のIDを取得できます
+          const matterId = value.row.original.id
           return (
             <>
-              <Button size='sm' variant='info' className='mx-1'>
-                詳細
-              </Button>
-              <Button size='sm' variant='danger' className='mx-1'>
+              <Link href={`/console/matters/${matterId}`}>
+                <Button size='sm' variant='info' className='mx-1'>
+                  詳細
+                </Button>
+              </Link>
+              <Button
+                size='sm'
+                variant='danger'
+                className='mx-1'
+                onClick={() => onRemove(matterId)}
+              >
                 削除
               </Button>
             </>

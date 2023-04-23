@@ -3,10 +3,10 @@
 namespace App\Http\Requests\Matter;
 
 use App\Models\User;
-use App\UseCases\Matter\SaveEntity;
+use App\UseCases\Matter\CreateEntity;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     public function rules()
     {
@@ -35,11 +35,11 @@ class SaveRequest extends FormRequest
     }
 
     /**
-     * 獣害情報作成データの生成
+     * 獣害情報新規作成データの生成
      */
-    public function makeEntity(): SaveEntity
+    public function makeEntity(): CreateEntity
     {
-        return new SaveEntity([
+        return new CreateEntity([
             'lat' => (float)$this->input('lat'),
             'lng' => (float)$this->input('lng'),
         ]);
