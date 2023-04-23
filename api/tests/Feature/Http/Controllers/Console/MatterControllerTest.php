@@ -5,9 +5,9 @@ namespace Tests\Feature\Http\Controllers\Console;
 use App\Models\AdminUser;
 use Mockery;
 use App\Models\Matter;
-use App\Models\User;
 use App\UseCases\Matter\ListAction;
-use App\UseCases\Matter\SaveAction;
+use App\UseCases\Matter\RemoveAction;
+use App\UseCases\Matter\UpdateAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -63,23 +63,22 @@ class MatterControllerTest extends ControllerTestCase
             ->assertJsonCount(3); // 3件ある
     }
 
-
     /**
-     * 獣害情報を作成できること
+     * 獣害情報を更新できること
      */
-    public function testCreate()
+    public function testUpdate()
     {
         // 管理者ユーザを用意
         /** @var AdminUser */
         $admin = AdminUser::factory()->create();
 
         // テスト準備
-        $user = User::factory()->create();
+        /** @var Matter */
         $matter = Matter::factory()->create();
-        $this->mockAction(SaveAction::class, $matter);
+        $this->mockAction(UpdateAction::class, $matter);
 
         $data = [
-            'user_id' => $user->id,
+            'applied_at' => "2023-04-01",
             'lat' => "136.123",
             'lng' => "32.456",
         ];
@@ -90,10 +89,37 @@ class MatterControllerTest extends ControllerTestCase
         // 通常、第2引数を使うことはありませんが、ログインする「ユーザ」が複数ある場合は設定が必要です。
         // これは、今後の開発で、通常ユーザのログインが必要になることを見越しています
         $response = $this->actingAs($admin, 'admin')
-            ->postJson("api/console/matters", $data);
+            ->putJson("api/console/matters/{$matter->id}", $data);
 
         // テスト確認
         // ステータスコードの検証
-        $response->assertStatus(201); // 201 Cerated
+        $response->assertStatus(200);
+    }
+
+    /**
+     * 獣害情報を削除できること
+     */
+    public function testRemove()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        /** @var Matter */
+        $matter = Matter::factory()->create();
+        $this->mockAction(RemoveAction::class);
+
+        // テスト実行
+        // リクエストを送信する
+        // actingAsは、第1引数のユーザでログインしたことにするテスト用のメソッドです。
+        // 通常、第2引数を使うことはありませんが、ログインする「ユーザ」が複数ある場合は設定が必要です。
+        // これは、今後の開発で、通常ユーザのログインが必要になることを見越しています
+        $response = $this->actingAs($admin, 'admin')
+            ->deleteJson("api/console/matters/{$matter->id}");
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200);
     }
 }

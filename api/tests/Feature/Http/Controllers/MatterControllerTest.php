@@ -5,8 +5,8 @@ namespace Tests\Feature\Http\Controllers;
 use Mockery;
 use App\Models\Matter;
 use App\Models\User;
+use App\UseCases\Matter\CreateAction;
 use App\UseCases\Matter\ListAction;
-use App\UseCases\Matter\SaveAction;
 use Tests\ControllerTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use MatanYadaev\EloquentSpatial\SpatialBuilder;
@@ -53,7 +53,7 @@ class MatterControllerTest extends ControllerTestCase
         // テスト準備
         $user = User::factory()->create();
         $matter = Matter::factory()->create();
-        $this->mockAction(SaveAction::class, $matter);
+        $this->mockAction(CreateAction::class, $matter);
 
         $data = [
             'user_id' => $user->id,
