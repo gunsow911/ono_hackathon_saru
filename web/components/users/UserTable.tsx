@@ -30,11 +30,11 @@ const UserTable = () => {
   // }
 
 
-  const onSubmit = (data: ) => {
+  // const onSubmit = (data: ) => {
 
-  }
+  // }
 
-  console.log(data)
+  // console.log(data)
 
   const columns: ColumnDef<User>[] = useMemo(() => {
     const columns: ColumnDef<User>[] = [
@@ -50,13 +50,17 @@ const UserTable = () => {
         accessorKey: 'operation',
         header: '操作',
         enableSorting: false,
-        cell: (_) => {
+        cell: (value) => {
+          const userId = value.row.original.id
+          // console.log(value)
           return (
             <>
+              <Link href={`/console/matters/${userId}`}>
               <Button size='sm' variant='info' className='mx-1'>
                 詳細
               </Button>
-              <Link href='/console/users/edit'>
+              </Link>
+              {/* <Link href='/console/users/edit'>
                 <Button
                   size='sm'
                   variant='primary'
@@ -65,7 +69,7 @@ const UserTable = () => {
                 >
                   編集
                 </Button>
-              </Link>
+              </Link> */}
               <Button size='sm' variant='danger' className='mx-1'>
                 削除
               </Button>
