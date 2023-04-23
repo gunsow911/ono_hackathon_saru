@@ -1,12 +1,32 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
 import dayjs from 'dayjs'
+import useGetMatterPage from 'hooks/console/matter/useGetMatterPage'
+import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import { Matter } from 'models/Matter'
-import { Pagination } from 'models/Pagination'
-import React, { useMemo } from 'react'
+import Link from 'next/link'
+import React, { useMemo, useState } from 'react'
 import { Button } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
-const MatterTable = () => {
+type Props = {
+  onRemove?: (matterId: string) => void
+}
+
+const MatterTable = (props: Props) => {
+  const [page, setPage] = useState(1)
+  const { data, isLoading, mutate } = useGetMatterPage(page)
+  const { execute: executeRemove } = useRemoveMatter()
+
+  const onRemove = (matterId: string) => {
+    executeRemove(matterId).then((_) => {
+      // 削除後に獣害情報一覧を再取得する
+      mutate()
+      toast.success('獣害情報を削除しました。')
+      props.onRemove && props.onRemove(matterId)
+    })
+  }
+
   const columns: ColumnDef<Matter>[] = useMemo(() => {
     const columns: ColumnDef<Matter>[] = [
       {
@@ -45,16 +65,22 @@ const MatterTable = () => {
         accessorKey: 'operation',
         header: '操作',
         enableSorting: false,
-        cell: (_) => {
+        cell: (value) => {
+          // 引数のvalueには行の情報が入っているので、獣害情報のIDを取得できます
+          const matterId = value.row.original.id
           return (
             <>
-              <Button size='sm' variant='info' className='mx-1'>
-                詳細
-              </Button>
-              <Button size='sm' variant='primary' className='mx-1'>
-                編集
-              </Button>
-              <Button size='sm' variant='danger' className='mx-1'>
+              <Link href={`/console/matters/${matterId}`}>
+                <Button size='sm' variant='info' className='mx-1'>
+                  詳細
+                </Button>
+              </Link>
+              <Button
+                size='sm'
+                variant='danger'
+                className='mx-1'
+                onClick={() => onRemove(matterId)}
+              >
                 削除
               </Button>
             </>
@@ -65,52 +91,13 @@ const MatterTable = () => {
     return columns
   }, [])
 
-  //仮データ
-  const pagination: Pagination<Matter> = {
-    data: [
-      {
-        id: '02d3698a-6ddd-4de3-9cf3-3d4f9f3acdb2',
-        appliedAt: '2023-01-01',
-        lat: 131.39889051460327,
-        lng: 34.131567658362506,
-        userId: 'e6903c19-0b3e-4157-8a64-497762cb5b1b',
-        user: {
-          id: 'e6903c19-0b3e-4157-8a64-497762cb5b1b',
-          name: 'テスト太郎',
-          createdAt: '2023-04-01',
-          updatedAt: '2023-04-01',
-        },
-      },
-      {
-        id: 'ce43c69d-d205-4af6-b196-038405b45358',
-        appliedAt: '2023-01-20',
-        lat: 131.39889051460327,
-        lng: 34.131567658362506,
-        userId: 'c9d5f476-455c-45b8-97eb-f8bc4063f30a',
-        user: {
-          id: 'c9d5f476-455c-45b8-97eb-f8bc4063f30a',
-          name: 'テスト次郎',
-          createdAt: '2023-03-01',
-          updatedAt: '2023-03-01',
-        },
-      },
-    ],
-    meta: {
-      currentPage: 1,
-      from: 1,
-      lastPage: 1,
-      path: '',
-      perPage: 20,
-      to: 2,
-      total: 2,
-    },
-  }
-
   return (
     <PaginationTable
+      isLoading={isLoading}
       smallTable
       columns={columns}
-      pagination={pagination}
+      pagination={data}
+      onPageChange={(page) => setPage(page)}
     ></PaginationTable>
   )
 }

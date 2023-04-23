@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Matter\SaveRequest;
+use App\Http\Requests\Matter\CreateRequest;
 use App\Http\Resources\MatterResource;
+use App\UseCases\Matter\CreateAction;
 use App\UseCases\Matter\ListAction;
-use App\UseCases\Matter\SaveAction;
 
 class MatterController extends Controller
 {
@@ -21,11 +21,11 @@ class MatterController extends Controller
     /**
      * 害獣情報作成
      */
-    public function create(SaveRequest $req, SaveAction $action)
+    public function create(CreateRequest $req, CreateAction $action)
     {
         $entity = $req->makeEntity();
         $user = $req->makeUser();
-        $matter = $action($entity, $user, null);
+        $matter = $action($entity, $user);
         return response()->json(new MatterResource($matter), 201);
     }
 }
