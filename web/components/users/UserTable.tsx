@@ -7,9 +7,7 @@ import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
 import { Button } from 'react-bootstrap'
 
-type Props = {}
-
-const UserTable = (props: Props) => {
+const UserTable = () => {
   const [page, setPage] = useState(1)
   const { data, isLoading } = useGetUserPage(page)
 
@@ -34,6 +32,8 @@ const UserTable = (props: Props) => {
   // const handleSubmit = (e) => {
   //   edit
   // }
+
+  console.log(data)
 
   const columns: ColumnDef<User>[] = useMemo(() => {
     const columns: ColumnDef<User>[] = [
