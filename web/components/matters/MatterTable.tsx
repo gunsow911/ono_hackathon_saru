@@ -4,11 +4,16 @@ import dayjs from 'dayjs'
 import useGetMatterPage from 'hooks/console/matter/useGetMatterPage'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import { Matter } from 'models/Matter'
+import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
-const MatterTable = () => {
+type Props = {
+  onRemove?: (matterId: string) => void
+}
+
+const MatterTable = (props: Props) => {
   const [page, setPage] = useState(1)
   const { data, isLoading, mutate } = useGetMatterPage(page)
   const { execute: executeRemove } = useRemoveMatter()
@@ -18,6 +23,7 @@ const MatterTable = () => {
       // 削除後に獣害情報一覧を再取得する
       mutate()
       toast.success('獣害情報を削除しました。')
+      props.onRemove && props.onRemove(matterId)
     })
   }
 
@@ -64,9 +70,11 @@ const MatterTable = () => {
           const matterId = value.row.original.id
           return (
             <>
-              <Button size='sm' variant='info' className='mx-1'>
-                詳細
-              </Button>
+              <Link href={`/console/matters/${matterId}`}>
+                <Button size='sm' variant='info' className='mx-1'>
+                  詳細
+                </Button>
+              </Link>
               <Button
                 size='sm'
                 variant='danger'
