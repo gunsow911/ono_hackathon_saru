@@ -13,26 +13,26 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 
-// type Props = {
-//   name: string
-//   description: string
-// }
+type Props = {
+  name: string
+  description: string
+}
 
-const ConsoleUserEdit: NextPageWithLayout = (props) => {
+const ConsoleUserEdit: NextPageWithLayout = (props: Props) => {
 
-  // const currentName = ;
-  // const currentDescription = ;
+  const currentName = props.name;
+  const currentDescription = props.description;
 
-  const [ newName, setnewName ] = useState('最初')
-  const [ newDescription, setnewDescription ] = useState('編集のディスクリプション欄に入る文章')
+  const [ newName, setnewName ] = useState(currentName)
+  const [ newDescription, setnewDescription ] = useState(currentDescription)
 
   const router = useRouter()
   const form = useForm<AddUserForm>({
     mode: 'onSubmit',
     resolver: yupResolver(userSchema),
     defaultValues: {
-      name: newName,
-      description: newDescription,
+      name: currentName,
+      description: currentDescription,
     },
   })
   const { handleSubmit, getValues } = form
@@ -40,7 +40,6 @@ const ConsoleUserEdit: NextPageWithLayout = (props) => {
 
   const onSubmit = () => {
     execute(getValues()).then(() => {
-      // 作成に成功
       toast.success('ユーザー情報を編集しました！')
       // 一覧ページにリダイレクトする
       router.push('/console/users')
