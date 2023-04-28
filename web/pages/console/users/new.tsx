@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import useAddUser, {
   AddUserForm,
   userSchema,
-} from 'hooks/console/user/useAddUser'
+} from 'hooks/console/user/useGetUser'
 import UserForm from 'components/users/UserForm'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'

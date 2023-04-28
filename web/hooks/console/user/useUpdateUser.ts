@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks'
 import dayjs from 'dayjs'
-import { Matter } from 'models/Matter'
+import { User } from 'models/User'
 import * as yup from 'yup'
 
 export type UpdateUserForm = {
@@ -17,14 +17,14 @@ export const matterSchema = yup.object<UpdateUserForm>().shape({
 /**
  * ユーザー情報更新フック
  */
-const useUpdateMatter = () => {
-  const [{ loading, error }, exec] = useAxios<Matter>({
+const useUpdateUser = () => {
+  const [{ loading, error }, exec] = useAxios<User>({
     method: 'PUT',
   })
 
-  const execute = (matterId: string, form: UpdateUserForm) => {
+  const execute = (userId: string, form: UpdateUserForm) => {
     return exec({
-      url: `/api/console/matters/${matterId}`,
+      url: `/api/console/users/${userId}`,
       data: {
         ...form,
         // appliedAt: dayjs(form.appliedAt).format('YYYY-MM-DD'),
@@ -39,4 +39,4 @@ const useUpdateMatter = () => {
   }
 }
 
-export default useUpdateMatter
+export default useUpdateUser

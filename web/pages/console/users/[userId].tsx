@@ -1,90 +1,42 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
-import { Button, Card, Col, Form, Row } from 'react-bootstrap'
-import { FormProvider, useForm } from 'react-hook-form'
-import useAddUser, {
-  AddUserForm,
-  userSchema,
-} from 'hooks/console/user/useAddUser'
-import UserForm from 'components/users/UserForm'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { Col, Row } from 'react-bootstrap'
+
+import UserDetail from 'components/users/UserDetail'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { toast } from 'react-toastify'
+import useGetUser from 'hooks/console/user/useGetUser'
 
-// type Props = {
-//   name: string
-//   description: string
-// }
-
-const ConsoleUserEdit: NextPageWithLayout = () => {
-
-  // const currentName = props.name;
-  // const currentDescription = props.description;
-
-  // const [ newName, setnewName ] = useState(currentName)
-  // const [ newDescription, setnewDescription ] = useState(currentDescription)
-
+const ConsoleUserDetail: NextPageWithLayout = () => {
   const router = useRouter()
-  const form = useForm<AddUserForm>({
-    mode: 'onSubmit',
-    resolver: yupResolver(userSchema),
-    defaultValues: {
-      name: currentName,
-      description: currentDescription,
-    },
-  })
-  const { handleSubmit, getValues } = form
-  const { execute, loading } = useAddUser()
+  const { userId } = router.query
+  const { data: user } = useGetUser(userId as string | undefined)
 
-  const onSubmit = () => {
-    execute(getValues()).then(() => {
-      toast.success('ユーザー情報を編集しました！')
-      // 一覧ページにリダイレクトする
-      router.push('/console/users')
-    })
+  const onRemove = () => {
+    // 一覧ページにリダイレクトする
+    router.replace('/console/users')
   }
 
   return (
     <>
       <Row>
         <Col>
-          <h3>ユーザー情報編集</h3>
+          <h3>ユーザー情報詳細</h3>
         </Col>
       </Row>
       <Row>
         <Col>
-          <Card className='py-3 px-4'>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <FormProvider {...form}>
-                <UserForm />
-              </FormProvider>
-              <div className='float-end mt-2'>
-                <Link href='/console/users'>
-                  <Button variant='secondary' className='ms-1'>
-                    一覧に戻る
-                  </Button>
-                </Link>
-                <Button
-                  variant='primary'
-                  className='ms-1'
-                  onClick={handleSubmit(onSubmit)}
-                  disabled={loading}
-                >
-                  更新
-                </Button>
-              </div>
-            </Form>
-          </Card>
+          {user && (
+            <UserDetail user={user} onRemove={onRemove}></UserDetail>
+          )}
         </Col>
       </Row>
     </>
   )
 }
 
-ConsoleUserEdit.getLayout = function getLayout(page) {
+ConsoleUserDetail.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>
 }
 
-export default ConsoleUserEdit
+export default ConsoleUserDetail

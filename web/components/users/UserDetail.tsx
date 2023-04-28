@@ -8,7 +8,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import UserForm from './UserForm'
 import { User } from 'models/User'
-import { UpdateUserForm } from 'hooks/console/user/useUpdateUser'
+import useUpdateUser, { UpdateUserForm } from 'hooks/console/user/useUpdateUser'
+import useRemoveUser from 'hooks/console/user/useRemoveUser'
 
 type Props = {
   user: User
@@ -54,7 +55,7 @@ const UserDetail = (props: Props) => {
             <UserForm></UserForm>
           </FormProvider>
           <div className='float-end mt-2'>
-            <Link href='/console/matters'>
+            <Link href='/console/users'>
               <Button variant='secondary' className='ms-1'>
                 一覧に戻る
               </Button>
