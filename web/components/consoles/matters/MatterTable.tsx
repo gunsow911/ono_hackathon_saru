@@ -50,7 +50,7 @@ const MatterTable = (props: Props) => {
         header: '緯度',
         enableSorting: false,
         cell: (v) => {
-          return v.row.original.lat
+          return v.row.original.latLng.lat
         },
       },
       {
@@ -58,7 +58,7 @@ const MatterTable = (props: Props) => {
         header: '経度',
         enableSorting: false,
         cell: (v) => {
-          return v.row.original.lng
+          return v.row.original.latLng.lng
         },
       },
       {

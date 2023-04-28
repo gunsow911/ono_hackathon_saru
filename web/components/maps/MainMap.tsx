@@ -9,7 +9,7 @@ const MainMap = () => {
   const heatmapLayer = new HeatmapLayer<Matter>({
     id: 'heatmapLayer',
     data,
-    getPosition: (d) => [d.lng, d.lat],
+    getPosition: (d) => [d.latLng.lng, d.latLng.lat],
     colorRange: [
       [50, 136, 189, 200],
       [153, 213, 148, 200],
