@@ -1,9 +1,9 @@
+import { LatLng } from './LatLng'
 import { User } from './User'
 
 export type Matter = {
   id: string
-  lat: number
-  lng: number
+  latLng: LatLng
   appliedAt: string
   userId: string
   user?: User
