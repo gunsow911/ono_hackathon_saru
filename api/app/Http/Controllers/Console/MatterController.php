@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Matter\SearchRequest;
 use App\Http\Requests\Matter\UpdateRequest;
 use App\Http\Resources\MatterResource;
 use App\Models\Matter;
@@ -20,9 +21,9 @@ class MatterController extends Controller
     /**
      * 害獣情報一覧
      */
-    public function index(ListAction $action)
+    public function index(SearchRequest $req, ListAction $action)
     {
-        $list = $action();
+        $list = $action($req->makeEntity());
         $list->with(['user']);
         return MatterResource::collection($list->paginate(20));
     }
