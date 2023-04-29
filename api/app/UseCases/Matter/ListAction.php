@@ -13,15 +13,23 @@ class ListAction
 {
     /**
      * 害獣情報一覧を取得する
-     * @param $entity 検索情報
+     * @param $entity ListEntity|null 検索情報
      * @return\MatanYadaev\EloquentSpatial\SpatialBuilder<Matter> 害獣情報一覧クエリ
      */
-    public function __invoke(ListEntity $entity): Builder
+    public function __invoke(ListEntity $entity = null): Builder
     {
-        $query =  Matter::query();
-        $query->leftJoin('users', function ($join) {
-            $join->on('matters.user_id', '=', 'users.id');
-        });
+        if ($entity === null) {
+            $entity = new ListEntity([
+                'query' => '',
+                'from' => null,
+                'to' => null,
+            ]);
+        }
+
+        $query = Matter::select('matters.*')
+            ->leftJoin('users', function ($join) {
+                $join->on('matters.user_id', '=', 'users.id');
+            });
 
         $words = StringUtil::explodeWhitespace($entity->getQuery());
         foreach ($words as $word) {
