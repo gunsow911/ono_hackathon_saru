@@ -44,7 +44,7 @@ const UserTable = (props: Props) => {
           const userId = value.row.original.id
           return (
             <>
-              <Link href={`/console/uers/${userId}`}>
+              <Link href={`/console/users/${userId}`}>
                 <Button size='sm' variant='info' className='mx-1'>
                   詳細
                 </Button>
