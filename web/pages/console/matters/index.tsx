@@ -1,7 +1,7 @@
 import React from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
-import MatterTable from 'components/matters/MatterTable'
+import MatterTable from 'components/consoles/matters/MatterTable'
 import { Card, Col, Row } from 'react-bootstrap'
 
 const ConsoleMatterList: NextPageWithLayout = () => {

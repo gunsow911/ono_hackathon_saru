@@ -1,17 +1,16 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGeolocated } from 'react-geolocated'
-import useAddMatter from 'hooks/matter/useAddMatter'
-import UploadMap from 'components/maps/UploadMap'
 import { useClient } from 'hooks/util/useClient'
-import { Alert, Button } from 'react-bootstrap'
+import { Alert, Card, Col, Row, Spinner } from 'react-bootstrap'
 import Layout from 'components/layouts/MenuLayout'
 import { NextPageWithLayout } from '_app'
 import { useRouter } from 'next/router'
 import useVerifyUser from 'hooks/user/useVerifyUser'
+import { LatLng } from 'models/LatLng'
+import MatterDetail from 'components/matters/MatterDetail'
 
 const Report: NextPageWithLayout = () => {
-  const [location, setLocation] = useState<{ lat: number; lng: number }>()
-  const { data, execute, loading, error } = useAddMatter()
+  const [location, setLocation] = useState<LatLng>()
   const router = useRouter()
   const { userId } = router.query
   const { verify, isVerify } = useVerifyUser()
@@ -42,37 +41,6 @@ const Report: NextPageWithLayout = () => {
     }
   }, [positionError])
 
-  const onClick = () => {
-    if (!location) return
-    if (!userId) return
-    execute(userId as string, { lat: location.lat, lng: location.lng })
-  }
-
-  const showResult = (): ReactNode => {
-    if (data === undefined) return <></>
-    if (error !== null) {
-      return (
-        <Alert variant='danger'>
-          報告に失敗しました。インターネットの接続や位置情報の設定がオンであることを確かめてください。
-        </Alert>
-      )
-    }
-    if (data && !loading) {
-      return <Alert variant='success'>報告が完了しました！</Alert>
-    }
-    return <></>
-  }
-
-  const onChangeLocation = (lat: number, lng: number) => {
-    setLocation({ lat, lng })
-  }
-
-  const isDisable = () => {
-    return (
-      !isGeolocationAvailable || !isGeolocationEnabled || !location || loading
-    )
-  }
-
   if (isVerify === undefined) {
     // ユーザ確認中
     return <></>
@@ -100,35 +68,24 @@ const Report: NextPageWithLayout = () => {
           </Alert>
         </div>
       )}
-      <>
-        <div className='d-flex justify-content-center'>
-          獣害を受けた場所を選択してください
-        </div>
-        <div className='d-flex justify-content-center'>
-          {location ? (
-            <UploadMap
-              latLng={{ ...location }}
-              onChangeLocation={onChangeLocation}
-            />
-          ) : (
-            <div style={{ width: 400, height: 300 }}></div>
-          )}
-        </div>
-        <div className='d-flex justify-content-center'>
-          {location && (
-            <>
-              <div>緯度： {location.lng}</div>
-              <div>経度： {location.lat}</div>
-            </>
-          )}
-        </div>
-      </>
-      <div className='d-flex justify-content-center'>
-        <Button disabled={isDisable()} onClick={onClick}>
-          {loading ? <>報告中…</> : <>獣害報告！</>}
-        </Button>
-      </div>
-      <div>{showResult()}</div>
+      <Row>
+        <Col>
+          <Card className='py-3 px-4'>
+            {location && userId ? (
+              <MatterDetail initLatLng={location} userId={userId as string} />
+            ) : (
+              <div
+                className='d-flex align-items-center justify-content-center'
+                style={{ height: 426 }}
+              >
+                <Spinner animation='border' role='status'>
+                  <span className='visually-hidden'>Loading...</span>
+                </Spinner>
+              </div>
+            )}
+          </Card>
+        </Col>
+      </Row>
     </div>
   )
 }

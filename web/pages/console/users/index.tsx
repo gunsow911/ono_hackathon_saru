@@ -2,7 +2,7 @@ import React from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 import { Button, Card, Col, Row } from 'react-bootstrap'
-import UserTable from 'components/users/UserTable'
+import UserTable from 'components/consoles/users/UserTable'
 import Link from 'next/link'
 
 const ConsoleUserList: NextPageWithLayout = () => {

@@ -1,18 +1,16 @@
 import useAxios from 'axios-hooks'
 import dayjs from 'dayjs'
+import { LatLng } from 'models/LatLng'
 import { Matter } from 'models/Matter'
 import * as yup from 'yup'
 
 export type UpdateMatterForm = {
   appliedAt: string
-  lat: number
-  lng: number
+  latLng: LatLng
 }
 
 export const matterSchema = yup.object<UpdateMatterForm>().shape({
   appliedAt: yup.date().required(),
-  lat: yup.number().required(),
-  lng: yup.number().required(),
 })
 
 /**
@@ -23,11 +21,12 @@ const useUpdateMatter = () => {
     method: 'PUT',
   })
 
-  const execute = (matterId: string, form: UpdateMatterForm) => {
+  const execute = async (matterId: string, form: UpdateMatterForm) => {
     return exec({
       url: `/api/console/matters/${matterId}`,
       data: {
-        ...form,
+        lat: form.latLng.lat,
+        lng: form.latLng.lng,
         appliedAt: dayjs(form.appliedAt).format('YYYY-MM-DD'),
       },
     })
