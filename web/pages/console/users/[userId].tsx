@@ -3,14 +3,14 @@ import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 import { Col, Row } from 'react-bootstrap'
 
-import UserDetail from 'components/users/UserDetail'
+import UserDetail from 'components/consoles/users/UserDetail'
 import useGetUser from 'hooks/console/user/useGetUser'
 import { useRouter } from 'next/router'
 
 const ConsoleUserDetail: NextPageWithLayout = () => {
   const router = useRouter()
   const { userId } = router.query
-  const { data: user } = useGetUser(userId as string | undefined)
+  const { data: user, mutate } = useGetUser(userId as string | undefined)
 
   const onRemove = () => {
     // 一覧ページにリダイレクトする
@@ -30,6 +30,7 @@ const ConsoleUserDetail: NextPageWithLayout = () => {
             <UserDetail
               user={user}
               onRemove={onRemove}
+              onUpdate={mutate}
             ></UserDetail>
           )}
         </Col>
