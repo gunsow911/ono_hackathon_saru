@@ -21,7 +21,7 @@ const useGetMatterPage = (page: number = 1, condition?: Condition) => {
     '/api/console/matters?' +
       new URLSearchParams({
         page: page.toString(),
-        query: condition?.query ?? '',
+        q: condition?.query ?? '',
         from: condition?.from ?? '',
         to: condition?.to ?? '',
       }).toString(),

@@ -26,7 +26,7 @@ const ConsoleMatterList: NextPageWithLayout = () => {
       <Row>
         <Col>
           <Card className='py-3 px-4'>
-            <div className='pb-3'>
+            <div className='pb-4'>
               <MatterSearch condition={condition} onChange={onChange} />
             </div>
             <MatterTable condition={condition} />
