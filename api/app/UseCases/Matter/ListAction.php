@@ -3,6 +3,7 @@
 namespace App\UseCases\Matter;
 
 use App\Models\Matter;
+use App\Utils\StringUtil;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -12,14 +13,41 @@ class ListAction
 {
     /**
      * 害獣情報一覧を取得する
-     * @return \MatanYadaev\EloquentSpatial\SpatialBuilder 害獣情報一覧クエリ
-     * @return Builder<Matter>
+     * @param $entity ListEntity|null 検索情報
+     * @return\MatanYadaev\EloquentSpatial\SpatialBuilder<Matter> 害獣情報一覧クエリ
      */
-    public function __invoke(): Builder
+    public function __invoke(ListEntity $entity = null): Builder
     {
-        // とりあえずすべて取得
-        // TODO: 違和感のない程度で絞り込みなどをして、データ数が大きすぎないようにする必要がある
-        $list = Matter::orderBy('applied_at', 'asc');
-        return $list;
+        if ($entity === null) {
+            $entity = new ListEntity([
+                'query' => '',
+                'from' => null,
+                'to' => null,
+            ]);
+        }
+
+        $query = Matter::select('matters.*')
+            ->leftJoin('users', function ($join) {
+                $join->on('matters.user_id', '=', 'users.id');
+            });
+
+        $words = StringUtil::explodeWhitespace($entity->getQuery());
+        foreach ($words as $word) {
+            $query->where(function ($q) use ($word) {
+                $faz = '%'.addcslashes($word, '%_\\').'%';
+                $q->where('users.id', '=', $word)
+                    ->orwhere('users.name', 'LIKE', $faz);
+            });
+        }
+
+        if ($entity->getFrom() !== null) {
+            $query->whereDate('matters.applied_at', '>=', $entity->getFrom()->format('Y-m-d').' 0:00:00');
+        }
+        if ($entity->getTo() !== null) {
+            $query->whereDate('matters.applied_at', '<=', $entity->getTo()->format('Y-m-d').' 23:59:59');
+        }
+
+        $query->orderBy('applied_at', 'desc');
+        return $query;
     }
 }

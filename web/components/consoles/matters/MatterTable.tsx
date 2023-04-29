@@ -1,7 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
 import dayjs from 'dayjs'
-import useGetMatterPage from 'hooks/console/matter/useGetMatterPage'
+import useGetMatterPage, {
+  Condition,
+} from 'hooks/console/matter/useGetMatterPage'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import { Matter } from 'models/Matter'
 import Link from 'next/link'
@@ -10,12 +12,13 @@ import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
 type Props = {
+  condition?: Condition
   onRemove?: (matterId: string) => void
 }
 
 const MatterTable = (props: Props) => {
   const [page, setPage] = useState(1)
-  const { data, isLoading, mutate } = useGetMatterPage(page)
+  const { data, isLoading, mutate } = useGetMatterPage(page, props.condition)
   const { execute: executeRemove } = useRemoveMatter()
 
   const onRemove = (matterId: string) => {
