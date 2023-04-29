@@ -53,7 +53,7 @@ const UserDetail = (props: Props) => {
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
-            <UserForm></UserForm>
+            <UserForm />
           </FormProvider>
           <div className='float-end mt-2'>
             <Link href='/console/users'>
