@@ -1,5 +1,4 @@
 import useAxios from 'axios-hooks'
-import dayjs from 'dayjs'
 import { User } from 'models/User'
 import * as yup from 'yup'
 
@@ -8,10 +7,9 @@ export type UpdateUserForm = {
   description: string
 }
 
-export const matterSchema = yup.object<UpdateUserForm>().shape({
-  appliedAt: yup.date().required(),
-  lat: yup.number().required(),
-  lng: yup.number().required(),
+export const userSchema = yup.object<UpdateUserForm>().shape({
+  name: yup.string().max(255).required(),
+  description: yup.string().max(2000),
 })
 
 /**
@@ -27,7 +25,6 @@ const useUpdateUser = () => {
       url: `/api/console/users/${userId}`,
       data: {
         ...form,
-        // appliedAt: dayjs(form.appliedAt).format('YYYY-MM-DD'),
       },
     })
   }
