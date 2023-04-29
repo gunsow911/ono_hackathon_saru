@@ -1,14 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRemoveUser from 'hooks/console/user/useRemoveUser'
-import { matterSchema } from 'hooks/console/matter/useUpdateMatter'
+import useUpdateUser, { userSchema, UpdateUserForm } from 'hooks/console/user/useUpdateUser'
+import { User } from 'models/User'
 import Link from 'next/link'
 import React from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import UserForm from 'components/consoles/users/UserForm'
-import { User } from 'models/User'
-import useUpdateUser, { UpdateUserForm } from 'hooks/console/user/useUpdateUser'
+import UserForm from './UserForm'
 
 type Props = {
   user: User
@@ -19,8 +18,11 @@ type Props = {
 const UserDetail = (props: Props) => {
   const form = useForm<UpdateUserForm>({
     mode: 'onSubmit',
-    resolver: yupResolver(matterSchema),
-    defaultValues: { ...props.user },
+    resolver: yupResolver(userSchema),
+    defaultValues: {
+      name: props.user.name,
+      description: props.user.description,
+    },
   })
   const { getValues, handleSubmit } = form
   const { execute: executeUpdate, loading: loadingUpdate } = useUpdateUser()
@@ -47,7 +49,7 @@ const UserDetail = (props: Props) => {
       <Card className='py-3 px-4'>
         <div>
           <Form.Label>ユーザー名</Form.Label>
-          {/* <div>{props.matter.user?.name}</div> */}
+          <div>{props.user?.name}</div>
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
