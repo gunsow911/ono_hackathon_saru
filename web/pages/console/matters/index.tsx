@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 import MatterTable from 'components/consoles/matters/MatterTable'
 import { Card, Col, Row } from 'react-bootstrap'
+import MatterSearch from 'components/consoles/matters/MatterSearch'
+import { Condition } from 'hooks/console/matter/useGetMatterPage'
 
 const ConsoleMatterList: NextPageWithLayout = () => {
+  const [condition, setCondition] = useState<Condition>({
+    query: '',
+    from: '',
+    to: '',
+  })
+  const onChange = (value: Condition) => {
+    setCondition(value)
+  }
+
   return (
     <>
       <Row>
@@ -15,7 +26,10 @@ const ConsoleMatterList: NextPageWithLayout = () => {
       <Row>
         <Col>
           <Card className='py-3 px-4'>
-            <MatterTable />
+            <div className='pb-3'>
+              <MatterSearch condition={condition} onChange={onChange} />
+            </div>
+            <MatterTable condition={condition} />
           </Card>
         </Col>
       </Row>
