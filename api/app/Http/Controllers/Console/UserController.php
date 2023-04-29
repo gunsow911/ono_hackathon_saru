@@ -9,6 +9,7 @@ use App\Http\Requests\User\SaveRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\UseCases\User\ListAction;
+use App\UseCases\User\RemoveAction;
 use App\UseCases\User\SaveAction;
 
 /**
@@ -56,10 +57,9 @@ class UserController extends Controller
     /**
      * ユーザ情報削除
      */
-    public function delete(SaveRequest $req, SaveAction $action)
+    public function remove(RemoveAction $action, User $user)
     {
-        $entity = $req->makeEntity();
-        $user = $action($entity, null);
-        return response()->json(new UserResource($user), 201);
+        $action($user);
+        return response()->json(['message' => 'OK'], 200);
     }
 }
