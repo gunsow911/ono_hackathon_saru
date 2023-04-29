@@ -1,9 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
-import useUpdateMatter, {
-  matterSchema,
-  UpdateMatterForm,
-} from 'hooks/console/matter/useUpdateMatter'
+import useUpdateMatter, { matterSchema, UpdateMatterForm } from 'hooks/console/matter/useUpdateMatter'
 import { Matter } from 'models/Matter'
 import Link from 'next/link'
 import React from 'react'
