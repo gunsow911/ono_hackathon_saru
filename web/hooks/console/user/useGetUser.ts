@@ -7,7 +7,7 @@ import useSWR from 'swr'
  */
 const useGetUser = (id?: string) => {
   const { data, isLoading, mutate } = useSWR<User>(
-    id ? `/api/console/user/${id}` : undefined,
+    id ? `/api/console/users/${id}` : undefined,
     null,
     {
       keepPreviousData: true,
