@@ -6,7 +6,7 @@ import useSWR from 'swr'
  * ページングされたユーザ情報を取得する
  */
 const useGetUserPage = (page: number = 1) => {
-  const { data, isLoading } = useSWR<Pagination<User>>(
+  const { data, isLoading, mutate } = useSWR<Pagination<User>>(
     '/api/console/users?' +
       new URLSearchParams({ page: page.toString() }).toString(),
     null,
@@ -16,6 +16,7 @@ const useGetUserPage = (page: number = 1) => {
   )
   return {
     data,
+    mutate,
     isLoading,
   }
 }
