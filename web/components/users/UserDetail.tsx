@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-// import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
+import useRemoveUser from 'hooks/console/user/useRemoveUser'
 import { matterSchema } from 'hooks/console/matter/useUpdateMatter'
 import Link from 'next/link'
 import React from 'react'
@@ -9,7 +9,6 @@ import { toast } from 'react-toastify'
 import UserForm from 'components/consoles/users/UserForm'
 import { User } from 'models/User'
 import useUpdateUser, { UpdateUserForm } from 'hooks/console/user/useUpdateUser'
-import useRemoveUser from 'hooks/console/user/useRemoveUser'
 
 type Props = {
   user: User

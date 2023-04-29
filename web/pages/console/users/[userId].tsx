@@ -4,8 +4,8 @@ import Layout from 'components/layouts/ConsoleLayout'
 import { Col, Row } from 'react-bootstrap'
 
 import UserDetail from 'components/users/UserDetail'
-import { useRouter } from 'next/router'
 import useGetUser from 'hooks/console/user/useGetUser'
+import { useRouter } from 'next/router'
 
 const ConsoleUserDetail: NextPageWithLayout = () => {
   const router = useRouter()
@@ -27,7 +27,10 @@ const ConsoleUserDetail: NextPageWithLayout = () => {
       <Row>
         <Col>
           {user && (
-            <UserDetail user={user} onRemove={onRemove}></UserDetail>
+            <UserDetail
+              user={user}
+              onRemove={onRemove}
+            ></UserDetail>
           )}
         </Col>
       </Row>
