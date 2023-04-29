@@ -37,7 +37,7 @@ class UserController extends Controller
     /**
      * ユーザ情報編集
      */
-    public function edit(SaveRequest $req, SaveAction $action)
+    public function update(SaveRequest $req, SaveAction $action)
     {
         $entity = $req->makeEntity();
         $user = $action($entity, null);

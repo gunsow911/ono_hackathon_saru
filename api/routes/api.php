@@ -56,7 +56,7 @@ Route::prefix('console')->group(function () {
         // ユーザ情報編集
         Route::put('users/{user}', [ConsoleUserController::class, 'update']);
         // ユーザ情報削除
-        Route::delete('users/{userId}', [ConsoleUserController::class, 'delete']);
+        Route::delete('users/{user}', [ConsoleUserController::class, 'delete']);
     });
 });
 
