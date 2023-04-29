@@ -1,15 +1,21 @@
 import { HeatmapLayer } from '@deck.gl/aggregation-layers/typed'
 import DeckGLMap from 'components/atoms/DeckGLMap'
-import useListMatter from 'hooks/matter/useListMatter'
-import { Matter } from 'models/Matter'
+import { LatLng } from 'models/LatLng'
 
-const MainMap = () => {
-  const { data } = useListMatter()
+type Props<T> = {
+  data?: T[]
+  initLatLng: LatLng
+  getPosition: (data: T) => [lng: number, lat: number]
+}
 
-  const heatmapLayer = new HeatmapLayer<Matter>({
+/**
+ * ヒートマップを表示できるマップ
+ */
+const HeatmapMap = <T,>(props: Props<T>) => {
+  const heatmapLayer = new HeatmapLayer<T>({
     id: 'heatmapLayer',
-    data,
-    getPosition: (d) => [d.latLng.lng, d.latLng.lat],
+    data: props.data,
+    getPosition: props.getPosition,
     colorRange: [
       [50, 136, 189, 200],
       [153, 213, 148, 200],
@@ -25,8 +31,8 @@ const MainMap = () => {
       layers={[heatmapLayer]}
       style={{ height: '100%', position: 'relative' }}
       initialViewState={{
-        longitude: 131.3046877,
-        latitude: 34.1046934,
+        longitude: props.initLatLng.lng,
+        latitude: props.initLatLng.lat,
         zoom: 12,
         pitch: 0,
         bearing: 0,
@@ -35,4 +41,4 @@ const MainMap = () => {
   )
 }
 
-export default MainMap
+export default HeatmapMap

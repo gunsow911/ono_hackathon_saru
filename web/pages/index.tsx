@@ -1,13 +1,21 @@
 import React from 'react'
-import MainMap from 'components/maps/MainMap'
+import HeatmapMap from 'components/maps/HeatmapMap'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/MenuLayout'
+import useListMatter from 'hooks/matter/useListMatter'
 
 const Home: NextPageWithLayout = () => {
+  const { data } = useListMatter()
   return (
     <>
       <div style={{ height: '80vh' }}>
-        <MainMap />
+        <HeatmapMap
+          data={data}
+          initLatLng={{ lat: 34.1046934, lng: 131.3046877 }}
+          getPosition={(data) => {
+            return [data.latLng.lng, data.latLng.lat]
+          }}
+        />
       </div>
     </>
   )
