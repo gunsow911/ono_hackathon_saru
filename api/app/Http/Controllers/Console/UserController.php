@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Console;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\SaveRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\UseCases\User\ListAction;
 use App\UseCases\User\SaveAction;
 
@@ -32,6 +33,14 @@ class UserController extends Controller
         $entity = $req->makeEntity();
         $user = $action($entity, null);
         return response()->json(new UserResource($user), 201);
+    }
+
+    /**
+     * ユーザ情報詳細
+     */
+    public function detail(User $user)
+    {
+        return response()->json(new UserResource($user), 200);
     }
 
     /**
