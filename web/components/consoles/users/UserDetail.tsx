@@ -47,10 +47,6 @@ const UserDetail = (props: Props) => {
   return (
     <>
       <Card className='py-3 px-4'>
-        <div>
-          <Form.Label>ユーザー名</Form.Label>
-          <div>{props.user?.name}</div>
-        </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
             <UserForm />
