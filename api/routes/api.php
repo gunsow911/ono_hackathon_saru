@@ -55,13 +55,13 @@ Route::prefix('console')->group(function () {
         Route::post('users', [ConsoleUserController::class, 'create']);
         // ユーザ情報詳細
         Route::get('users/{user}', [ConsoleUserController::class, 'detail'])
-        ->whereUlid('user');
+        ->whereUuid('user');
         // ユーザ情報更新
         Route::put('users/{user}', [ConsoleUserController::class, 'update'])
-        ->whereUlid('user');
+        ->whereUuid('user');
         // ユーザ情報削除
         Route::delete('users/{user}', [ConsoleUserController::class, 'delete'])
-        ->whereUlid('user');
+        ->whereUuid('user');
     });
 });
 
