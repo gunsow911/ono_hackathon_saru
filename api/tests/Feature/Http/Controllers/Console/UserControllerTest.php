@@ -23,7 +23,7 @@ class UserControllerTest extends ControllerTestCase
     use RefreshDatabase;
 
     /**
-     * 獣害情報を取得できること
+     * ユーザー情報を取得できること
      */
     public function testDetail()
     {
