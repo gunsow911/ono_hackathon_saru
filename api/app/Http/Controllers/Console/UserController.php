@@ -50,7 +50,7 @@ class UserController extends Controller
     public function update(User $user, SaveRequest $req, SaveAction $action)
     {
         $entity = $req->makeEntity();
-        $user = $action($entity, null);
+        $user = $action($entity, $user);
         return response()->json(new UserResource($user), 200);
     }
 
