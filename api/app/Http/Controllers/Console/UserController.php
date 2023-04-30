@@ -27,6 +27,14 @@ class UserController extends Controller
     }
 
     /**
+     * ユーザ情報詳細
+     */
+    public function detail(User $user)
+    {
+        return response()->json(new UserResource($user), 200);
+    }
+
+    /**
      * ユーザ情報作成
      */
     public function create(SaveRequest $req, SaveAction $action)
@@ -34,14 +42,6 @@ class UserController extends Controller
         $entity = $req->makeEntity();
         $user = $action($entity, null);
         return response()->json(new UserResource($user), 201);
-    }
-
-    /**
-     * ユーザ情報詳細
-     */
-    public function detail(User $user)
-    {
-        return response()->json(new UserResource($user), 200);
     }
 
     /**
