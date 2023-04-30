@@ -60,7 +60,7 @@ Route::prefix('console')->group(function () {
         Route::put('users/{user}', [ConsoleUserController::class, 'update'])
         ->whereUuid('user');
         // ユーザ情報削除
-        Route::delete('users/{user}', [ConsoleUserController::class, 'delete'])
+        Route::delete('users/{user}', [ConsoleUserController::class, 'remove'])
         ->whereUuid('user');
     });
 });
