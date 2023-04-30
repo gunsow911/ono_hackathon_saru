@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Console;
 
 use App\Models\AdminUser;
 use App\Models\User;
 use App\UseCases\User\ListAction;
+use App\UseCases\User\RemoveAction;
 use App\UseCases\User\SaveAction;
 use Illuminate\Database\Eloquent\Builder;
 use Tests\ControllerTestCase;
@@ -18,6 +21,30 @@ use Mockery;
 class UserControllerTest extends ControllerTestCase
 {
     use RefreshDatabase;
+
+    /**
+     * 獣害情報を取得できること
+     */
+    public function testDetail()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        /** @var User */
+        $user = User::factory()->create();
+
+        // テスト実行
+        // リクエストを送信する
+        // actingAsは、第1引数のユーザでログインしたことにするテスト用のメソッドです。
+        $response = $this->actingAs($admin, 'admin')
+            ->getJson("api/console/users/{$user->id}");
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200);
+    }
 
     /**
      * ユーザ情報を作成できること
@@ -45,6 +72,60 @@ class UserControllerTest extends ControllerTestCase
         // ステータスコードの検証
         $response->assertStatus(201); // 201 Cerated
     }
+
+
+    /**
+     * ユーザ情報を更新できること
+     */
+    public function testUpdate()
+    {
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        $user = User::factory()->create();
+        $this->mockAction(SaveAction::class, $user);
+
+        $data = [
+            'name' => 'テスト太郎',
+            'description' => "テスト説明j",
+        ];
+
+        // テスト実行
+        // リクエストを送信する
+        $response = $this->actingAs($admin, 'admin')
+            ->putJson("api/console/users/{$user->id}", $data);
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200); // 200 OK（createと同じ作りだがここが違う）
+    }
+
+
+    /**
+     * ユーザ情報を削除できること
+     */
+    public function testRemove()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        /** @var User */
+        $user = User::factory()->create();
+        $this->mockAction(RemoveAction::class);
+
+        // テスト実行
+        // リクエストを送信する
+        $response = $this->actingAs($admin, 'admin')
+            ->deleteJson("api/console/users/{$user->id}");
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200);
+    }
+
 
     /**
      * 登録ユーザーの一覧が取得できること
@@ -93,5 +174,3 @@ class UserControllerTest extends ControllerTestCase
             ->assertJsonCount(3); // 3件ある
     }
 }
-
-
