@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -20,7 +22,7 @@ class UserResource extends JsonResource
         return [
             'id' => $resource->id,
             'name' => $resource->name,
+            'description' => $resource->description,
         ];
     }
 }
-

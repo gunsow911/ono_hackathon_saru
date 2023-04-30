@@ -1,43 +1,43 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
-import useUpdateMatter, { matterSchema, UpdateMatterForm } from 'hooks/console/matter/useUpdateMatter'
-import { Matter } from 'models/Matter'
+import useRemoveUser from 'hooks/console/user/useRemoveUser'
+import useUpdateUser, { userSchema, UpdateUserForm } from 'hooks/console/user/useUpdateUser'
+import { User } from 'models/User'
 import Link from 'next/link'
 import React from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import MatterForm from './MatterForm'
+import UserForm from './UserForm'
 
 type Props = {
-  matter: Matter
+  user: User
   onUpdate?: () => void
   onRemove?: () => void
 }
 
-const MatterDetail = (props: Props) => {
-  const form = useForm<UpdateMatterForm>({
+const UserDetail = (props: Props) => {
+  const form = useForm<UpdateUserForm>({
     mode: 'onSubmit',
-    resolver: yupResolver(matterSchema),
+    resolver: yupResolver(userSchema),
     defaultValues: {
-      appliedAt: props.matter.appliedAt,
-      latLng: props.matter.latLng,
+      name: props.user.name,
+      description: props.user.description,
     },
   })
   const { getValues, handleSubmit } = form
-  const { execute: executeUpdate, loading: loadingUpdate } = useUpdateMatter()
-  const { execute: executeRemove, loading: loadingRemove } = useRemoveMatter()
+  const { execute: executeUpdate, loading: loadingUpdate } = useUpdateUser()
+  const { execute: executeRemove, loading: loadingRemove } = useRemoveUser()
 
   const onUpdate = () => {
-    executeUpdate(props.matter.id, getValues()).then(() => {
+    executeUpdate(props.user.id, getValues()).then(() => {
       toast.success('更新しました。')
       props.onUpdate && props.onUpdate()
     })
   }
 
   const onRemove = () => {
-    executeRemove(props.matter.id).then(() => {
-      toast.success('獣害情報を削除しました。')
+    executeRemove(props.user.id).then((_) => {
+      toast.success('ユーザー情報を削除しました。')
       props.onRemove && props.onRemove()
     })
   }
@@ -47,16 +47,12 @@ const MatterDetail = (props: Props) => {
   return (
     <>
       <Card className='py-3 px-4'>
-        <div>
-          <Form.Label>ユーザー名</Form.Label>
-          <div>{props.matter.user?.name}</div>
-        </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
-            <MatterForm />
+            <UserForm />
           </FormProvider>
           <div className='float-end mt-2'>
-            <Link href='/console/matters'>
+            <Link href='/console/users'>
               <Button variant='secondary' className='ms-1'>
                 一覧に戻る
               </Button>
@@ -84,4 +80,4 @@ const MatterDetail = (props: Props) => {
   )
 }
 
-export default MatterDetail
+export default UserDetail
