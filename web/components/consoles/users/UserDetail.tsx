@@ -1,6 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRemoveUser from 'hooks/console/user/useRemoveUser'
-import useUpdateUser, { userSchema, UpdateUserForm } from 'hooks/console/user/useUpdateUser'
+import useUpdateUser, {
+  userSchema,
+  UpdateUserForm,
+} from 'hooks/console/user/useUpdateUser'
 import { User } from 'models/User'
 import Link from 'next/link'
 import React from 'react'
@@ -51,6 +54,15 @@ const UserDetail = (props: Props) => {
           <FormProvider {...form}>
             <UserForm />
           </FormProvider>
+          <Form.Label>獣害報告QRコード</Form.Label>
+          <div>
+            <Link
+              href={`/console/users/${props.user.id}/qrcode`}
+              target={'_blank'}
+            >
+              <Button variant='success'>QRコード発行(別タブで開きます)</Button>
+            </Link>
+          </div>
           <div className='float-end mt-2'>
             <Link href='/console/users'>
               <Button variant='secondary' className='ms-1'>
