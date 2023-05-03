@@ -7,17 +7,15 @@ import useListMatter from 'hooks/matter/useListMatter'
 const Home: NextPageWithLayout = () => {
   const { data } = useListMatter()
   return (
-    <>
-      <div style={{ height: '80vh' }}>
-        <HeatmapMap
-          data={data}
-          initLatLng={{ lat: 34.1046934, lng: 131.3046877 }}
-          getPosition={(data) => {
-            return [data.latLng.lng, data.latLng.lat]
-          }}
-        />
-      </div>
-    </>
+    <div style={{ height: 'calc(100vh - 56px)' }}>
+      <HeatmapMap
+        data={data}
+        initLatLng={{ lat: 34.1046934, lng: 131.3046877 }}
+        getPosition={(data) => {
+          return [data.latLng.lng, data.latLng.lat]
+        }}
+      />
+    </div>
   )
 }
 

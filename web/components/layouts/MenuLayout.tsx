@@ -24,7 +24,7 @@ const MenuLayout = ({ children }: LayoutProps) => (
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    <Container className='my-2'>{children}</Container>
+    {children}
   </>
 )
 
