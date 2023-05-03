@@ -35,12 +35,12 @@ const UserSearch = (props: Props) => {
                 label='文字検索'
               />
             </Col>
-            <Col sm={3}>
+            {/* <Col sm={3}>
               <InputForm type='date' name='from' label='日付(自)' />
-            </Col>
-            <Col sm={3}>
+            </Col> */}
+            {/* <Col sm={3}>
               <InputForm type='date' name='to' label='日付(至)' />
-            </Col>
+            </Col> */}
           </Row>
         </FormProvider>
         <div className='float-end mt-2'>
