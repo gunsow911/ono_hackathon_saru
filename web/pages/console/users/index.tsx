@@ -24,7 +24,7 @@ const ConsoleUserList: NextPageWithLayout = () => {
       <Row>
         <Col>
           <Card className='py-3 px-4'>
-          <div className='pb-4'>
+            <div className='pb-4'>
               <UserSearch condition={condition} onChange={onChange} />
             </div>
             <div className='mb-2'>
@@ -34,7 +34,7 @@ const ConsoleUserList: NextPageWithLayout = () => {
                 </Button>
               </Link>
             </div>
-            <UserTable condition={condition}/>
+            <UserTable condition={condition} />
           </Card>
         </Col>
       </Row>

@@ -35,20 +35,20 @@ const UserSearch = (props: Props) => {
                 label='文字検索'
               />
             </Col>
+            <Col sm={6} className='d-flex align-items-end'>
+              <Button
+                variant='primary'
+                className=''
+                onClick={handleSubmit(onChange)}
+              >
+                <span className='d-flex align-items-center'>
+                  <BsSearch />
+                  検索
+                </span>
+              </Button>
+            </Col>
           </Row>
         </FormProvider>
-        <div className='float-end mt-2'>
-          <Button
-            variant='primary'
-            className='ms-1'
-            onClick={handleSubmit(onChange)}
-          >
-            <span className='d-flex align-items-center'>
-              <BsSearch />
-              検索
-            </span>
-          </Button>
-        </div>
       </Form>
     </>
   )
