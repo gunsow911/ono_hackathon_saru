@@ -6,7 +6,7 @@ use App\Http\Requests\User\SearchRequest;
 use Tests\FormRequestTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+// use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 use function count;
@@ -27,7 +27,7 @@ class SearchRequestTest extends FormRequestTestCase
     }
 
     /**
-     * 獣害情報検索データの生成ができること
+     * ユーザー情報検索データの生成ができること
      */
     public function testMakeEntity01()
     {

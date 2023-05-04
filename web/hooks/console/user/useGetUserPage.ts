@@ -5,8 +5,8 @@ import * as yup from 'yup'
 
 export type Condition = {
   query: string
-  from: string
-  to: string
+  // from: string
+  // to: string
 }
 
 export const searchSchema = yup.object<Condition>().shape({
@@ -22,8 +22,8 @@ const useGetUserPage = (page: number = 1, condition?: Condition) => {
       new URLSearchParams({
         page: page.toString(),
         q: condition?.query ?? '',
-        from: condition?.from ?? '',
-        to: condition?.to ?? '',
+        // from: condition?.from ?? '',
+        // to: condition?.to ?? '',
       }).toString(),
     null,
     {

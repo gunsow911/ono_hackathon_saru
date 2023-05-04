@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
-import useGetUserPage from 'hooks/console/user/useGetUserPage'
+import useGetUserPage, { Condition } from 'hooks/console/user/useGetUserPage'
 import useRemoveUser from 'hooks/console/user/useRemoveUser'
 import { User } from 'models/User'
 import Link from 'next/link'
@@ -9,19 +9,20 @@ import { Button } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
 type Props = {
+  condition?: Condition
   onRemove?: (userId: string) => void
 }
 
 const UserTable = (props: Props) => {
   const [page, setPage] = useState(1)
-  const { data, isLoading, mutate } = useGetUserPage(page)
+  const { data, isLoading, mutate } = useGetUserPage(page, props.condition)
   const { execute: executeRemove } = useRemoveUser()
 
   const onRemove = (userId: string) => {
     executeRemove(userId).then((_) => {
-      // 削除後に獣害情報一覧を再取得する
+      // 削除後にユーザー情報一覧を再取得する
       mutate()
-      toast.success('獣害情報を削除しました。')
+      toast.success('ユーザー情報を削除しました。')
       props.onRemove && props.onRemove(userId)
     })
   }

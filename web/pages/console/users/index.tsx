@@ -10,8 +10,8 @@ import { Condition } from 'hooks/console/user/useGetUserPage'
 const ConsoleUserList: NextPageWithLayout = () => {
   const [condition, setCondition] = useState<Condition>({
     query: '',
-    from: '',
-    to: '',
+    // from: '',
+    // to: '',
   })
   const onChange = (value: Condition) => {
     setCondition(value)
@@ -36,7 +36,7 @@ const ConsoleUserList: NextPageWithLayout = () => {
                 </Button>
               </Link>
             </div>
-            <UserTable />
+            <UserTable condition={condition}/>
           </Card>
         </Col>
       </Row>
