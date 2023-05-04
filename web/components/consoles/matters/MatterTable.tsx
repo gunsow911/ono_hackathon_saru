@@ -45,9 +45,21 @@ const MatterTable = (props: Props) => {
         header: 'ユーザー',
         enableSorting: false,
         cell: (v) => {
-          return v.row.original.user?.name
+          return (
+            <Link href={`/console/users/${v.row.original.user?.id}`}>
+              {v.row.original.user?.name}
+            </Link>
+          )
         },
       },
+      // {
+      //   accessorKey: 'user',
+      //   header: 'ユーザー',
+      //   enableSorting: false,
+      //   cell: (v) => {
+      //     return v.row.original.user?.name
+      //   },
+      // },
       {
         accessorKey: 'lat',
         header: '緯度',
