@@ -24,14 +24,11 @@ class ListAction
         if ($entity === null) {
             $entity = new ListEntity([
                 'query' => '',
-                // 'from' => null,
-                // 'to' => null,
             ]);
         }
 
         // まずすべて取得
         $query = User::select('users.*');
-        // $query = User::orderBy('id');
 
         $words = StringUtil::explodeWhitespace($entity->getQuery());
 
@@ -40,17 +37,11 @@ class ListAction
                 $faz = '%'.addcslashes($word, '%_\\').'%';
                 $q->where('id', '=', $word)
                     ->orwhere('name', 'LIKE', $faz);
-                // ->orwhere('users.description', 'LIKE', $faz);
             });
         }
 
         // id順に並べる
         $query->orderBy('id');
         return $query;
-
-        // まずすべて取得
-        // id順に並べる
-        // $list = User::orderBy('id');
-        // return $list;
     }
 }

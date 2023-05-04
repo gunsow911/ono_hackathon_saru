@@ -22,8 +22,6 @@ const useGetUserPage = (page: number = 1, condition?: Condition) => {
       new URLSearchParams({
         page: page.toString(),
         q: condition?.query ?? '',
-        // from: condition?.from ?? '',
-        // to: condition?.to ?? '',
       }).toString(),
     null,
     {

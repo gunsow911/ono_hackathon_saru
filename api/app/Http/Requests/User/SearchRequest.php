@@ -4,7 +4,6 @@ namespace App\Http\Requests\User;
 
 use App\UseCases\User\ListEntity;
 use Illuminate\Foundation\Http\FormRequest;
-// use Illuminate\Support\Carbon;
 
 class SearchRequest extends FormRequest
 {
@@ -12,8 +11,6 @@ class SearchRequest extends FormRequest
     {
         return [
             'q' => 'string|max:255',
-            // 'from' => 'nullable|date_format:Y-m-d',
-            // 'to' => 'nullable|date_format:Y-m-d',
         ];
     }
 
@@ -21,8 +18,6 @@ class SearchRequest extends FormRequest
     {
         return [
             'q' => '検索文字',
-            // 'from' => '日付(自)',
-            // 'to' => '日付(至)',
         ];
     }
 
@@ -33,8 +28,6 @@ class SearchRequest extends FormRequest
     {
         return new ListEntity([
             'query' =>  $this->input('q'),
-            // 'from' =>  $this->input('from') ? new Carbon($this->input('from')) : null,
-            // 'to' =>  $this->input('to') ? new Carbon($this->input('to')) : null,
         ]);
     }
 }

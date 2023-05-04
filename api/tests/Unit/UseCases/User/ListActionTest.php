@@ -41,8 +41,6 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => '',
-            // 'from' => null,
-            // 'to' => null,
         ]);
 
         $action = new ListAction();
@@ -69,23 +67,18 @@ class ListActionTest extends TestCase
         /** @var User */
         $user1 = User::factory()->create([
             'name' => 'テスト一郎',
-            // 'description' => 'テストユーザ1の説明',
         ]);
         $user2 = User::factory()->create([
             'name' => 'テスト次郎',
-            // 'description' => 'テストユーザ2の説明',
         ]);
         $user3 = User::factory()->create([
             'name' => 'てすと三郎',
-            // 'description' => 'テストユーザ3の説明',
         ]);
         $user4 = User::factory()->create([
             'name' => '架空四郎',
-            // 'description' => 'テストユーザ4の説明',
         ]);
         $user5 = User::factory()->create([
             'name' => '架空五郎',
-            // 'description' => 'テストユーザ5の説明',
         ]);
 
         $action = new ListAction();
@@ -93,8 +86,6 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => 'テスト',
-            // 'from' => null,
-            // 'to' => null,
         ]);
         // ※ひらがなとカタカナの区別はないことに注意
 
@@ -112,8 +103,6 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => '架空',
-            // 'from' => null,
-            // 'to' => null,
         ]);
 
         // テスト実行
