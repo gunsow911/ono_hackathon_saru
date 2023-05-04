@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\SaveRequest;
+use App\Http\Requests\User\SearchRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\UseCases\User\ListAction;
@@ -20,9 +21,9 @@ class UserController extends Controller
     /**
      * ユーザ情報一覧
      */
-    public function index(ListAction $action)
+    public function index(SearchRequest $req, ListAction $action)
     {
-        $list = $action();
+        $list = $action($req->makeEntity());
         return UserResource::collection($list->paginate(20));
     }
 
