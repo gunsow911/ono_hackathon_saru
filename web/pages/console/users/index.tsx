@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import UserTable from 'components/consoles/users/UserTable'
 import Link from 'next/link'
+import UserSearch from 'components/consoles/users/UserSearch'
+import { Condition } from 'hooks/console/user/useGetUserPage'
 
 const ConsoleUserList: NextPageWithLayout = () => {
+  const [condition, setCondition] = useState<Condition>({
+    query: '',
+  })
+  const onChange = (value: Condition) => {
+    setCondition(value)
+  }
   return (
     <>
       <Row>
@@ -16,6 +24,9 @@ const ConsoleUserList: NextPageWithLayout = () => {
       <Row>
         <Col>
           <Card className='py-3 px-4'>
+            <div className='pb-4'>
+              <UserSearch condition={condition} onChange={onChange} />
+            </div>
             <div className='mb-2'>
               <Link href='/console/users/new'>
                 <Button className='float-end' variant='primary'>
@@ -23,7 +34,7 @@ const ConsoleUserList: NextPageWithLayout = () => {
                 </Button>
               </Link>
             </div>
-            <UserTable />
+            <UserTable condition={condition} />
           </Card>
         </Col>
       </Row>
