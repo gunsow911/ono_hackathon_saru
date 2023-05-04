@@ -52,14 +52,6 @@ const MatterTable = (props: Props) => {
           )
         },
       },
-      // {
-      //   accessorKey: 'user',
-      //   header: 'ユーザー',
-      //   enableSorting: false,
-      //   cell: (v) => {
-      //     return v.row.original.user?.name
-      //   },
-      // },
       {
         accessorKey: 'lat',
         header: '緯度',
