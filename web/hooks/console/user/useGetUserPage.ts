@@ -5,8 +5,6 @@ import * as yup from 'yup'
 
 export type Condition = {
   query: string
-  // from: string
-  // to: string
 }
 
 export const searchSchema = yup.object<Condition>().shape({
