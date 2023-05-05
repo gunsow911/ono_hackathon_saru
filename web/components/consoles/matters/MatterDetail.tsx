@@ -49,7 +49,9 @@ const MatterDetail = (props: Props) => {
       <Card className='py-3 px-4'>
         <div>
           <Form.Label>ユーザー名</Form.Label>
-          <div>{props.matter.user?.name}</div>
+          <Link href={`/console/users/${props.matter.user?.id}`}>
+          <p>{props.matter.user?.name}</p>
+          </Link>
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
