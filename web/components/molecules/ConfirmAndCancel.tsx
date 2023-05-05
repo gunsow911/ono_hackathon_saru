@@ -25,7 +25,7 @@ const ConfirmAndCancel = (props: Props) => {
         {props.cancelText ?? 'キャンセル'}
       </Button>
       <Button
-        color={props.confirmColor}
+        variant={props.confirmColor}
         disabled={props.disabled}
         onClick={props.onConfirm}
       >
