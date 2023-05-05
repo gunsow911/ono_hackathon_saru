@@ -4,7 +4,6 @@ import ConfirmAndCancel from './ConfirmAndCancel'
 
 interface Props {
   show: boolean
-  // size?: 'sm' | 'lg' | 'xl'
   title?: string
   loading?: boolean
   children?: ReactNode
@@ -27,9 +26,6 @@ const AlertDialog = (props: Props) => {
         centered
         backdrop='static'
         show={props.show}
-        // size={props.size}
-        // dialogClassName='niokuru-dialog'
-        // contentClassName='niokuru-dialog-content'
       >
         <Modal.Header
           closeButton

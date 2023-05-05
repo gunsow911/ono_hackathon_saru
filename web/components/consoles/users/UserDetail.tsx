@@ -72,14 +72,6 @@ const UserDetail = (props: Props) => {
                 一覧に戻る
               </Button>
             </Link>
-            {/* <Button
-              variant='danger'
-              className='ms-1'
-              onClick={onRemove}
-              disabled={loading}
-            >
-              削除
-            </Button> */}
             <span className='ms-1'>
               <Button variant='danger' onClick={() => setVisible(!visible)}>
                 削除
@@ -90,7 +82,6 @@ const UserDetail = (props: Props) => {
               title='確認'
               confirmText='削除'
               confirmColor='danger'
-              // loading={loading}
               onConfirm={onRemove}
               onCancel={() => setVisible(false)}
             >
