@@ -40,7 +40,6 @@ const UserDetail = (props: Props) => {
   }
 
   const loading = loadingUpdate || loadingRemove
-
   // 削除関連
   const [visible, setVisible] = useState(false)
   const onRemove = () => {
