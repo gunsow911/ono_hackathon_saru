@@ -85,7 +85,7 @@ const UserDetail = (props: Props) => {
               onConfirm={onRemove}
               onCancel={() => setVisible(false)}
             >
-              ユーザーを削除します。この操作はもとに戻せません。
+              このユーザーを削除します。操作はもとに戻せません。
             </AlertDialog>
             <Button
               variant='primary'
