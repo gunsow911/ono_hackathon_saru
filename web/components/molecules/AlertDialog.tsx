@@ -34,7 +34,7 @@ const AlertDialog = (props: Props) => {
           onHide={props.onCancel}
           className='py-2'
         >
-          <div className='h3 my-auto'  style={{ color: '#dc3545' }}>
+          <div className='my-auto'>
             {props.title ? props.title : ''}
           </div>
         </Modal.Header>

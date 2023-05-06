@@ -43,7 +43,6 @@ const UserTable = (props: Props) => {
         enableSorting: false,
         cell: (value) => {
           const userId = value.row.original.id
-
           return (
             <>
               <Link href={`/console/users/${userId}`}>
