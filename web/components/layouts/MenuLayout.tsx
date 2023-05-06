@@ -9,7 +9,7 @@ type LayoutProps = Required<{
  * メニュー付きレイアウト
  */
 const MenuLayout = ({ children }: LayoutProps) => (
-  <>
+  <div className='vh-100'>
     <Navbar bg='light' expand='lg'>
       <Container>
         <Navbar.Brand>小野地区獣害マッピング</Navbar.Brand>
@@ -25,7 +25,7 @@ const MenuLayout = ({ children }: LayoutProps) => (
       </Container>
     </Navbar>
     {children}
-  </>
+  </div>
 )
 
 export default MenuLayout
