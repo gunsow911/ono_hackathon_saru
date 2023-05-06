@@ -1,5 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
+import AlertDialog from 'components/molecules/AlertDialog'
+import { log } from 'console'
 import useGetUserPage, { Condition } from 'hooks/console/user/useGetUserPage'
 import useRemoveUser from 'hooks/console/user/useRemoveUser'
 import { User } from 'models/User'
@@ -18,6 +20,7 @@ const UserTable = (props: Props) => {
   const { data, isLoading, mutate } = useGetUserPage(page, props.condition)
   const { execute: executeRemove } = useRemoveUser()
 
+  const [visible, setVisible] = useState(false)
   const onRemove = (userId: string) => {
     executeRemove(userId).then((_) => {
       // 削除後にユーザー情報一覧を再取得する
@@ -43,6 +46,7 @@ const UserTable = (props: Props) => {
         enableSorting: false,
         cell: (value) => {
           const userId = value.row.original.id
+
           return (
             <>
               <Link href={`/console/users/${userId}`}>
@@ -50,14 +54,34 @@ const UserTable = (props: Props) => {
                   詳細
                 </Button>
               </Link>
-              <Button
+              {/* <Button
                 size='sm'
                 variant='danger'
                 className='mx-1'
                 onClick={() => onRemove(userId)}
               >
                 削除
-              </Button>
+              </Button> */}
+              <span className='ms-1'>
+                <Button
+                  variant='danger'
+                  size='sm'
+                  onClick={() => setVisible(!visible)}
+                  // onClick={() => onRemove(userId)}
+                >
+                  削除
+                </Button>
+              </span>
+              <AlertDialog
+                show={visible}
+                title='確認'
+                confirmText='削除'
+                confirmColor='danger'
+                onConfirm={() => onRemove(userId)}
+                onCancel={() => setVisible(false)}
+              >
+                ユーザーを削除します。この操作はもとに戻せません。
+              </AlertDialog>
             </>
           )
         },
