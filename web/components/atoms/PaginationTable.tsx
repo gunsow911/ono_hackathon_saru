@@ -11,9 +11,10 @@ import {
 } from '@tanstack/react-table'
 import { Pagination } from 'models/Pagination'
 import { CSSProperties, useEffect, useMemo, useState } from 'react'
-import { FormCheck, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import PaginationLink from './PaginationLink'
 import { BsSortDown, BsSortUp } from 'react-icons/bs'
+import Checkbox from 'react-three-state-checkbox'
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData, TValue> {
@@ -50,15 +51,16 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
         id: '__select__',
         header: (v) => (
           <div className='text-center'>
-            <FormCheck
+            <Checkbox
               checked={v.table.getIsAllRowsSelected()}
+              indeterminate={v.table.getIsSomeRowsSelected()}
               onChange={v.table.getToggleAllRowsSelectedHandler()}
             />
           </div>
         ),
         cell: (v) => (
           <div className='text-center'>
-            <FormCheck
+            <Checkbox
               checked={v.row.getIsSelected()}
               onChange={v.row.getToggleSelectedHandler()}
             />
