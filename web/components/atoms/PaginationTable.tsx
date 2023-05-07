@@ -5,12 +5,13 @@ import {
   functionalUpdate,
   getCoreRowModel,
   Header,
+  RowSelectionState,
   SortDirection,
   useReactTable,
 } from '@tanstack/react-table'
 import { Pagination } from 'models/Pagination'
-import { CSSProperties } from 'react'
-import { Table } from 'react-bootstrap'
+import { CSSProperties, useEffect, useMemo, useState } from 'react'
+import { FormCheck, Table } from 'react-bootstrap'
 import PaginationLink from './PaginationLink'
 import { BsSortDown, BsSortUp } from 'react-icons/bs'
 
@@ -18,6 +19,10 @@ declare module '@tanstack/table-core' {
   interface ColumnMeta<TData, TValue> {
     align?: 'start' | 'end' | 'center'
   }
+}
+
+interface Identifiable {
+  id: string
 }
 
 type Props<T extends object> = {
@@ -28,27 +33,61 @@ type Props<T extends object> = {
   onSortChange?: (sort?: ColumnSort) => void
   onPageChange?: (page: number) => void
   smallTable?: boolean
+  selectMode?: boolean
+  onChangeSelects?: (selects: string[]) => void
 }
 
 /**
  * 汎用的なページングテーブルコンポーネント
  */
 const PaginationTable = <T extends object>(props: Props<T>) => {
+  // 選択リスト状態
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+
+  const columns = useMemo(() => {
+    if (props.selectMode) {
+      const selectColumn: ColumnDef<T> = {
+        id: '__select__',
+        header: (v) => (
+          <div className='text-center'>
+            <FormCheck
+              checked={v.table.getIsAllRowsSelected()}
+              onChange={v.table.getToggleAllRowsSelectedHandler()}
+            />
+          </div>
+        ),
+        cell: (v) => (
+          <div className='text-center'>
+            <FormCheck
+              checked={v.row.getIsSelected()}
+              onChange={v.row.getToggleSelectedHandler()}
+            />
+          </div>
+        ),
+        enableSorting: false,
+      }
+      return [selectColumn, ...props.columns]
+    }
+    return [...props.columns]
+  }, [props.selectMode])
+
+  // テーブルフックの作成
   const {
     getHeaderGroups,
     getRowModel,
     getCanNextPage,
     getCanPreviousPage,
+    getSelectedRowModel,
     setPageIndex,
   } = useReactTable({
-    columns: props.columns,
+    columns: columns,
     data: props.pagination?.data ?? [],
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
     enableMultiSort: false,
-    enableRowSelection: false,
+    enableRowSelection: props.selectMode,
     pageCount: props.pagination?.meta.lastPage ?? -1,
     state: {
       sorting: props.sort ? [props.sort] : [],
@@ -56,6 +95,7 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
         pageIndex: props.pagination ? props.pagination.meta.currentPage - 1 : 0,
         pageSize: props.pagination?.meta.perPage ?? 20,
       },
+      rowSelection: rowSelection,
     },
     onSortingChange: (updater) => {
       if (!props.onSortChange) return
@@ -75,7 +115,17 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
       )
       props.onPageChange(newPagination.pageIndex + 1)
     },
+    onRowSelectionChange: setRowSelection,
   })
+
+  useEffect(() => {
+    if (!props.selectMode) return
+    const ids = getSelectedRowModel().rows.map((v) => {
+      const identifiable = v.original as Identifiable
+      return identifiable.id
+    })
+    props.onChangeSelects && props.onChangeSelects(ids)
+  }, [rowSelection, props.selectMode])
 
   const getHeaderStyle = (header: Header<T, unknown>): CSSProperties => {
     if (header.column.getIsSorted() === false) {
