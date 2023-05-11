@@ -21,7 +21,7 @@ const DeckGLMap = (props: Props) => {
     data: 'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
     minZoom: 0,
     maxZoom: 19,
-    tileSize: 256,
+    tileSize: 128,
     renderSubLayers: (props) => {
       const { bbox } = props.tile
       const bounds = bbox as GeoBoundingBox
