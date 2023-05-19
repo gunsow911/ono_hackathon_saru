@@ -27,7 +27,7 @@ class SearchRequest extends FormRequest
     public function makeEntity(): ListEntity
     {
         return new ListEntity([
-            'query' =>  $this->input('q'),
+            'query' =>  $this->input('q', ''),
         ]);
     }
 }

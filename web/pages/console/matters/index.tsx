@@ -33,7 +33,7 @@ const ConsoleMatterList: NextPageWithLayout = () => {
             <div className='mb-2'>
               <Link href='/console/matters/new'>
                 <Button className='float-end' variant='primary'>
-                  ユーザ新規作成
+                  獣害情報新規作成
                 </Button>
               </Link>
             </div>
