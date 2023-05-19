@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Matter;
 
 use App\Models\User;
-use App\UseCases\Matter\CreateEntity;
+use App\UseCases\Matter\CreateAdminEntity;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAdminRequest extends FormRequest
@@ -14,7 +14,7 @@ class CreateAdminRequest extends FormRequest
             'user_id' => 'required|uuid|exists:users,id',
             'lat' => 'present|numeric',
             'lng' => 'present|numeric',
-            'appied_at' => 'required|date_format:Y-m-d',
+            'applied_at' => 'required|date_format:Y-m-d',
         ];
     }
 
@@ -39,11 +39,13 @@ class CreateAdminRequest extends FormRequest
     /**
      * 獣害情報新規作成データの生成
      */
-    public function makeEntity(): CreateEntity
+    public function makeEntity(): CreateAdminEntity
     {
-        return new CreateEntity([
+        return new CreateAdminEntity([
+            'user_id' => $this->input('user_id'),
             'lat' => (float)$this->input('lat'),
             'lng' => (float)$this->input('lng'),
+            'applied_at' => $this->input('applied_at'),
         ]);
     }
 }
