@@ -1,4 +1,4 @@
-import InputForm from 'components/atoms/CustomTable'
+import InputForm from 'components/atoms/InputForm'
 import React from 'react'
 import { Form } from 'react-bootstrap'
 

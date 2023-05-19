@@ -11,11 +11,14 @@ import useAddMatter, {
 } from 'hooks/console/matter/useAddMatter'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
-import UserSelectForm from '../users/UserSelectForm'
+import { Matter } from 'models/Matter'
+import SelectForm from 'components/atoms/SelectForm'
+import useGetUserSelectList from 'hooks/console/user/useGetUserSelectList'
 
 type Props = {
   initLatLng: LatLng
-  onCreate?: () => void
+  onCreate?: (matter: Matter) => void
+  onCreateContinuous?: (matter: Matter) => void
 }
 
 const MatterNew = (props: Props) => {
@@ -24,6 +27,7 @@ const MatterNew = (props: Props) => {
     mode: 'onSubmit',
     resolver: yupResolver(matterSchema),
     defaultValues: {
+      userId: undefined,
       appliedAt: now.format('YYYY-MM-DD'),
       latLng: props.initLatLng,
     },
@@ -32,17 +36,40 @@ const MatterNew = (props: Props) => {
   const { execute, loading } = useAddMatter()
 
   const onCreate = () => {
-    execute(getValues()).then(() => {
-      toast.success('更新しました。')
-      props.onCreate && props.onCreate()
+    execute(getValues()).then((matter) => {
+      toast.success('作成しました。')
+      props.onCreate && props.onCreate(matter.data)
     })
   }
+
+  const onCreateContinuous = () => {
+    execute(getValues()).then((matter) => {
+      toast.success('作成しました。')
+      form.reset({
+        appliedAt: matter.data.appliedAt,
+        latLng: matter.data.latLng,
+        userId: matter.data.userId,
+      })
+      props.onCreateContinuous && props.onCreateContinuous(matter.data)
+    })
+  }
+
+  const { data: userSelectList } = useGetUserSelectList()
+  const userSelectOptions: { value: string; label: string }[] =
+    userSelectList?.map((select) => {
+      return { value: select.id, label: select.name }
+    }) ?? []
+
   return (
     <>
       <Card className='py-3 px-4'>
         <Form onSubmit={handleSubmit(onCreate)}>
           <FormProvider {...form}>
-            <UserSelectForm />
+            <SelectForm
+              name='userId'
+              label='ユーザー名'
+              options={userSelectOptions}
+            />
             <MatterForm />
           </FormProvider>
           <div className='float-end mt-2'>
@@ -58,6 +85,14 @@ const MatterNew = (props: Props) => {
               disabled={loading}
             >
               作成
+            </Button>
+            <Button
+              variant='primary'
+              className='ms-1'
+              onClick={handleSubmit(onCreateContinuous)}
+              disabled={loading}
+            >
+              連続作成
             </Button>
           </div>
         </Form>

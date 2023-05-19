@@ -12,6 +12,7 @@ export type AddMatterForm = {
 
 export const matterSchema = yup.object<AddMatterForm>().shape({
   appliedAt: yup.date().required(),
+  userId: yup.string().required(),
 })
 
 /**

@@ -32,6 +32,7 @@
     "react-geolocated": "^4.0.3",
     "react-hook-form": "^7.43.2",
     "react-icons": "^4.8.0",
+    "react-select": "^5.7.3",
     "react-three-state-checkbox": "^3.0.0",
     "react-toastify": "^9.1.2",
     "swr": "^2.0.4",

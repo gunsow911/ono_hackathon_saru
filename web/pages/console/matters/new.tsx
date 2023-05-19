@@ -7,6 +7,7 @@ import { LatLng } from 'models/LatLng'
 import { useGeolocated } from 'react-geolocated'
 import { useClient } from 'hooks/util/useClient'
 import MatterNew from 'components/consoles/matters/MatterNew'
+import { Matter } from 'models/Matter'
 
 const ConsoleMatterNew: NextPageWithLayout = () => {
   const [location, setLocation] = useState<LatLng>()
@@ -32,6 +33,11 @@ const ConsoleMatterNew: NextPageWithLayout = () => {
       setLocation({ lat: 34.1046934, lng: 131.3046877 })
     }
   }, [positionError])
+
+  const onCreate = (matter: Matter) => {
+    // 一覧ページにリダイレクトする
+    router.replace('/console/matters/')
+  }
 
   return (
     <>
@@ -59,7 +65,7 @@ const ConsoleMatterNew: NextPageWithLayout = () => {
           <Col>
             <Card className='py-3 px-4'>
               {location ? (
-                <MatterNew initLatLng={location} />
+                <MatterNew initLatLng={location} onCreate={onCreate} />
               ) : (
                 <div
                   className='d-flex align-items-center justify-content-center'
