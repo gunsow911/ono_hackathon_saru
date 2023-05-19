@@ -5,10 +5,10 @@ import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import MatterForm from './MatterForm'
-import useCreateMatter, {
-  CreateMatterForm,
+import useAddMatter, {
+  AddMatterForm,
   matterSchema,
-} from 'hooks/console/matter/useCreateMatter'
+} from 'hooks/console/matter/useAddMatter'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
 import UserSelectForm from '../users/UserSelectForm'
@@ -20,7 +20,7 @@ type Props = {
 
 const MatterNew = (props: Props) => {
   const now = dayjs()
-  const form = useForm<CreateMatterForm>({
+  const form = useForm<AddMatterForm>({
     mode: 'onSubmit',
     resolver: yupResolver(matterSchema),
     defaultValues: {
@@ -29,7 +29,7 @@ const MatterNew = (props: Props) => {
     },
   })
   const { getValues, handleSubmit } = form
-  const { execute, loading } = useCreateMatter()
+  const { execute, loading } = useAddMatter()
 
   const onCreate = () => {
     execute(getValues()).then(() => {

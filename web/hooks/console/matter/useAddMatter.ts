@@ -4,25 +4,25 @@ import { LatLng } from 'models/LatLng'
 import { Matter } from 'models/Matter'
 import * as yup from 'yup'
 
-export type CreateMatterForm = {
+export type AddMatterForm = {
   userId: string
   appliedAt: string
   latLng: LatLng
 }
 
-export const matterSchema = yup.object<CreateMatterForm>().shape({
+export const matterSchema = yup.object<AddMatterForm>().shape({
   appliedAt: yup.date().required(),
 })
 
 /**
  * 獣害情報作成フック
  */
-const useCreateMatter = () => {
+const useAddMatter = () => {
   const [{ loading, error }, exec] = useAxios<Matter>({
     method: 'POST',
   })
 
-  const execute = async (form: CreateMatterForm) => {
+  const execute = async (form: AddMatterForm) => {
     return exec({
       url: `/api/console/matters`,
       data: {
@@ -41,4 +41,4 @@ const useCreateMatter = () => {
   }
 }
 
-export default useCreateMatter
+export default useAddMatter
