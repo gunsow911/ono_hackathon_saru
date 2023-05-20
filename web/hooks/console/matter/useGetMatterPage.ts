@@ -1,7 +1,7 @@
 import { Pagination } from 'models/Pagination'
 import { Matter } from 'models/Matter'
 import useSWR from 'swr'
-import * as yup from 'yup'
+import yup from 'libs/yup'
 
 export type Condition = {
   query: string
@@ -10,7 +10,7 @@ export type Condition = {
 }
 
 export const searchSchema = yup.object<Condition>().shape({
-  query: yup.string().max(255),
+  query: yup.string().max(255).label('検索文字'),
 })
 
 /**
