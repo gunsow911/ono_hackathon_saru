@@ -49,8 +49,7 @@ class MatterController extends Controller
     public function create(CreateAdminRequest $req, CreateAdminAction $action)
     {
         $entity = $req->makeEntity();
-        $user = $req->makeUser();
-        $matter = $action($entity, $user);
+        $matter = $action($entity);
         return response()->json(new MatterResource($matter), 201);
     }
 

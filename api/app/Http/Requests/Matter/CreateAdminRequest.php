@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Matter;
 
-use App\Models\User;
 use App\UseCases\Matter\CreateAdminEntity;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,8 +11,8 @@ class CreateAdminRequest extends FormRequest
     {
         return [
             'user_id' => 'required|uuid|exists:users,id',
-            'lat' => 'present|numeric',
-            'lng' => 'present|numeric',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
             'applied_at' => 'required|date_format:Y-m-d',
         ];
     }
@@ -26,14 +25,6 @@ class CreateAdminRequest extends FormRequest
             'lng' => '経度',
             'applied_at' => '日付',
         ];
-    }
-
-    /**
-     * ユーザの生成
-     */
-    public function makeUser(): User
-    {
-        return User::whereId($this->input('user_id'))->firstOrFail();
     }
 
     /**
