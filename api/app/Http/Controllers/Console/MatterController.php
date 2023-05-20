@@ -5,10 +5,12 @@
 namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Matter\CreateAdminRequest;
 use App\Http\Requests\Matter\SearchRequest;
 use App\Http\Requests\Matter\UpdateRequest;
 use App\Http\Resources\MatterResource;
 use App\Models\Matter;
+use App\UseCases\Matter\CreateAdminAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
 use App\UseCases\Matter\UpdateAction;
@@ -39,6 +41,16 @@ class MatterController extends Controller
         // 今回のケースではすでに$matterはEloquentのオブジェクトなので、loadを使います。
         $matter->load(['user']);
         return response()->json(new MatterResource($matter), 200);
+    }
+
+    /**
+     * 害獣情報作成
+     */
+    public function create(CreateAdminRequest $req, CreateAdminAction $action)
+    {
+        $entity = $req->makeEntity();
+        $matter = $action($entity);
+        return response()->json(new MatterResource($matter), 201);
     }
 
     /**

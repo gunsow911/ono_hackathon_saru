@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import InputForm from 'components/atoms/CustomTable'
+import InputForm from 'components/atoms/InputForm'
 import { Condition, searchSchema } from 'hooks/console/matter/useGetMatterPage'
 import React from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'

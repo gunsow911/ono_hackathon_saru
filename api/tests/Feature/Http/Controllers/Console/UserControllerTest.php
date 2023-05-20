@@ -173,4 +173,50 @@ class UserControllerTest extends ControllerTestCase
         $response->assertStatus(200) // 200 OK
             ->assertJsonCount(3); // 3件ある
     }
+
+    /**
+     * 登録ユーザーの選択肢用の一覧が取得できること
+     */
+    public function testIndexSelectList()
+    {
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        // ユーザを作成する
+        /** @var User */
+        $user1 = User::factory()->create([
+            'name' => 'テストユーザ1',
+            'description' => 'テストユーザ1の説明',
+        ]);
+        $user2 = User::factory()->create([
+            'name' => 'テストユーザ2',
+            'description' => 'テストユーザ2の説明',
+        ]);
+        $user3 = User::factory()->create([
+            'name' => 'テストユーザ3',
+            'description' => 'テストユーザ3の説明',
+        ]);
+
+        // リスト作成
+        $list = [$user1, $user2, $user3];
+
+        // アクションの戻り値をモックする
+        /** @var Builder|MockInterface */
+        $builder = Mockery::mock(Builder::class);
+        $builder->shouldReceive('get')
+            ->withArgs([])
+            ->andReturn($list);
+
+        $this->mockAction(ListAction::class, $builder);
+
+        $response = $this->actingAs($admin, 'admin')
+                         ->getJson("api/console/users?select=list");
+
+        // テスト確認
+        // ステータスコードの検証
+        // JSONの検証
+        $response->assertStatus(200) // 200 OK
+            ->assertJsonCount(3); // 3件ある
+    }
 }

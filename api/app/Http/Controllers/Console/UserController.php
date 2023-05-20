@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\SaveRequest;
 use App\Http\Requests\User\SearchRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserSelectResource;
 use App\Models\User;
 use App\UseCases\User\ListAction;
 use App\UseCases\User\RemoveAction;
@@ -24,6 +25,10 @@ class UserController extends Controller
     public function index(SearchRequest $req, ListAction $action)
     {
         $list = $action($req->makeEntity());
+        $select = $req->query('select', '');
+        if (mb_strtolower($select) === 'list') {
+            return UserSelectResource::collection($list->get());
+        } 
         return UserResource::collection($list->paginate(20));
     }
 

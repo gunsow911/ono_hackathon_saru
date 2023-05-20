@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Matter;
 
-use App\Models\User;
-use App\UseCases\Matter\CreateEntity;
+use App\UseCases\Matter\CreateAdminEntity;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequest extends FormRequest
+class CreateAdminRequest extends FormRequest
 {
     public function rules()
     {
@@ -14,6 +13,7 @@ class CreateRequest extends FormRequest
             'user_id' => 'required|uuid|exists:users,id',
             'lat' => 'required|numeric',
             'lng' => 'required|numeric',
+            'applied_at' => 'required|date_format:Y-m-d',
         ];
     }
 
@@ -23,26 +23,22 @@ class CreateRequest extends FormRequest
             'user_id' => 'ユーザーID',
             'lat' => '緯度',
             'lng' => '経度',
+            'applied_at' => '日付',
         ];
-    }
-
-    /**
-     * ユーザの生成
-     */
-    public function makeUser(): User
-    {
-        return User::whereId($this->input('user_id'))->firstOrFail();
     }
 
     /**
      * 獣害情報新規作成データの生成
      */
-    public function makeEntity(): CreateEntity
+    public function makeEntity(): CreateAdminEntity
     {
-        return new CreateEntity([
+        return new CreateAdminEntity([
+            'user_id' => $this->input('user_id'),
             'lat' => (float)$this->input('lat'),
             'lng' => (float)$this->input('lng'),
+            'applied_at' => $this->input('applied_at'),
         ]);
     }
 }
+
 
