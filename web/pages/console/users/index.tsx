@@ -30,7 +30,7 @@ const ConsoleUserList: NextPageWithLayout = () => {
             <div className='mb-2'>
               <Link href='/console/users/new'>
                 <Button className='float-end' variant='primary'>
-                  ユーザ新規作成
+                  ユーザー新規作成
                 </Button>
               </Link>
             </div>
