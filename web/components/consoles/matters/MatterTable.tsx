@@ -105,6 +105,9 @@ const MatterTable = (props: Props) => {
       columns={columns}
       pagination={data}
       onPageChange={(page) => setPage(page)}
+      selectMode={true}
+      // どの行が選択されているか
+      // onChangeSelects={onChangeSelects}
     ></PaginationTable>
   )
 }
