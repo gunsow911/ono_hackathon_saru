@@ -9,6 +9,10 @@ import Link from 'next/link'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import { toast } from 'react-toastify'
 
+interface DataType {
+  id: string;
+}
+
 const ConsoleMatterList: NextPageWithLayout = () => {
   const [condition, setCondition] = useState<Condition>({
     query: '',
@@ -19,16 +23,13 @@ const ConsoleMatterList: NextPageWithLayout = () => {
     setCondition(value)
   }
 
-  // const { data, isLoading, mutate } = useGetMatterPage(page, props.condition)
-  const { execute: executeRemove } = useRemoveMatter()
+  const [data, setData] = useState<DataType[]>(/* あなたのデータ */);
 
-  const onRemove = (matterId: string) => {
-    executeRemove(matterId).then((_) => {
-      // 削除後に獣害情報一覧を再取得する
-      // mutate()
-      toast.success('獣害情報を削除しました。')
-      props.onRemove && props.onRemove(matterId)
-    })
+  const onCheckedDelete = () => {
+    const selectedIds = onChangeSelects();
+    // 選択された行のidを使用してデータを削除する処理
+    const newData = data.filter(item => !selectedIds.includes(item.id));
+    setData(newData);
   }
 
   return (
@@ -52,20 +53,22 @@ const ConsoleMatterList: NextPageWithLayout = () => {
               </Link>
             </div>
             <div className='mb-2'>
-            <Row>
-              <Col>
-                <Button
-                  size='sm'
-                  variant='danger'
-                  className='mx-1'
-                  onClick={() => onRemove(userId)}
-                >
-                  選択を削除
-                </Button>
-              </Col>
-            </Row>
+              <Row>
+                <Col>
+                  <Button
+                    size='sm'
+                    variant='danger'
+                    className='mx-1'
+                    onClick={onCheckedDelete}
+                    // onClick={() => onRemove(userId)}
+                  >
+                    選択を削除
+                  </Button>
+                </Col>
+              </Row>
             </div>
             <MatterTable condition={condition} />
+            {/* onChangeSelects={} */}
           </Card>
         </Col>
       </Row>

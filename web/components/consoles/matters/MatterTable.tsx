@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 type Props = {
   condition?: Condition
   onRemove?: (matterId: string) => void
+  onChangeSelects?: (selects: string[]) => void
 }
 
 const MatterTable = (props: Props) => {
@@ -107,7 +108,7 @@ const MatterTable = (props: Props) => {
       onPageChange={(page) => setPage(page)}
       selectMode={true}
       // どの行が選択されているか
-      // onChangeSelects={onChangeSelects}
+      onChangeSelects={(selectedIds: string[]) => console.log(selectedIds)}
     ></PaginationTable>
   )
 }
