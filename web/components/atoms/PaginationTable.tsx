@@ -35,7 +35,8 @@ type Props<T extends object> = {
   onPageChange?: (page: number) => void
   smallTable?: boolean
   selectMode?: boolean
-  onChangeSelects?: (selects: string[]) => void
+  onChangeSelects?: (rows: string[]) => void
+  selectedRows?: string[]
 }
 
 /**

@@ -8,28 +8,17 @@ import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import { Matter } from 'models/Matter'
 import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
 type Props = {
   condition?: Condition
   onRemove?: (matterId: string) => void
-  onChangeSelects?: (selects: string[]) => void
 }
 
 const MatterTable = (props: Props) => {
   const [page, setPage] = useState(1)
   const { data, isLoading, mutate } = useGetMatterPage(page, props.condition)
-  const { execute: executeRemove } = useRemoveMatter()
-
-  const onRemove = (matterId: string) => {
-    executeRemove(matterId).then((_) => {
-      // 削除後に獣害情報一覧を再取得する
-      mutate()
-      toast.success('獣害情報を削除しました。')
-      props.onRemove && props.onRemove(matterId)
-    })
-  }
 
   const columns: ColumnDef<Matter>[] = useMemo(() => {
     const columns: ColumnDef<Matter>[] = [
@@ -83,14 +72,14 @@ const MatterTable = (props: Props) => {
                   詳細
                 </Button>
               </Link>
-              <Button
+              {/* <Button
                 size='sm'
                 variant='danger'
                 className='mx-1'
                 onClick={() => onRemove(matterId)}
               >
                 削除
-              </Button>
+              </Button> */}
             </>
           )
         },
@@ -99,17 +88,66 @@ const MatterTable = (props: Props) => {
     return columns
   }, [])
 
+    // const { execute: executeRemove } = useRemoveMatter()
+
+  // const onRemove = (matterId: string) => {
+  //   executeRemove(matterId).then((_) => {
+  //     // 削除後に獣害情報一覧を再取得する
+  //     mutate()
+  //     toast.success('獣害情報を削除しました。')
+  //     props.onRemove && props.onRemove(matterId)
+  //   })
+  // }
+
+  // 複数削除関連
+  const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
+
+  const onChangeSelects = (rows: string[]) => {
+    setSelectedRows(rows);
+    // if (selectedRows.includes(row)) {
+    // すでに行が含まれていれば（選択されていれば）選択を解除する
+    //   setSelectedRows(selectedRows.filter((r) => r !== row));
+    // } else {
+    // なければ追加する
+    //   setSelectedRows([...selectedRows, row]);
+    // }
+  };
+
+  const onSelectedRemove = () => {
+    // 選択された行を削除する処理
+    console.log('選択した行の削除実行！')
+  };
+
   return (
-    <PaginationTable
-      isLoading={isLoading}
-      smallTable
-      columns={columns}
-      pagination={data}
-      onPageChange={(page) => setPage(page)}
-      selectMode={true}
-      // どの行が選択されているか
-      onChangeSelects={(selectedIds: string[]) => console.log(selectedIds)}
-    ></PaginationTable>
+    <>
+      <div className='mb-2'>
+        <Row>
+          <Col>
+            <Button
+              size='sm'
+              variant='danger'
+              className='mx-1'
+              // disabled={selects ? selects.length === 0 : true}
+              onClick={onSelectedRemove}
+            >
+              選択を削除
+            </Button>
+          </Col>
+        </Row>
+      </div>
+      <PaginationTable
+        isLoading={isLoading}
+        smallTable
+        columns={columns}
+        pagination={data}
+        onPageChange={(page) => setPage(page)}
+        selectMode
+        // どの行が選択されているか
+        onChangeSelects={onChangeSelects}
+        selectedRows={selectedRows}
+
+      ></PaginationTable>
+    </>
   )
 }
 

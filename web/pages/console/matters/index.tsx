@@ -6,12 +6,11 @@ import { Button, Card, Col, Row } from 'react-bootstrap'
 import MatterSearch from 'components/consoles/matters/MatterSearch'
 import { Condition } from 'hooks/console/matter/useGetMatterPage'
 import Link from 'next/link'
-import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
-import { toast } from 'react-toastify'
 
 interface DataType {
   id: string;
 }
+
 
 const ConsoleMatterList: NextPageWithLayout = () => {
   const [condition, setCondition] = useState<Condition>({
@@ -21,15 +20,6 @@ const ConsoleMatterList: NextPageWithLayout = () => {
   })
   const onChange = (value: Condition) => {
     setCondition(value)
-  }
-
-  const [data, setData] = useState<DataType[]>(/* あなたのデータ */);
-
-  const onCheckedDelete = () => {
-    const selectedIds = onChangeSelects();
-    // 選択された行のidを使用してデータを削除する処理
-    const newData = data.filter(item => !selectedIds.includes(item.id));
-    setData(newData);
   }
 
   return (
@@ -52,23 +42,7 @@ const ConsoleMatterList: NextPageWithLayout = () => {
                 </Button>
               </Link>
             </div>
-            <div className='mb-2'>
-              <Row>
-                <Col>
-                  <Button
-                    size='sm'
-                    variant='danger'
-                    className='mx-1'
-                    onClick={onCheckedDelete}
-                    // onClick={() => onRemove(userId)}
-                  >
-                    選択を削除
-                  </Button>
-                </Col>
-              </Row>
-            </div>
             <MatterTable condition={condition} />
-            {/* onChangeSelects={} */}
           </Card>
         </Col>
       </Row>
