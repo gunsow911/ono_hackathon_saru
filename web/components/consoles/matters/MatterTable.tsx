@@ -72,14 +72,6 @@ const MatterTable = (props: Props) => {
                   詳細
                 </Button>
               </Link>
-              {/* <Button
-                size='sm'
-                variant='danger'
-                className='mx-1'
-                onClick={() => onRemove(matterId)}
-              >
-                削除
-              </Button> */}
             </>
           )
         },
@@ -88,8 +80,21 @@ const MatterTable = (props: Props) => {
     return columns
   }, [])
 
-    // const { execute: executeRemove } = useRemoveMatter()
+  // 複数削除関連
+  const [selectedRows, setSelectedRows] = React.useState<string[]>([])
+  // どこを今選択しているか
+  const onChangeSelects = (rows: string[]) => {
+    let newSelectedRows = [...selectedRows]
+    rows.forEach((row) => {
+      // すでに行が含まれていれば（選択されていれば）選択を解除する
+      newSelectedRows = selectedRows.includes(row)
+        ? newSelectedRows.filter((r) => r !== row)
+        : [...newSelectedRows, row]
+    })
+    setSelectedRows(newSelectedRows)
+  }
 
+  const { execute: executeRemove } = useRemoveMatter()
   // const onRemove = (matterId: string) => {
   //   executeRemove(matterId).then((_) => {
   //     // 削除後に獣害情報一覧を再取得する
@@ -98,24 +103,20 @@ const MatterTable = (props: Props) => {
   //     props.onRemove && props.onRemove(matterId)
   //   })
   // }
+  const onSelectedRemove = (newSelectedRows: string[]) => {
+    // 選択された行のidを取り出し順番に削除する処理
+    newSelectedRows.forEach((rowId) => {
+      executeRemove(rowId).then((_) => {
+        props.onRemove && props.onRemove(rowId)
+      })
+    })
+    // 削除後に獣害情報一覧を再取得する
+    mutate()
+    toast.success('獣害情報を削除しました。')
+  }
 
-  // 複数削除関連
-  const [selectedRows, setSelectedRows] = React.useState<string[]>([]);
-
-  const onChangeSelects = (rows: string[]) => {
-    setSelectedRows(rows);
-    // if (selectedRows.includes(row)) {
-    // すでに行が含まれていれば（選択されていれば）選択を解除する
-    //   setSelectedRows(selectedRows.filter((r) => r !== row));
-    // } else {
-    // なければ追加する
-    //   setSelectedRows([...selectedRows, row]);
-    // }
-  };
-
-  const onSelectedRemove = () => {
-    // 選択された行を削除する処理
-    console.log('選択した行の削除実行！')
+  const handleRemove = () => {
+    onSelectedRemove(selectedRows);
   };
 
   return (
@@ -123,12 +124,20 @@ const MatterTable = (props: Props) => {
       <div className='mb-2'>
         <Row>
           <Col>
+            {/* <Button
+                size='sm'
+                variant='danger'
+                className='mx-1'
+                onClick={() => onRemove(matterId)}
+              >
+                削除
+              </Button> */}
             <Button
               size='sm'
               variant='danger'
               className='mx-1'
-              // disabled={selects ? selects.length === 0 : true}
-              onClick={onSelectedRemove}
+              disabled={selectedRows ? selectedRows.length === 0 : true}
+              onClick={handleRemove}
             >
               選択を削除
             </Button>
@@ -145,7 +154,6 @@ const MatterTable = (props: Props) => {
         // どの行が選択されているか
         onChangeSelects={onChangeSelects}
         selectedRows={selectedRows}
-
       ></PaginationTable>
     </>
   )
