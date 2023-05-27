@@ -115,7 +115,7 @@ const MatterTable = (props: Props) => {
     toast.success('獣害情報を削除しました。')
   }
 
-  const handleRemove = () => {
+  const onRemove = (selectedRows: string[]) => {
     onSelectedRemove(selectedRows);
   };
 
@@ -135,9 +135,8 @@ const MatterTable = (props: Props) => {
             <Button
               size='sm'
               variant='danger'
-              className='mx-1'
               disabled={selectedRows ? selectedRows.length === 0 : true}
-              onClick={handleRemove}
+              onClick={()=>onRemove(selectedRows)}
             >
               選択を削除
             </Button>
