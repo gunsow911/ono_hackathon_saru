@@ -104,7 +104,7 @@ const MatterTable = (props: Props) => {
   //   })
   // }
   const onSelectedRemove = (newSelectedRows: string[]) => {
-    // 選択された行のidを取り出し順番に削除する処理
+    // 選択された行のidを取り出し、順番にidがある回数削除する処理が行われる
     newSelectedRows.forEach((rowId) => {
       executeRemove(rowId).then((_) => {
         props.onRemove && props.onRemove(rowId)
