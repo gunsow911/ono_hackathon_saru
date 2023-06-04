@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // 名前空間を変えることで、同名のクラスを作成することができます。
 // 通常、名前空間はフォルダの階層と一致させる(Controllers/Console)ほうが望ましいです。
+
 namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
@@ -70,5 +73,15 @@ class MatterController extends Controller
     {
         $action($matter);
         return response()->json(['message' => 'OK'], 200);
+    }
+
+    /**
+     * 害獣情報複数削除
+     */
+    public function removeSelected(CreateAdminRequest $req, CreateAdminAction $action)
+    {
+        $entity = $req->makeEntity();
+        $matter = $action($entity);
+        return response()->json(new MatterResource($matter), 201);
     }
 }
