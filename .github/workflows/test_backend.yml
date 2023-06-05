@@ -4,6 +4,13 @@ on:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: testing
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE_TEST: harmful_animal_test
+      DB_USERNAME: root
+      DB_PASSWORD: root
     services:
       db:
         image: mysql:8.0
