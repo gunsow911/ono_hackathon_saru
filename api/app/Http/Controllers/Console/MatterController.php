@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Matter\CreateAdminRequest;
+use App\Http\Requests\Matter\CreateRemoveSelectedRequest;
 use App\Http\Requests\Matter\SearchRequest;
 use App\Http\Requests\Matter\UpdateRequest;
 use App\Http\Resources\MatterResource;
@@ -78,7 +79,7 @@ class MatterController extends Controller
     /**
      * 害獣情報複数削除
      */
-    public function removeSelected(CreateAdminRequest $req, CreateAdminAction $action)
+    public function removeSelected(CreateRemoveSelectedRequest $req, CreateAdminAction $action)
     {
         $entity = $req->makeEntity();
         $matter = $action($entity);
