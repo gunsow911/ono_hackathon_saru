@@ -1,0 +1,72 @@
+name: test_backend
+on: 
+  workflow_call:
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    env:
+      DB_CONNECTION: testing
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE_TEST: harmful_animal_test
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    services:
+      db:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: harmful_animal_test
+          MYSQL_USER: user
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: root
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '8.1'
+    - uses: actions/checkout@v3
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
+      working-directory: ./api
+    - name: Install Dependencies
+      run: composer install
+      working-directory: ./api
+    - name: Generate key
+      run: php artisan key:generate
+      working-directory: ./api
+    - name: Directory Permissions
+      run: chmod -R 777 storage bootstrap/cache
+      working-directory: ./api
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      run: |
+        php vendor/bin/phpunit --coverage-text --colors=never > storage/logs/coverage.log
+        cat storage/logs/coverage.log
+      working-directory: ./api
+    - name: Cat Test Result
+      run: |
+        cat storage/logs/coverage.log
+      if: ${{ failure() }}
+      working-directory: ./api
+    - name: Sed Coverage Report
+      run: |
+        sed -E "s/"$'\E'"\[([0-9]{1,2}(;[0-9]{1,2})*)?m//g" | \
+        grep "Code Coverage Report:" -A6 storage/logs/coverage.log | sed -e "s/^ *//" | sed -e "s/ *$//" | sed -e "/^ *$/d" > storage/logs/coverage-summary.log
+      working-directory: ./api
+    - name: Read coverage summary
+      id: coverage-summary
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ./api/storage/logs/coverage-summary.log
+    - name: Comment Coverage Summary
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        header: coverage-summary
+        message: |
+          ${{ steps.coverage-summary.outputs.content }}
