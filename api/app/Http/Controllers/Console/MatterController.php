@@ -15,6 +15,7 @@ use App\Http\Requests\Matter\UpdateRequest;
 use App\Http\Resources\MatterResource;
 use App\Models\Matter;
 use App\UseCases\Matter\CreateAdminAction;
+use App\UseCases\Matter\CreateRemoveSelectedAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
 use App\UseCases\Matter\UpdateAction;
@@ -79,10 +80,11 @@ class MatterController extends Controller
     /**
      * 害獣情報複数削除
      */
-    public function removeSelected(CreateRemoveSelectedRequest $req, CreateAdminAction $action)
+    // Matter $matterは引数に必要？それともentityの中で作ればok？
+    public function removeSelected(Matter $matter, CreateRemoveSelectedRequest $req, CreateRemoveSelectedAction $action)
     {
-        $entity = $req->makeEntity();
-        $matter = $action($entity);
-        return response()->json(new MatterResource($matter), 201);
+        $action($matter, $req->makeEntity());
+        return response()->json(['message' => 'OK'], 200);
+        // return response()->json(new MatterResource($matter), 201);
     }
 }
