@@ -51,8 +51,7 @@ Route::prefix('console')->group(function () {
         Route::delete('matters/{matter}', [ConsoleMatterController::class, 'remove'])
             ->whereUlid('matter');
         // 獣害一覧から複数同時削除
-        Route::post('matters', [ConsoleMatterController::class, 'removeSelected'])
-        ->whereUlid('matter');;
+        Route::post('matters', [ConsoleMatterController::class, 'removeSelected']);
 
         // ユーザ情報一覧
         Route::get('users', [ConsoleUserController::class, 'index']);
