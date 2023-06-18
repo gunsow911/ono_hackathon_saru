@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Console;
 
@@ -148,4 +150,33 @@ class MatterControllerTest extends ControllerTestCase
         // ステータスコードの検証
         $response->assertStatus(200);
     }
+
+    /**
+     * 複数の獣害情報を一括で削除できること
+     */
+    public function testRemoveSelected()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト準備
+        /** @var Matter */
+        $matter = Matter::factory()->create();
+        $this->mockAction(CreateRemoveSelectedAction::class, $matter);
+
+
+        $data = [
+            'ids' => ['01gzkj3p3zemwpbvfw7yp79kyp', '01h1e8fpfry3hk23qsd0mnv2xm']
+        ];
+
+
+        $response = $this->actingAs($admin, 'admin')
+            ->postJson("api/console/matters", $data);
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200);
+    }
+
 }
