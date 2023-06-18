@@ -80,11 +80,9 @@ class MatterController extends Controller
     /**
      * 害獣情報複数削除
      */
-    // Matter $matterは引数に必要？それともentityの中で作ればok？
     public function removeSelected(Matter $matter, CreateRemoveSelectedRequest $req, CreateRemoveSelectedAction $action)
     {
         $action($matter, $req->makeEntity());
         return response()->json(['message' => 'OK'], 200);
-        // return response()->json(new MatterResource($matter), 201);
     }
 }
