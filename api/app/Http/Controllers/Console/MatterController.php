@@ -9,13 +9,13 @@ namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Matter\CreateAdminRequest;
-use App\Http\Requests\Matter\CreateRemoveSelectedRequest;
+use App\Http\Requests\Matter\MultipleRemoveSelectedRequest;
 use App\Http\Requests\Matter\SearchRequest;
 use App\Http\Requests\Matter\UpdateRequest;
 use App\Http\Resources\MatterResource;
 use App\Models\Matter;
 use App\UseCases\Matter\CreateAdminAction;
-use App\UseCases\Matter\CreateRemoveSelectedAction;
+use App\UseCases\Matter\MultipleRemoveSelectedAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
 use App\UseCases\Matter\UpdateAction;
@@ -78,9 +78,9 @@ class MatterController extends Controller
     }
 
     /**
-     * 害獣情報複数削除
+     * 害獣情報複数一括削除
      */
-    public function removeSelected(Matter $matter, CreateRemoveSelectedRequest $req, CreateRemoveSelectedAction $action)
+    public function removeSelected(Matter $matter, MultipleRemoveSelectedRequest $req, MultipleRemoveSelectedAction $action)
     {
         $action($matter, $req->makeEntity());
         return response()->json(['message' => 'OK'], 200);

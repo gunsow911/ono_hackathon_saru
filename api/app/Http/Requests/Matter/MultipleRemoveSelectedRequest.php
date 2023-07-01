@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Matter;
 
-use App\UseCases\Matter\CreateRemoveSelectedEntity;
+use App\UseCases\Matter\MultipleRemoveSelectedEntity;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRemoveSelectedRequest extends FormRequest
+class MultipleRemoveSelectedRequest extends FormRequest
 {
     public function rules()
     {
@@ -29,9 +29,9 @@ class CreateRemoveSelectedRequest extends FormRequest
      * （管理者が実行）
      * 選択された獣害情報（複数）のidのリストの生成
      */
-    public function makeEntity(): CreateRemoveSelectedEntity
+    public function makeEntity(): MultipleRemoveSelectedEntity
     {
-        return new CreateRemoveSelectedEntity([
+        return new MultipleRemoveSelectedEntity([
             'ids' => $this->input('ids')
         ]);
     }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * (管理者による)複数獣害情報一括削除アクション
  */
-class CreateRemoveSelectedAction
+class MultipleRemoveSelectedAction
 {
     /** @var RemoveAction */
     private $action;
@@ -23,12 +23,12 @@ class CreateRemoveSelectedAction
 
     /**
      * (管理者による)複数獣害情報一括削除をする
-     * @param CreateRemoveSelectedEntity $entity 複数害獣情報一斉削除データ
+     * @param MultipleRemoveSelectedEntity $entity 複数害獣情報一斉削除データ
      * @return Matter 獣害情報
      */
-    public function __invoke(Matter $matter, CreateRemoveSelectedEntity $entity)
+    public function __invoke(MultipleRemoveSelectedEntity $entity)
     {
-        $matters = $matter->whereIn('id', $entity->getIds())->get();
+        $matters = Matter::whereIn('id', $entity->getIds())->get();
 
         return DB::transaction(function () use ($matters) {
             /** @var Matter */

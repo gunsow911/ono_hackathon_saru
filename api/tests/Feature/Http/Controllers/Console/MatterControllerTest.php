@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Controllers\Console;
 use App\Models\AdminUser;
 use Mockery;
 use App\Models\Matter;
+use App\UseCases\Matter\MultipleRemoveSelectedAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
 use App\UseCases\Matter\UpdateAction;
@@ -160,14 +161,17 @@ class MatterControllerTest extends ControllerTestCase
         /** @var AdminUser */
         $admin = AdminUser::factory()->create();
 
-        // テスト準備
+        // テスト用の架空の入力値準備
         /** @var Matter */
-        $matter = Matter::factory()->create();
-        $this->mockAction(CreateRemoveSelectedAction::class, $matter);
+        $matter1 = Matter::factory()->create();
+        $this->mockAction(MultipleRemoveSelectedAction::class, $matter1);
+        $matter2 = Matter::factory()->create();
+        $this->mockAction(MultipleRemoveSelectedAction::class, $matter2);
 
 
         $data = [
-            'ids' => ['01gzkj3p3zemwpbvfw7yp79kyp', '01h1e8fpfry3hk23qsd0mnv2xm']
+            // 'ids' => ['01gzkj3p3zemwpbvfw7yp79kyp', '01h1e8fpfry3hk23qsd0mnv2xm']
+            'ids' => [$matter1->id, $matter2->id]
         ];
 
 
@@ -175,8 +179,10 @@ class MatterControllerTest extends ControllerTestCase
             ->postJson("api/console/matters", $data);
 
         // テスト確認
-        // ステータスコードの検証
+        // ステータスコードの検証及びjsonの検証
         $response->assertStatus(200);
+            // ->assertJsonStructure([
+            //     'message'
+            // ]);
     }
-
 }

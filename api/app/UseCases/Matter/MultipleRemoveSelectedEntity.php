@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 /**
  * 獣害情報(管理者が実行)複数削除データ
  */
-class CreateRemoveSelectedEntity
+class MultipleRemoveSelectedEntity
 {
     /** @var array<string> */
     private $ids;
