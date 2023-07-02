@@ -23,8 +23,6 @@ class MultipleRemoveSelectedAction
 
     /**
      * (管理者による)複数獣害情報一括削除をする
-     * @param MultipleRemoveSelectedEntity $entity 複数害獣情報一斉削除データ
-     * @return Matter 獣害情報
      */
     public function __invoke(MultipleRemoveSelectedEntity $entity)
     {
