@@ -45,44 +45,18 @@ class MultipleRemoveSelectedActionTest extends TestCase
         $this->assertNull($result2);
     }
 
-
     /**
-     * 獣害情報を削除できること
+     * idのリストが空だった場合に何も起こらない
      */
-    // public function testRemove01()
-    // {
-    //     // テスト準備
-    //     // 適当な獣害情報を生成
-    //     $matter = Matter::factory()->create();
+    public function testMultipleRemoveSelected02()
+    {
+        $entity = new MultipleRemoveSelectedEntity([
+            'ids' => []
+        ]);
 
-    //     // テスト実行
-    //     $action = new RemoveAction();
-    //     $action($matter);
+        $action = new MultipleRemoveSelectedAction(new RemoveAction());
+        $action($entity);
 
-    //     // テスト確認
-    //     $result = Matter::where('id', '=', $matter->id)->first();
-
-    //     // ユーザが削除されていること
-    //     $this->assertNull($result);
-    // }
-
-    /**
-     * 存在しないユーザを削除しようとした場合でも、例外は発生しないこと
-     */
-    // public function testRemove02()
-    // {
-    //     // テスト準備
-    //     // 適当な獣害情報を生成(DBに登録はしない)
-    //     $matter = Matter::factory()->make([
-    //         'id' => Uuid::uuid4(), // 適当にUUIDを発行
-    //     ]);
-
-    //     // テスト実行
-    //     $action = new RemoveAction();
-    //     $action($matter);
-
-    //     // テスト確認
-    //     // 例外が発生していないこと
-    //     $this->assertTrue(true);
-    // }
+        $this -> assertTrue(true);
+    }
 }
