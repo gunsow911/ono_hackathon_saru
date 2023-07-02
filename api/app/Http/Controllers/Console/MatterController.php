@@ -80,9 +80,14 @@ class MatterController extends Controller
     /**
      * 害獣情報複数一括削除
      */
-    public function removeSelected(Matter $matter, MultipleRemoveSelectedRequest $req, MultipleRemoveSelectedAction $action)
+    public function removeSelected(MultipleRemoveSelectedRequest $req, MultipleRemoveSelectedAction $action)
     {
-        $action($matter, $req->makeEntity());
+        $action($req->makeEntity());
         return response()->json(['message' => 'OK'], 200);
     }
+    // public function removeSelected(Matter $matter, MultipleRemoveSelectedRequest $req, MultipleRemoveSelectedAction $action)
+    // {
+    //     $action($matter, $req->makeEntity());
+    //     return response()->json(['message' => 'OK'], 200);
+    // }
 }

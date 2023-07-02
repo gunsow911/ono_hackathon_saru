@@ -164,16 +164,11 @@ class MatterControllerTest extends ControllerTestCase
         // テスト用の架空の入力値準備
         /** @var Matter */
         $matter1 = Matter::factory()->create();
-        $this->mockAction(MultipleRemoveSelectedAction::class, $matter1);
         $matter2 = Matter::factory()->create();
-        $this->mockAction(MultipleRemoveSelectedAction::class, $matter2);
+        $this->mockAction(MultipleRemoveSelectedAction::class);
+        $this->mockAction(MultipleRemoveSelectedAction::class);
 
-
-        $data = [
-            // 'ids' => ['01gzkj3p3zemwpbvfw7yp79kyp', '01h1e8fpfry3hk23qsd0mnv2xm']
-            'ids' => [$matter1->id, $matter2->id]
-        ];
-
+        $data = ['ids' => [$matter1->id, $matter2->id]];
 
         $response = $this->actingAs($admin, 'admin')
             ->postJson("api/console/matters", $data);
@@ -181,8 +176,5 @@ class MatterControllerTest extends ControllerTestCase
         // テスト確認
         // ステータスコードの検証及びjsonの検証
         $response->assertStatus(200);
-            // ->assertJsonStructure([
-            //     'message'
-            // ]);
     }
 }
