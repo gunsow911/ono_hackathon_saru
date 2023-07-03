@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * (管理者による)複数獣害情報削除アクションのテスト
+ * 複数獣害情報削除アクションのテスト
  */
 class MultipleRemoveSelectedActionTest extends TestCase
 {

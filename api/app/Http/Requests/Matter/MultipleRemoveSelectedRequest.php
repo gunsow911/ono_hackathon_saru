@@ -26,7 +26,6 @@ class MultipleRemoveSelectedRequest extends FormRequest
     }
 
     /**
-     * （管理者が実行）
      * 選択された獣害情報（複数）のidのリストの生成
      */
     public function makeEntity(): MultipleRemoveSelectedEntity

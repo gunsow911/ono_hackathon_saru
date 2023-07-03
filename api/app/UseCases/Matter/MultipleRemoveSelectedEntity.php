@@ -7,7 +7,7 @@ namespace App\UseCases\Matter;
 use Illuminate\Support\Arr;
 
 /**
- * 獣害情報(管理者が実行)複数削除データ
+ * 獣害情報複数削除データ
  */
 class MultipleRemoveSelectedEntity
 {
