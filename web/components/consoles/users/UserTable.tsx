@@ -73,7 +73,6 @@ const UserTable = (props: Props) => {
       columns={columns}
       pagination={data}
       onPageChange={(page) => setPage(page)}
-      selectMode={true}
     ></PaginationTable>
   )
 }

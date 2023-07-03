@@ -128,7 +128,7 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
       return identifiable.id
     })
     props.onChangeSelects && props.onChangeSelects(ids)
-  }, [rowSelection, props.selectMode])
+  }, [rowSelection, props.selectMode, props.pagination])
 
   const getHeaderStyle = (header: Header<T, unknown>): CSSProperties => {
     if (header.column.getIsSorted() === false) {
