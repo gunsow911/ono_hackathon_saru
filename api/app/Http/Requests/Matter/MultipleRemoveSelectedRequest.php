@@ -12,7 +12,7 @@ class MultipleRemoveSelectedRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids' => 'present|array',
+            'ids' => 'required|array',
             'ids.*' => 'ulid|exists:matters,id'
         ];
     }
