@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\UseCases\Matter;
 
-use App\Models\AdminUser;
 use App\Models\Matter;
 use App\UseCases\Matter\MultipleRemoveSelectedAction;
 use App\UseCases\Matter\MultipleRemoveSelectedEntity;
 use App\UseCases\Matter\RemoveAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 /**

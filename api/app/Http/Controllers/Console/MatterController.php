@@ -85,9 +85,4 @@ class MatterController extends Controller
         $action($req->makeEntity());
         return response()->json(['message' => 'OK'], 200);
     }
-    // public function removeSelected(Matter $matter, MultipleRemoveSelectedRequest $req, MultipleRemoveSelectedAction $action)
-    // {
-    //     $action($matter, $req->makeEntity());
-    //     return response()->json(['message' => 'OK'], 200);
-    // }
 }

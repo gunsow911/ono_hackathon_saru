@@ -166,12 +166,11 @@ class MatterControllerTest extends ControllerTestCase
         $matter1 = Matter::factory()->create();
         $matter2 = Matter::factory()->create();
         $this->mockAction(MultipleRemoveSelectedAction::class);
-        $this->mockAction(MultipleRemoveSelectedAction::class);
 
         $data = ['ids' => [$matter1->id, $matter2->id]];
 
         $response = $this->actingAs($admin, 'admin')
-            ->postJson("api/console/matters", $data);
+            ->postJson("api/console/matters/remove", $data);
 
         // テスト確認
         // ステータスコードの検証及びjsonの検証
