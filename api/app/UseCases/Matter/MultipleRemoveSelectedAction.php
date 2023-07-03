@@ -6,10 +6,9 @@ namespace App\UseCases\Matter;
 
 use App\Models\Matter;
 use Illuminate\Support\Facades\DB;
-// use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
- * (管理者による)複数獣害情報一括削除アクション
+ * 複数獣害情報一括削除アクション
  */
 class MultipleRemoveSelectedAction
 {
@@ -22,7 +21,7 @@ class MultipleRemoveSelectedAction
     }
 
     /**
-     * (管理者による)複数獣害情報一括削除をする
+     * 複数獣害情報一括削除をする
      */
     public function __invoke(MultipleRemoveSelectedEntity $entity)
     {
