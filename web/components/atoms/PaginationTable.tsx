@@ -35,7 +35,8 @@ type Props<T extends object> = {
   onPageChange?: (page: number) => void
   smallTable?: boolean
   selectMode?: boolean
-  onChangeSelects?: (selects: string[]) => void
+  onChangeSelects?: (rows: string[]) => void
+  selectedRows?: string[]
 }
 
 /**
@@ -127,7 +128,7 @@ const PaginationTable = <T extends object>(props: Props<T>) => {
       return identifiable.id
     })
     props.onChangeSelects && props.onChangeSelects(ids)
-  }, [rowSelection, props.selectMode])
+  }, [rowSelection, props.selectMode, props.pagination])
 
   const getHeaderStyle = (header: Header<T, unknown>): CSSProperties => {
     if (header.column.getIsSorted() === false) {

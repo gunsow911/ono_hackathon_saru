@@ -1,16 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // 名前空間を変えることで、同名のクラスを作成することができます。
 // 通常、名前空間はフォルダの階層と一致させる(Controllers/Console)ほうが望ましいです。
+
 namespace App\Http\Controllers\Console;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Matter\CreateAdminRequest;
+use App\Http\Requests\Matter\MultipleRemoveSelectedRequest;
 use App\Http\Requests\Matter\SearchRequest;
 use App\Http\Requests\Matter\UpdateRequest;
 use App\Http\Resources\MatterResource;
 use App\Models\Matter;
 use App\UseCases\Matter\CreateAdminAction;
+use App\UseCases\Matter\MultipleRemoveSelectedAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
 use App\UseCases\Matter\UpdateAction;
@@ -69,6 +74,15 @@ class MatterController extends Controller
     public function remove(RemoveAction $action, Matter $matter)
     {
         $action($matter);
+        return response()->json(['message' => 'OK'], 200);
+    }
+
+    /**
+     * 害獣情報複数一括削除
+     */
+    public function removeSelected(MultipleRemoveSelectedRequest $req, MultipleRemoveSelectedAction $action)
+    {
+        $action($req->makeEntity());
         return response()->json(['message' => 'OK'], 200);
     }
 }

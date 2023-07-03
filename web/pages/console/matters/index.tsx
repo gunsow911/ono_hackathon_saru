@@ -7,6 +7,10 @@ import MatterSearch from 'components/consoles/matters/MatterSearch'
 import { Condition } from 'hooks/console/matter/useGetMatterPage'
 import Link from 'next/link'
 
+interface DataType {
+  id: string
+}
+
 const ConsoleMatterList: NextPageWithLayout = () => {
   const [condition, setCondition] = useState<Condition>({
     query: '',

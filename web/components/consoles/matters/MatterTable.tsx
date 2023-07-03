@@ -1,34 +1,25 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
+import AlertDialog from 'components/molecules/AlertDialog'
 import dayjs from 'dayjs'
 import useGetMatterPage, {
   Condition,
 } from 'hooks/console/matter/useGetMatterPage'
-import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
+import useRemoveMultipleMatter from 'hooks/console/matter/useRemoveMultipleMatter'
 import { Matter } from 'models/Matter'
 import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 
 type Props = {
   condition?: Condition
-  onRemove?: (matterId: string) => void
+  onRemove?: () => void
 }
 
 const MatterTable = (props: Props) => {
   const [page, setPage] = useState(1)
   const { data, isLoading, mutate } = useGetMatterPage(page, props.condition)
-  const { execute: executeRemove } = useRemoveMatter()
-
-  const onRemove = (matterId: string) => {
-    executeRemove(matterId).then((_) => {
-      // 削除後に獣害情報一覧を再取得する
-      mutate()
-      toast.success('獣害情報を削除しました。')
-      props.onRemove && props.onRemove(matterId)
-    })
-  }
 
   const columns: ColumnDef<Matter>[] = useMemo(() => {
     const columns: ColumnDef<Matter>[] = [
@@ -82,14 +73,6 @@ const MatterTable = (props: Props) => {
                   詳細
                 </Button>
               </Link>
-              <Button
-                size='sm'
-                variant='danger'
-                className='mx-1'
-                onClick={() => onRemove(matterId)}
-              >
-                削除
-              </Button>
             </>
           )
         },
@@ -98,14 +81,59 @@ const MatterTable = (props: Props) => {
     return columns
   }, [])
 
+  // 複数削除関連
+  const [selectedRows, setSelectedRows] = React.useState<string[]>([])
+  const [visible, setVisible] = useState(false)
+
+  const { execute: executeRemove } = useRemoveMultipleMatter()
+
+  const onRemove = (selectedRows: string[]) => {
+    executeRemove(selectedRows).then(() => {
+      props.onRemove && props.onRemove()
+      // 削除後に獣害情報一覧を再取得する
+      mutate()
+      setVisible(false)
+      toast.success('獣害情報を削除しました。')
+    })
+  }
+
   return (
-    <PaginationTable
-      isLoading={isLoading}
-      smallTable
-      columns={columns}
-      pagination={data}
-      onPageChange={(page) => setPage(page)}
-    ></PaginationTable>
+    <>
+      <div className='mb-2'>
+        <Row>
+          <Col>
+            <Button
+              size='sm'
+              variant='danger'
+              onClick={() => setVisible(!visible)}
+              disabled={selectedRows ? selectedRows.length === 0 : true}
+            >
+              選択を削除
+            </Button>
+            <AlertDialog
+              show={visible}
+              title='確認'
+              confirmText='削除'
+              confirmColor='danger'
+              onConfirm={() => onRemove(selectedRows)}
+              onCancel={() => setVisible(false)}
+            >
+              この獣害情報を削除します。操作はもとに戻せません。
+            </AlertDialog>
+          </Col>
+        </Row>
+      </div>
+      <PaginationTable
+        isLoading={isLoading}
+        smallTable
+        columns={columns}
+        pagination={data}
+        onPageChange={(page) => setPage(page)}
+        selectMode
+        onChangeSelects={(rows) => setSelectedRows(rows)}
+        selectedRows={selectedRows}
+      ></PaginationTable>
+    </>
   )
 }
 
