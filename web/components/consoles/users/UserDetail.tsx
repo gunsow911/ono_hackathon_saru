@@ -34,7 +34,7 @@ const UserDetail = (props: Props) => {
 
   const onUpdate = () => {
     executeUpdate(props.user.id, getValues()).then(() => {
-      toast.success('更新しました。')
+      toast.success('変更しました。')
       props.onUpdate && props.onUpdate()
     })
   }
@@ -92,7 +92,7 @@ const UserDetail = (props: Props) => {
               onClick={handleSubmit(onUpdate)}
               disabled={loading}
             >
-              更新
+              変更
             </Button>
           </div>
         </Form>
