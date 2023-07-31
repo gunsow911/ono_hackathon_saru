@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Matter\CreateRequest;
 use App\Http\Resources\MatterResource;
+use App\Models\Matter;
 use App\UseCases\Matter\CreateAction;
 use App\UseCases\Matter\ListAction;
 
@@ -27,5 +28,14 @@ class MatterController extends Controller
         $user = $req->makeUser();
         $matter = $action($entity, $user);
         return response()->json(new MatterResource($matter), 201);
+    }
+
+    /**
+     * 害獣情報詳細
+     */
+    public function detail(Matter $matter)
+    {
+        $matter->load(['user']);
+        return response()->json(new MatterResource($matter), 200);
     }
 }
