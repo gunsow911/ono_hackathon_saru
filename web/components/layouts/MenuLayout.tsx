@@ -13,7 +13,6 @@ const MenuLayout = ({ children }: LayoutProps) => (
     <Navbar bg='light' expand='lg'>
       <Container>
         <Navbar.Brand>小野地区獣害マップ</Navbar.Brand>
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
       </Container>
     </Navbar>
     <Container className='my-2'>{children}</Container>

@@ -11,7 +11,7 @@ type Props = {
   onCreate?: () => void
 }
 
-const MatterDetail = (props: Props) => {
+const MatterRegister = (props: Props) => {
   const form = useForm<AddMatterForm>({
     mode: 'onSubmit',
     defaultValues: {
@@ -59,4 +59,4 @@ const MatterDetail = (props: Props) => {
   )
 }
 
-export default MatterDetail
+export default MatterRegister

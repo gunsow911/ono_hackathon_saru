@@ -76,6 +76,9 @@ Route::prefix('console')->group(function () {
 Route::get('matters', [MatterController::class, 'index']);
 // 害獣情報作成
 Route::post('matters', [MatterController::class, 'create']);
+// 害獣情報詳細
+Route::get('matters/{matter}', [MatterController::class, 'detail'])
+    ->whereUlid('matter');
 
 // ユーザ確認
 Route::get('users/{userId}/verify', [UserController::class, 'verify'])
