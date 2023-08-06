@@ -5,11 +5,11 @@ import useSWR from 'swr'
 /**
  * 獣害情報リストを取得する
  */
-const useListMatter = (between: { start: Dayjs; end: Dayjs }) => {
+const useListMatter = (between: { from: Dayjs; to: Dayjs }) => {
   const { data } = useSWR<Matter[]>(
-    `/api/matters?start=${between.start.format(
+    `/api/matters?from=${between.from.format(
       'YYYY-MM-DD',
-    )}&end=${between.end.format('YYYY-MM-DD')}`,
+    )}&to=${between.to.format('YYYY-MM-DD')}`,
     null,
     {
       revalidateIfStale: false,

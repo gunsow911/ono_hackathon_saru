@@ -10,9 +10,9 @@ const Home: NextPageWithLayout = () => {
   const now = dayjs().endOf('day')
   const lastWeek = now.add(-1, 'week').startOf('day')
 
-  const [between, setBetween] = useState<{ start: Dayjs; end: Dayjs }>({
-    start: lastWeek,
-    end: now,
+  const [between, setBetween] = useState<{ from: Dayjs; to: Dayjs }>({
+    from: lastWeek,
+    to: now,
   })
 
   const { data } = useListMatter(between)

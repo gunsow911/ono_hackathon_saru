@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 
 type Props = {
-  onChange?: (between: { start: Dayjs; end: Dayjs }) => void
+  onChange?: (between: { from: Dayjs; to: Dayjs }) => void
 }
 
 const TimeScale = (props: Props) => {
@@ -38,17 +38,17 @@ const TimeScale = (props: Props) => {
       const now = dayjs().endOf('day')
       if (value.between === 'day') {
         const lastDay = now.add(-1, 'day').startOf('day')
-        props.onChange && props.onChange({ start: lastDay, end: now })
+        props.onChange && props.onChange({ from: lastDay, to: now })
         return
       }
       if (value.between === 'week') {
         const lastWeek = now.add(-1, 'week').startOf('day')
-        props.onChange && props.onChange({ start: lastWeek, end: now })
+        props.onChange && props.onChange({ from: lastWeek, to: now })
         return
       }
       if (value.between === 'month') {
         const lastMonth = now.add(-1, 'month').startOf('day')
-        props.onChange && props.onChange({ start: lastMonth, end: now })
+        props.onChange && props.onChange({ from: lastMonth, to: now })
         return
       }
     })
