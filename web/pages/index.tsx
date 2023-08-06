@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HeatmapMap from 'components/maps/HeatmapMap'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/MenuLayout'
 import useListMatter from 'hooks/matter/useListMatter'
+import TimeScale from 'components/maps/controls/TimeScale'
+import dayjs, { Dayjs } from 'dayjs'
 
 const Home: NextPageWithLayout = () => {
-  const { data } = useListMatter()
+  const now = dayjs().endOf('day')
+  const lastWeek = now.add(-1, 'week').startOf('day')
+
+  const [between, setBetween] = useState<{ start: Dayjs; end: Dayjs }>({
+    start: lastWeek,
+    end: now,
+  })
+
+  const { data } = useListMatter(between)
+
   return (
     <div className='fullscreen-map' style={{ position: 'relative' }}>
       <HeatmapMap
@@ -14,7 +25,9 @@ const Home: NextPageWithLayout = () => {
         getPosition={(data) => {
           return [data.latLng.lng, data.latLng.lat]
         }}
-      />
+      >
+        <TimeScale onChange={setBetween} />
+      </HeatmapMap>
     </div>
   )
 }

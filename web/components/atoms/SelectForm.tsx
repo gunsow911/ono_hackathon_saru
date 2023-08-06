@@ -6,6 +6,8 @@ type Props = {
   name: string
   label?: string
   options: { value: string; label: string }[]
+  isClearable?: boolean
+  isSearchable?: boolean
 }
 
 /**
@@ -29,7 +31,7 @@ const SelectForm = (props: Props) => {
         {...formControlProps}
         options={props.options}
         placeholder='選択してください'
-        isClearable
+        isClearable={props.isClearable}
         onChange={(option) => field.onChange(option?.value ?? null)}
         value={props.options.filter((option) => field.value === option.value)}
         styles={{
@@ -50,6 +52,7 @@ const SelectForm = (props: Props) => {
           }),
         }}
         className={`${get(errors, name) ? 'is-invalid' : ''}`}
+        isSearchable={props.isSearchable}
       />
       {get(errors, name) && (
         <Form.Control.Feedback type='invalid'>

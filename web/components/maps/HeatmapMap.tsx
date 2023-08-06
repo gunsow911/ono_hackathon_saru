@@ -1,11 +1,13 @@
 import { HeatmapLayer } from '@deck.gl/aggregation-layers/typed'
 import DeckGLMap from 'components/atoms/DeckGLMap'
 import { LatLng } from 'models/LatLng'
+import { ReactNode } from 'react'
 
 type Props<T> = {
   data?: T[]
   initLatLng: LatLng
   getPosition: (data: T) => [lng: number, lat: number]
+  children?: ReactNode
 }
 
 /**
@@ -38,7 +40,9 @@ const HeatmapMap = <T,>(props: Props<T>) => {
           pitch: 0,
           bearing: 0,
         }}
-      />
+      >
+        {props.children}
+      </DeckGLMap>
     </>
   )
 }
