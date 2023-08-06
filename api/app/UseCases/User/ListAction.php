@@ -1,7 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace App\UseCases\User;
 
 use App\Models\User;
+use App\Utils\StringUtil;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -11,14 +15,33 @@ class ListAction
 {
     /**
      * ユーザー情報一覧を取得する
+     * @param $entity ListEntity|null 検索情報
      * @return Builder<User> ユーザー情報一覧クエリ
      */
-    public function __invoke(): Builder
+    public function __invoke(ListEntity $entity = null): Builder
     {
-        // とりあえずすべて取得
+
+        if ($entity === null) {
+            $entity = new ListEntity([
+                'query' => '',
+            ]);
+        }
+
+        // まずすべて取得
+        $query = User::select('users.*');
+
+        $words = StringUtil::explodeWhitespace($entity->getQuery());
+
+        foreach ($words as $word) {
+            $query->where(function ($q) use ($word) {
+                $faz = '%'.addcslashes($word, '%_\\').'%';
+                $q->where('id', '=', $word)
+                    ->orwhere('name', 'LIKE', $faz);
+            });
+        }
+
         // id順に並べる
-        $list = User::orderBy('id');
-        return $list;
+        $query->orderBy('id');
+        return $query;
     }
 }
-

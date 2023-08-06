@@ -1,30 +1,19 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
-import useGetUserPage from 'hooks/console/user/useGetUserPage'
-import useRemoveUser from 'hooks/console/user/useRemoveUser'
+import useGetUserPage, { Condition } from 'hooks/console/user/useGetUserPage'
 import { User } from 'models/User'
 import Link from 'next/link'
 import React, { useMemo, useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { toast } from 'react-toastify'
 
 type Props = {
+  condition?: Condition
   onRemove?: (userId: string) => void
 }
 
 const UserTable = (props: Props) => {
   const [page, setPage] = useState(1)
-  const { data, isLoading, mutate } = useGetUserPage(page)
-  const { execute: executeRemove } = useRemoveUser()
-
-  const onRemove = (userId: string) => {
-    executeRemove(userId).then((_) => {
-      // 削除後に獣害情報一覧を再取得する
-      mutate()
-      toast.success('獣害情報を削除しました。')
-      props.onRemove && props.onRemove(userId)
-    })
-  }
+  const { data, isLoading } = useGetUserPage(page, props.condition)
 
   const columns: ColumnDef<User>[] = useMemo(() => {
     const columns: ColumnDef<User>[] = [
@@ -49,14 +38,6 @@ const UserTable = (props: Props) => {
                   詳細
                 </Button>
               </Link>
-              <Button
-                size='sm'
-                variant='danger'
-                className='mx-1'
-                onClick={() => onRemove(userId)}
-              >
-                削除
-              </Button>
             </>
           )
         },

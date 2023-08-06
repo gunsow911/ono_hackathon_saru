@@ -6,11 +6,12 @@ import useUpdateUser, {
 } from 'hooks/console/user/useUpdateUser'
 import { User } from 'models/User'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import UserForm from './UserForm'
+import AlertDialog from 'components/molecules/AlertDialog'
 
 type Props = {
   user: User
@@ -33,19 +34,20 @@ const UserDetail = (props: Props) => {
 
   const onUpdate = () => {
     executeUpdate(props.user.id, getValues()).then(() => {
-      toast.success('更新しました。')
+      toast.success('変更しました。')
       props.onUpdate && props.onUpdate()
     })
   }
 
+  const loading = loadingUpdate || loadingRemove
+  // 削除関連
+  const [visible, setVisible] = useState(false)
   const onRemove = () => {
     executeRemove(props.user.id).then((_) => {
       toast.success('ユーザー情報を削除しました。')
       props.onRemove && props.onRemove()
     })
   }
-
-  const loading = loadingUpdate || loadingRemove
 
   return (
     <>
@@ -69,21 +71,28 @@ const UserDetail = (props: Props) => {
                 一覧に戻る
               </Button>
             </Link>
-            <Button
-              variant='danger'
-              className='ms-1'
-              onClick={onRemove}
-              disabled={loading}
+            <span className='ms-1'>
+              <Button variant='danger' onClick={() => setVisible(!visible)}>
+                削除
+              </Button>
+            </span>
+            <AlertDialog
+              show={visible}
+              title='確認'
+              confirmText='削除'
+              confirmColor='danger'
+              onConfirm={onRemove}
+              onCancel={() => setVisible(false)}
             >
-              削除
-            </Button>
+              このユーザーを削除します。操作はもとに戻せません。
+            </AlertDialog>
             <Button
               variant='primary'
               className='ms-1'
               onClick={handleSubmit(onUpdate)}
               disabled={loading}
             >
-              更新
+              変更
             </Button>
           </div>
         </Form>

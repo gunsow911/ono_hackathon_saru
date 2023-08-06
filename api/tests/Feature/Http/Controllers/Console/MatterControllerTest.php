@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Console;
 
 use App\Models\AdminUser;
 use Mockery;
 use App\Models\Matter;
+use App\UseCases\Matter\MultipleRemoveSelectedAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
 use App\UseCases\Matter\UpdateAction;
@@ -146,6 +149,31 @@ class MatterControllerTest extends ControllerTestCase
 
         // テスト確認
         // ステータスコードの検証
+        $response->assertStatus(200);
+    }
+
+    /**
+     * 複数の獣害情報を一括で削除できること
+     */
+    public function testRemoveSelected()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+
+        // テスト用の架空の入力値準備
+        /** @var Matter */
+        $matter1 = Matter::factory()->create();
+        $matter2 = Matter::factory()->create();
+        $this->mockAction(MultipleRemoveSelectedAction::class);
+
+        $data = ['ids' => [$matter1->id, $matter2->id]];
+
+        $response = $this->actingAs($admin, 'admin')
+            ->postJson("api/console/matters/remove", $data);
+
+        // テスト確認
+        // ステータスコードの検証及びjsonの検証
         $response->assertStatus(200);
     }
 }

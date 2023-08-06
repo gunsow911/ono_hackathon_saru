@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/ConsoleLayout'
 import MatterTable from 'components/consoles/matters/MatterTable'
-import { Card, Col, Row } from 'react-bootstrap'
+import { Button, Card, Col, Row } from 'react-bootstrap'
 import MatterSearch from 'components/consoles/matters/MatterSearch'
 import { Condition } from 'hooks/console/matter/useGetMatterPage'
+import Link from 'next/link'
+
+interface DataType {
+  id: string
+}
 
 const ConsoleMatterList: NextPageWithLayout = () => {
   const [condition, setCondition] = useState<Condition>({
@@ -28,6 +33,13 @@ const ConsoleMatterList: NextPageWithLayout = () => {
           <Card className='py-3 px-4'>
             <div className='pb-4'>
               <MatterSearch condition={condition} onChange={onChange} />
+            </div>
+            <div className='mb-2'>
+              <Link href='/console/matters/new'>
+                <Button className='float-end' variant='primary'>
+                  獣害情報新規作成
+                </Button>
+              </Link>
             </div>
             <MatterTable condition={condition} />
           </Card>

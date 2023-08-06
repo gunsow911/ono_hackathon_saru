@@ -1,13 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
-import useUpdateMatter, { matterSchema, UpdateMatterForm } from 'hooks/console/matter/useUpdateMatter'
+import useUpdateMatter, {
+  matterSchema,
+  UpdateMatterForm,
+} from 'hooks/console/matter/useUpdateMatter'
 import { Matter } from 'models/Matter'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import MatterForm from './MatterForm'
+import AlertDialog from 'components/molecules/AlertDialog'
 
 type Props = {
   matter: Matter
@@ -30,11 +34,11 @@ const MatterDetail = (props: Props) => {
 
   const onUpdate = () => {
     executeUpdate(props.matter.id, getValues()).then(() => {
-      toast.success('更新しました。')
+      toast.success('変更しました。')
       props.onUpdate && props.onUpdate()
     })
   }
-
+  const [visible, setVisible] = useState(false)
   const onRemove = () => {
     executeRemove(props.matter.id).then(() => {
       toast.success('獣害情報を削除しました。')
@@ -49,7 +53,9 @@ const MatterDetail = (props: Props) => {
       <Card className='py-3 px-4'>
         <div>
           <Form.Label>ユーザー名</Form.Label>
-          <div>{props.matter.user?.name}</div>
+          <Link href={`/console/users/${props.matter.user?.id}`}>
+            <p>{props.matter.user?.name}</p>
+          </Link>
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
@@ -61,21 +67,28 @@ const MatterDetail = (props: Props) => {
                 一覧に戻る
               </Button>
             </Link>
-            <Button
-              variant='danger'
-              className='ms-1'
-              onClick={onRemove}
-              disabled={loading}
+            <span className='ms-1'>
+              <Button variant='danger' onClick={() => setVisible(!visible)}>
+                削除
+              </Button>
+            </span>
+            <AlertDialog
+              show={visible}
+              title='確認'
+              confirmText='削除'
+              confirmColor='danger'
+              onConfirm={onRemove}
+              onCancel={() => setVisible(false)}
             >
-              削除
-            </Button>
+              この獣害情報を削除します。操作はもとに戻せません。
+            </AlertDialog>
             <Button
               variant='primary'
               className='ms-1'
               onClick={handleSubmit(onUpdate)}
               disabled={loading}
             >
-              更新
+              変更
             </Button>
           </div>
         </Form>

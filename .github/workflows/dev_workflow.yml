@@ -1,0 +1,10 @@
+name: dev_workflow
+on: 
+  pull_request:
+    branches:
+      - dev
+  workflow_call:
+
+jobs:
+  test-backend:
+    uses: ./.github/workflows/test_backend.yml

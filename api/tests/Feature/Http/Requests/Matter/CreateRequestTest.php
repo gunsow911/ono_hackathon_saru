@@ -66,7 +66,7 @@ class CreateRequestTest extends FormRequestTestCase
         unset($this->data['lat']);
         $actual = $this->getValidateErrors($this->data, CreateRequest::class);
         $this->assertSame(1, count($actual));
-        $this->assertSame('緯度が存在していません。', Arr::get($actual, 'lat.0'));
+        $this->assertSame('緯度は必ず指定してください。', Arr::get($actual, 'lat.0'));
     }
 
     /**
@@ -96,7 +96,7 @@ class CreateRequestTest extends FormRequestTestCase
         unset($this->data['lng']);
         $actual = $this->getValidateErrors($this->data, CreateRequest::class);
         $this->assertSame(1, count($actual));
-        $this->assertSame('経度が存在していません。', Arr::get($actual, 'lng.0'));
+        $this->assertSame('経度は必ず指定してください。', Arr::get($actual, 'lng.0'));
     }
 
     /**

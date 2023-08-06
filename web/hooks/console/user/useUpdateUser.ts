@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks'
 import { User } from 'models/User'
-import * as yup from 'yup'
+import yup from 'libs/yup'
 
 export type UpdateUserForm = {
   name: string
@@ -8,8 +8,8 @@ export type UpdateUserForm = {
 }
 
 export const userSchema = yup.object<UpdateUserForm>().shape({
-  name: yup.string().max(255).required(),
-  description: yup.string().max(2000),
+  name: yup.string().max(255).required().label('名前'),
+  description: yup.string().max(2000).label('概要'),
 })
 
 /**

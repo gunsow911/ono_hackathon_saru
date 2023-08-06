@@ -1,0 +1,50 @@
+name: upload-to-ecr
+
+on:
+  workflow_call:
+  push: 
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/Github2ECR4Digitech_PJ_Vermin_Owner
+          role-session-name: github-actions
+          aws-region: ap-northeast-1
+
+      - name: Login AWS ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
+
+      - name: Build and push nginx docker image to AWS ECR
+        env: 
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: "harmful_animal/nginx"
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.ref_name }} -f ./docker/nginx/Dockerfile .
+          docker push -a ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+
+      - name: Build and push web docker image to AWS ECR
+        env: 
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: "harmful_animal/web"
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.ref_name }} -f ./docker/web/Dockerfile .
+          docker push -a ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+
+      - name: Build and push api docker image to AWS ECR
+        env: 
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: "harmful_animal/api"
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }} -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.ref_name }} -f ./docker/api/Dockerfile .
+          docker push -a ${{ env.REGISTRY }}/${{ env.REPOSITORY }}

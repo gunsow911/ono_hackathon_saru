@@ -69,4 +69,21 @@ class MatterControllerTest extends ControllerTestCase
         // ステータスコードの検証
         $response->assertStatus(201); // 201 Cerated
     }
+
+    /**
+     * 獣害情報を取得できること
+     */
+    public function testDetail()
+    {
+        // テスト準備
+        $matter = Matter::factory()->create();
+
+        // テスト実行
+        // リクエストを送信する
+        $response = $this->getJson("api/matters/{$matter->id}");
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(200);
+    }
 }

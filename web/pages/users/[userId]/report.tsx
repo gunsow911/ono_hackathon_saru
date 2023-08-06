@@ -7,7 +7,7 @@ import { NextPageWithLayout } from '_app'
 import { useRouter } from 'next/router'
 import useVerifyUser from 'hooks/user/useVerifyUser'
 import { LatLng } from 'models/LatLng'
-import MatterDetail from 'components/matters/MatterDetail'
+import MatterRegister from 'components/matters/MatterRegister'
 
 const Report: NextPageWithLayout = () => {
   const [location, setLocation] = useState<LatLng>()
@@ -72,7 +72,7 @@ const Report: NextPageWithLayout = () => {
         <Col>
           <Card className='py-3 px-4'>
             {location && userId ? (
-              <MatterDetail initLatLng={location} userId={userId as string} />
+              <MatterRegister initLatLng={location} userId={userId as string} />
             ) : (
               <div
                 className='d-flex align-items-center justify-content-center'

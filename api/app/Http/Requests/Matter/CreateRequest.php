@@ -12,8 +12,8 @@ class CreateRequest extends FormRequest
     {
         return [
             'user_id' => 'required|uuid|exists:users,id',
-            'lat' => 'present|numeric',
-            'lng' => 'present|numeric',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
         ];
     }
 

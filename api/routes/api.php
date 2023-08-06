@@ -39,6 +39,8 @@ Route::prefix('console')->group(function () {
 
         // 害獣情報一覧
         Route::get('matters', [ConsoleMatterController::class, 'index']);
+        // 害獣情報作成
+        Route::post('matters', [ConsoleMatterController::class, 'create']);
         // 害獣情報詳細
         Route::get('matters/{matter}', [ConsoleMatterController::class, 'detail'])
             ->whereUlid('matter');
@@ -48,6 +50,8 @@ Route::prefix('console')->group(function () {
         // 害獣情報削除
         Route::delete('matters/{matter}', [ConsoleMatterController::class, 'remove'])
             ->whereUlid('matter');
+        // 獣害一覧から複数同時削除
+        Route::post('matters/remove', [ConsoleMatterController::class, 'removeSelected']);
 
         // ユーザ情報一覧
         Route::get('users', [ConsoleUserController::class, 'index']);
@@ -72,6 +76,9 @@ Route::prefix('console')->group(function () {
 Route::get('matters', [MatterController::class, 'index']);
 // 害獣情報作成
 Route::post('matters', [MatterController::class, 'create']);
+// 害獣情報詳細
+Route::get('matters/{matter}', [MatterController::class, 'detail'])
+    ->whereUlid('matter');
 
 // ユーザ確認
 Route::get('users/{userId}/verify', [UserController::class, 'verify'])

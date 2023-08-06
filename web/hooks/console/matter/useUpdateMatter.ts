@@ -2,7 +2,7 @@ import useAxios from 'axios-hooks'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
 import { Matter } from 'models/Matter'
-import * as yup from 'yup'
+import yup from 'libs/yup'
 
 export type UpdateMatterForm = {
   appliedAt: string
@@ -10,7 +10,7 @@ export type UpdateMatterForm = {
 }
 
 export const matterSchema = yup.object<UpdateMatterForm>().shape({
-  appliedAt: yup.date().required(),
+  appliedAt: yup.date().required().label('日付'),
 })
 
 /**
