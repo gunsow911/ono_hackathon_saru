@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Matter\CreateRequest;
+use App\Http\Requests\Matter\SearchRequest;
 use App\Http\Resources\MatterResource;
 use App\Models\Matter;
 use App\UseCases\Matter\CreateAction;
@@ -13,9 +14,9 @@ class MatterController extends Controller
     /**
      * 害獣情報一覧
      */
-    public function index(ListAction $action)
+    public function index(SearchRequest $req, ListAction $action)
     {
-        $list = $action();
+        $list = $action($req->makeEntity());
         return MatterResource::collection($list->get());
     }
 

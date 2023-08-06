@@ -2,6 +2,7 @@ import DeckGL from '@deck.gl/react/typed'
 import { LayersList, PickingInfo } from '@deck.gl/core/typed'
 import { BitmapLayer } from '@deck.gl/layers/typed'
 import { TileLayer, GeoBoundingBox } from '@deck.gl/geo-layers/typed'
+import { ReactNode } from 'react'
 
 type Props = {
   initialViewState: {
@@ -14,6 +15,7 @@ type Props = {
   layers: LayersList
   style?: Partial<CSSStyleDeclaration>
   onClick?: (info: PickingInfo) => void
+  children?: ReactNode
 }
 
 const DeckGLMap = (props: Props) => {
@@ -41,6 +43,7 @@ const DeckGLMap = (props: Props) => {
       layers={[tileLayer, ...props.layers]}
       onClick={props.onClick}
     >
+      {props.children}
       <div className='attribution'>
         <a
           href={'http://www.openstreetmap.org/about/'}

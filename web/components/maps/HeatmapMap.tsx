@@ -1,11 +1,13 @@
 import { HeatmapLayer } from '@deck.gl/aggregation-layers/typed'
 import DeckGLMap from 'components/atoms/DeckGLMap'
 import { LatLng } from 'models/LatLng'
+import { ReactNode } from 'react'
 
 type Props<T> = {
   data?: T[]
   initLatLng: LatLng
   getPosition: (data: T) => [lng: number, lat: number]
+  children?: ReactNode
 }
 
 /**
@@ -27,17 +29,21 @@ const HeatmapMap = <T,>(props: Props<T>) => {
   })
 
   return (
-    <DeckGLMap
-      layers={[heatmapLayer]}
-      style={{ height: '100%', position: 'relative' }}
-      initialViewState={{
-        longitude: props.initLatLng.lng,
-        latitude: props.initLatLng.lat,
-        zoom: 12,
-        pitch: 0,
-        bearing: 0,
-      }}
-    />
+    <>
+      <DeckGLMap
+        layers={[heatmapLayer]}
+        style={{ height: '100%', position: 'absolute' }}
+        initialViewState={{
+          longitude: props.initLatLng.lng,
+          latitude: props.initLatLng.lat,
+          zoom: 12,
+          pitch: 0,
+          bearing: 0,
+        }}
+      >
+        {props.children}
+      </DeckGLMap>
+    </>
   )
 }
 

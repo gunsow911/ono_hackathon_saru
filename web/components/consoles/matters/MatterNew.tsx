@@ -69,6 +69,7 @@ const MatterNew = (props: Props) => {
               name='userId'
               label='ユーザー名'
               options={userSelectOptions}
+              isClearable
             />
             <MatterForm />
           </FormProvider>

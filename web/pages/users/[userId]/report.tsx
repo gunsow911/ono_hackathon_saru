@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useGeolocated } from 'react-geolocated'
 import { useClient } from 'hooks/util/useClient'
-import { Alert, Card, Col, Row, Spinner } from 'react-bootstrap'
+import { Alert, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import Layout from 'components/layouts/MenuLayout'
 import { NextPageWithLayout } from '_app'
 import { useRouter } from 'next/router'
@@ -53,7 +53,7 @@ const Report: NextPageWithLayout = () => {
   }
 
   return (
-    <div>
+    <Container className='my-2'>
       {isClient && !isGeolocationAvailable && (
         <div className='d-flex justify-content-center'>
           <Alert variant='warning'>
@@ -86,7 +86,7 @@ const Report: NextPageWithLayout = () => {
           </Card>
         </Col>
       </Row>
-    </div>
+    </Container>
   )
 }
 

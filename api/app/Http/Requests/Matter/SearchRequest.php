@@ -32,7 +32,7 @@ class SearchRequest extends FormRequest
     public function makeEntity(): ListEntity
     {
         return new ListEntity([
-            'query' =>  $this->input('q'),
+            'query' =>  $this->input('q', ''),
             'from' =>  $this->input('from') ? new Carbon($this->input('from')) : null,
             'to' =>  $this->input('to') ? new Carbon($this->input('to')) : null,
         ]);
