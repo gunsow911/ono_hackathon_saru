@@ -37,7 +37,7 @@ const TimeScale = (props: Props) => {
       }
       const now = dayjs().endOf('day')
       if (value.between === 'day') {
-        const lastDay = now.add(-1, 'day').startOf('day')
+        const lastDay = now.startOf('day')
         props.onChange && props.onChange({ from: lastDay, to: now })
         return
       }
