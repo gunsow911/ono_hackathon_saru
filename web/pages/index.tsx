@@ -7,7 +7,7 @@ import useListMatter from 'hooks/matter/useListMatter'
 const Home: NextPageWithLayout = () => {
   const { data } = useListMatter()
   return (
-    <div style={{ height: '100%', position: 'relative' }}>
+    <div className='fullscreen-map' style={{ position: 'relative' }}>
       <HeatmapMap
         data={data}
         initLatLng={{ lat: 34.1046934, lng: 131.3046877 }}
