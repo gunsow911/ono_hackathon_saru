@@ -12,8 +12,6 @@ const ICON_MAPPING = {
 type Props = {
   name: string
   label?: string
-  width?: string
-  height?: string
 }
 
 /**
@@ -55,9 +53,8 @@ const LatLngMapForm = (props: Props) => {
         <DeckGLMap
           layers={[iconLayer]}
           style={{
-            width: props.width ? props.width : '400px',
-            height: props.height ? props.height : '300px',
-            position: 'relative',
+            height: '100%',
+            position: 'absolute',
           }}
           initialViewState={{
             longitude: initLatLng.lng,
