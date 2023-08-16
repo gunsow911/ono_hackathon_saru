@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useGeolocated } from 'react-geolocated'
 import { useClient } from 'hooks/util/useClient'
-import { Alert, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Row,
+  Spinner,
+} from 'react-bootstrap'
 import Layout from 'components/layouts/MenuLayout'
 import { NextPageWithLayout } from '_app'
 import { useRouter } from 'next/router'
@@ -31,6 +39,7 @@ const Report: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!coords) return
+    if (location) return
     setLocation({ lat: coords.latitude, lng: coords.longitude })
   }, [coords])
 
@@ -50,6 +59,11 @@ const Report: NextPageWithLayout = () => {
     // 404ページにリダイレクト
     router.replace('/404')
     return <></>
+  }
+
+  // 位置情報の取得をキャンセルする場合は小野周辺に位置を設定
+  const onLocationCancel = () => {
+    setLocation({ lat: 34.1046934, lng: 131.3046877 })
   }
 
   return (
@@ -74,14 +88,22 @@ const Report: NextPageWithLayout = () => {
             {location && userId ? (
               <MatterRegister initLatLng={location} userId={userId as string} />
             ) : (
-              <div
-                className='d-flex align-items-center justify-content-center'
-                style={{ height: 426 }}
-              >
-                <Spinner animation='border' role='status'>
-                  <span className='visually-hidden'>Loading...</span>
-                </Spinner>
-              </div>
+              <>
+                <div
+                  className='d-flex flex-column align-items-center justify-content-center'
+                  style={{ height: 426 }}
+                >
+                  <div className='my-2'>
+                    <Spinner animation='border' role='status'>
+                      <span className='visually-hidden'>Loading...</span>
+                    </Spinner>
+                  </div>
+                  <div className='my-2'>位置情報の取得中...</div>
+                  <Button variant='secondary' onClick={onLocationCancel}>
+                    キャンセル
+                  </Button>
+                </div>
+              </>
             )}
           </Card>
         </Col>
