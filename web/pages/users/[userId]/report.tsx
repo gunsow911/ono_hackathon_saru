@@ -84,15 +84,12 @@ const Report: NextPageWithLayout = () => {
       )}
       <Row>
         <Col>
-          <Card className='py-3 px-4'>
+          <Card className='py-3 px-4 report'>
             {location && userId ? (
               <MatterRegister initLatLng={location} userId={userId as string} />
             ) : (
               <>
-                <div
-                  className='d-flex flex-column align-items-center justify-content-center'
-                  style={{ height: 426 }}
-                >
+                <div className='fullscreen-map d-flex flex-column align-items-center justify-content-center'>
                   <div className='my-2'>
                     <Spinner animation='border' role='status'>
                       <span className='visually-hidden'>Loading...</span>

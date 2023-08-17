@@ -10,7 +10,9 @@ const MatterForm = () => {
         <InputForm type='date' name='appliedAt' label='日付' />
       </Form.Group>
       <Form.Group className='py-2'>
-        <LatLngMapForm width='100%' name='latLng' label='位置情報' />
+        <div style={{ height: '300px', position: 'relative' }}>
+          <LatLngMapForm name='latLng' label='位置情報' />
+        </div>
       </Form.Group>
     </>
   )

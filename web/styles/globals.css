@@ -32,6 +32,10 @@ a {
   box-shadow: rgba(50, 50, 93, 0.02) 0 2px 5px -1px, rgba(0, 0, 0, 0.05) 0 1px 3px -1px;
 }
 
-.fullscreen-map {
+.main .fullscreen-map {
     height: calc(100dvh - 56px);
+}
+
+.report .fullscreen-map {
+    height: calc(100dvh - 112px - 72px);
 }

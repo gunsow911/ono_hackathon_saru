@@ -18,16 +18,18 @@ const Home: NextPageWithLayout = () => {
   const { data } = useListMatter(between)
 
   return (
-    <div className='fullscreen-map' style={{ position: 'relative' }}>
-      <HeatmapMap
-        data={data}
-        initLatLng={{ lat: 34.1046934, lng: 131.3046877 }}
-        getPosition={(data) => {
-          return [data.latLng.lng, data.latLng.lat]
-        }}
-      >
-        <TimeScale onChange={setBetween} />
-      </HeatmapMap>
+    <div className='main'>
+      <div className='fullscreen-map' style={{ position: 'relative' }}>
+        <HeatmapMap
+          data={data}
+          initLatLng={{ lat: 34.1046934, lng: 131.3046877 }}
+          getPosition={(data) => {
+            return [data.latLng.lng, data.latLng.lat]
+          }}
+        >
+          <TimeScale onChange={setBetween} />
+        </HeatmapMap>
+      </div>
     </div>
   )
 }

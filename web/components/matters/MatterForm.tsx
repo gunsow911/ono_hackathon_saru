@@ -4,11 +4,11 @@ import { Form } from 'react-bootstrap'
 
 const MatterForm = () => {
   return (
-    <>
-      <Form.Group className='py-2'>
-        <LatLngMapForm width='100%' name='latLng' />
-      </Form.Group>
-    </>
+    <Form.Group>
+      <div className='fullscreen-map' style={{ position: 'relative' }}>
+        <LatLngMapForm name='latLng' />
+      </div>
+    </Form.Group>
   )
 }
 
