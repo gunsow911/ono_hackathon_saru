@@ -2,7 +2,7 @@ import useAddMatter, { AddMatterForm } from 'hooks/matter/useAddMatter'
 import { LatLng } from 'models/LatLng'
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import MatterForm from './MatterForm'
 
@@ -19,7 +19,7 @@ const MatterRegister = (props: Props) => {
       latLng: props.initLatLng,
     },
   })
-  const { getValues, handleSubmit } = form
+  const { getValues, handleSubmit, formState, controller } = form
   const { execute, loading } = useAddMatter()
   const [isToastEmpty, setIsToastEmpty] = useState<boolean>(true)
 
@@ -56,9 +56,17 @@ const MatterRegister = (props: Props) => {
         <FormProvider {...form}>
           <MatterForm />
         </FormProvider>
+        <Controller
         <div className='d-flex justify-content-center pt-2'>
           <Button
-            disabled={loading || !isToastEmpty}
+            disabled={
+              loading ||
+              !isToastEmpty ||
+              !formState.isDirty ||
+              !formState.isValid ||
+              getValues('select1') === '' ||
+              getValues('select2') === ''
+            }
             onClick={handleSubmit(onCreate)}
           >
             {loading ? <>報告中…</> : <>獣害報告！</>}
