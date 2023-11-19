@@ -17,9 +17,11 @@ const MatterRegister = (props: Props) => {
     mode: 'onSubmit',
     defaultValues: {
       latLng: props.initLatLng,
+      numberSelect: '',
+      timeSelect: '',
     },
   })
-  const { getValues, handleSubmit, formState, controller } = form
+  const { getValues, handleSubmit, formState, control } = form
   const { execute, loading } = useAddMatter()
   const [isToastEmpty, setIsToastEmpty] = useState<boolean>(true)
 
@@ -56,7 +58,35 @@ const MatterRegister = (props: Props) => {
         <FormProvider {...form}>
           <MatterForm />
         </FormProvider>
-        <Controller
+        <div className='d-flex justify-content-center pt-2'>
+          <Controller
+            name='numberSelect'
+            control={control}
+            render={({ field }) => (
+              <Form.Select {...field}>
+                <option value=''>頭数を選択</option>
+                <option value='single'>単独</option>
+                <option value='group'>群れ</option>
+              </Form.Select>
+            )}
+          />
+        </div>
+        <div className='d-flex justify-content-center pt-2'>
+          <Controller
+            name='timeSelect'
+            control={control}
+            render={({ field }) => (
+              <Form.Select {...field}>
+                <option value=''>出現時間を選択</option>
+                <option value='earlymorning'>早朝</option>
+                <option value='morning'>朝</option>
+                <option value='noon'>昼</option>
+                <option value='evening'>夕方</option>
+                <option value='night'>夜</option>
+              </Form.Select>
+            )}
+          />
+        </div>
         <div className='d-flex justify-content-center pt-2'>
           <Button
             disabled={
@@ -64,8 +94,8 @@ const MatterRegister = (props: Props) => {
               !isToastEmpty ||
               !formState.isDirty ||
               !formState.isValid ||
-              getValues('select1') === '' ||
-              getValues('select2') === ''
+              getValues('numberSelect') === '' ||
+              getValues('timeSelect') === ''
             }
             onClick={handleSubmit(onCreate)}
           >

@@ -4,6 +4,8 @@ import { Matter } from 'models/Matter'
 
 export type AddMatterForm = {
   latLng: LatLng
+  numberSelect: string
+  timeSelect: string
 }
 
 const useAddMatter = () => {
