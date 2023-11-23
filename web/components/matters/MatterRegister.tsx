@@ -70,12 +70,17 @@ const MatterRegister = (props: Props) => {
         <FormProvider {...form}>
           <MatterForm />
           <div className='pt-4'>
-            <SelectForm name={'numberSelect'} options={[single, group]} />
+            <SelectForm
+              name={'numberSelect'}
+              options={[single, group]}
+              label={'頭数'}
+            />
           </div>
           <div className='pt-4'>
             <SelectForm
               name={'timeSelect'}
               options={[earlymorning, morning, noon, evening, night]}
+              label={'出現時間'}
             />
           </div>
         </FormProvider>
