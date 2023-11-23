@@ -65,6 +65,7 @@ const MatterNew = (props: Props) => {
       <Card className='py-3 px-4'>
         <Form onSubmit={handleSubmit(onCreate)}>
           <FormProvider {...form}>
+            {/* 管理者用の獣害情報新規作成にのみユーザー名の入力が必要 */}
             <SelectForm
               name='userId'
               label='ユーザー名'

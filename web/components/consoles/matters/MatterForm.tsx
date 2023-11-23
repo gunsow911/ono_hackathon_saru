@@ -18,9 +18,9 @@ import { Form } from 'react-bootstrap'
 const MatterForm = () => {
   return (
     <>
-      <Form.Group className='py-2'>
+      {/* <Form.Group className='py-2'>
         <InputForm type='date' name='appliedAt' label='日付' />
-      </Form.Group>
+      </Form.Group> */}
       <Form.Group className='py-2'>
         <div style={{ height: '300px', position: 'relative' }}>
           <LatLngMapForm name='latLng' label='位置情報' />
@@ -32,11 +32,14 @@ const MatterForm = () => {
             label={'頭数'}
           />
         </div>
-        <div className='pt-4'>
+        <div className='pt-2'>
+          <InputForm type='date' name='appliedAt' label='日付' />
+        </div>
+        <div className='pt-2'>
           <SelectForm
             name={'timeSelect'}
             options={[earlymorning, morning, noon, evening, night]}
-            label={'出現時間'}
+            label={'出現時間帯'}
           />
         </div>
       </Form.Group>

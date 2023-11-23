@@ -1,3 +1,4 @@
+import InputForm from 'components/atoms/InputForm'
 import LatLngMapForm from 'components/atoms/LatLngMapForm'
 import SelectForm from 'components/atoms/SelectForm'
 import React from 'react'
@@ -27,7 +28,10 @@ const MatterForm = () => {
           label={'頭数'}
         />
       </div>
-      <div className='pt-4'>
+      <div className='pt-2'>
+        <InputForm type='date' name='appliedAt' label='日付' />
+      </div>
+      <div className='pt-2'>
         <SelectForm
           name={'timeSelect'}
           options={[earlymorning, morning, noon, evening, night]}
