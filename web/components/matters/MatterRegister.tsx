@@ -2,7 +2,7 @@ import useAddMatter, { AddMatterForm } from 'hooks/matter/useAddMatter'
 import { LatLng } from 'models/LatLng'
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import MatterForm from './MatterForm'
 import SelectForm from 'components/atoms/SelectForm'
@@ -22,7 +22,7 @@ const MatterRegister = (props: Props) => {
       timeSelect: '',
     },
   })
-  const { getValues, handleSubmit, formState, control } = form
+  const { getValues, handleSubmit, formState } = form
   const { execute, loading } = useAddMatter()
   const [isToastEmpty, setIsToastEmpty] = useState<boolean>(true)
 
@@ -30,17 +30,6 @@ const MatterRegister = (props: Props) => {
     const isActive = toast.isActive(item.id)
     setIsToastEmpty(!isActive)
   })
-
-  // 群れの規模選択肢
-  const single = { value: 'single', label: '単独' }
-  const group = { value: 'group', label: '群れ' }
-
-  // 出現時間帯選択肢
-  const earlymorning = { value: 'earlymorning', label: '早朝' }
-  const morning = { value: 'morning', label: '朝' }
-  const noon = { value: 'noon', label: '昼' }
-  const evening = { value: 'evening', label: '夕方' }
-  const night = { value: 'night', label: '夜' }
 
   const onCreate = () => {
     if (isToastEmpty) {
@@ -69,20 +58,6 @@ const MatterRegister = (props: Props) => {
       <Form onSubmit={handleSubmit(onCreate)}>
         <FormProvider {...form}>
           <MatterForm />
-          <div className='pt-4'>
-            <SelectForm
-              name={'numberSelect'}
-              options={[single, group]}
-              label={'頭数'}
-            />
-          </div>
-          <div className='pt-4'>
-            <SelectForm
-              name={'timeSelect'}
-              options={[earlymorning, morning, noon, evening, night]}
-              label={'出現時間'}
-            />
-          </div>
         </FormProvider>
         <div className='d-flex justify-content-center pt-2'>
           <Button
