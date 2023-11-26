@@ -7,4 +7,6 @@ export type Matter = {
   appliedAt: string
   userId: string
   user?: User
+  numberSelect: string
+  timeSelect: string
 }

@@ -5,8 +5,10 @@ import { Matter } from 'models/Matter'
 import yup from 'libs/yup'
 
 export type UpdateMatterForm = {
-  appliedAt: string
   latLng: LatLng
+  numberSelect: string
+  appliedAt: string
+  timeSelect: string
 }
 
 export const matterSchema = yup.object<UpdateMatterForm>().shape({
@@ -28,6 +30,8 @@ const useUpdateMatter = () => {
         lat: form.latLng.lat,
         lng: form.latLng.lng,
         appliedAt: dayjs(form.appliedAt).format('YYYY-MM-DD'),
+        numberSelect: form.numberSelect,
+        timeSelect: form.timeSelect,
       },
     })
   }

@@ -10,8 +10,9 @@ import React, { useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import MatterForm from './MatterForm'
+// import MatterForm from './MatterForm'
 import AlertDialog from 'components/molecules/AlertDialog'
+import CreateNewMatterForm from 'components/atoms/CreateNewMatterForm'
 
 type Props = {
   matter: Matter
@@ -26,6 +27,8 @@ const MatterDetail = (props: Props) => {
     defaultValues: {
       appliedAt: props.matter.appliedAt,
       latLng: props.matter.latLng,
+      numberSelect: props.matter.numberSelect,
+      timeSelect: props.matter.timeSelect,
     },
   })
   const { getValues, handleSubmit } = form
@@ -48,6 +51,8 @@ const MatterDetail = (props: Props) => {
 
   const loading = loadingUpdate || loadingRemove
 
+  const matter = props.matter
+
   return (
     <>
       <Card className='py-3 px-4'>
@@ -59,7 +64,7 @@ const MatterDetail = (props: Props) => {
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
-            <MatterForm />
+            <CreateNewMatterForm matter={matter} />
           </FormProvider>
           <div className='float-end mt-2'>
             <Link href='/console/matters'>
