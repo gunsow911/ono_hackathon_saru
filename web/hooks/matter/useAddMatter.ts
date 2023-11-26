@@ -5,6 +5,7 @@ import { Matter } from 'models/Matter'
 export type AddMatterForm = {
   latLng: LatLng
   numberSelect: string
+  appliedAt: string
   timeSelect: string
 }
 

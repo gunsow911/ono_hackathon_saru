@@ -4,7 +4,6 @@ import React from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import MatterForm from './MatterForm'
 import useAddMatter, {
   AddMatterForm,
   matterSchema,
@@ -14,6 +13,7 @@ import { LatLng } from 'models/LatLng'
 import { Matter } from 'models/Matter'
 import SelectForm from 'components/atoms/SelectForm'
 import useGetUserSelectList from 'hooks/console/user/useGetUserSelectList'
+import CreateNewMatterForm from 'components/atoms/CreateNewMatterForm'
 
 type Props = {
   initLatLng: LatLng
@@ -28,8 +28,8 @@ const MatterNew = (props: Props) => {
     resolver: yupResolver(matterSchema),
     defaultValues: {
       userId: undefined,
-      appliedAt: now.format('YYYY-MM-DD'),
       latLng: props.initLatLng,
+      appliedAt: now.format('YYYY-MM-DD'),
     },
   })
   const { getValues, handleSubmit } = form
@@ -72,7 +72,7 @@ const MatterNew = (props: Props) => {
               options={userSelectOptions}
               isClearable
             />
-            <MatterForm />
+              <CreateNewMatterForm />
           </FormProvider>
           <div className='float-end mt-2'>
             <Link href='/console/matters'>

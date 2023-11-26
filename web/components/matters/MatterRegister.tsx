@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import MatterForm from './MatterForm'
-import SelectForm from 'components/atoms/SelectForm'
+import CreateNewMatterForm from 'components/atoms/CreateNewMatterForm'
+import dayjs from 'dayjs'
 
 type Props = {
   initLatLng: LatLng
@@ -14,11 +14,13 @@ type Props = {
 }
 
 const MatterRegister = (props: Props) => {
+  const now = dayjs()
   const form = useForm<AddMatterForm>({
     mode: 'onSubmit',
     defaultValues: {
       latLng: props.initLatLng,
       numberSelect: '',
+      appliedAt: now.format('YYYY-MM-DD'),
       timeSelect: '',
     },
   })
@@ -57,7 +59,7 @@ const MatterRegister = (props: Props) => {
       <div className='text-center mb-2'>獣害を受けた場所を選択してください</div>
       <Form onSubmit={handleSubmit(onCreate)}>
         <FormProvider {...form}>
-          <MatterForm />
+          <CreateNewMatterForm/>
         </FormProvider>
         <div className='d-flex justify-content-center pt-2'>
           <Button
