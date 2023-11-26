@@ -8,6 +8,8 @@ export type AddMatterForm = {
   userId: string
   appliedAt: string
   latLng: LatLng
+  numberSelect: string
+  timeSelect: string
 }
 
 export const matterSchema = yup.object<AddMatterForm>().shape({
@@ -31,6 +33,8 @@ const useAddMatter = () => {
         lat: form.latLng.lat,
         lng: form.latLng.lng,
         appliedAt: dayjs(form.appliedAt).format('YYYY-MM-DD'),
+        numberSelect: form.numberSelect,
+        timeSelect: form.timeSelect,
       },
     })
   }
