@@ -27,6 +27,8 @@ const MatterDetail = (props: Props) => {
     defaultValues: {
       appliedAt: props.matter.appliedAt,
       latLng: props.matter.latLng,
+      numberSelect: props.matter.numberSelect,
+      timeSelect: props.matter.timeSelect,
     },
   })
   const { getValues, handleSubmit } = form
@@ -49,6 +51,10 @@ const MatterDetail = (props: Props) => {
 
   const loading = loadingUpdate || loadingRemove
 
+  type CreateNewMatterFormProps = {
+    matter: Matter
+  }
+
   return (
     <>
       <Card className='py-3 px-4'>
@@ -60,7 +66,7 @@ const MatterDetail = (props: Props) => {
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
-            <CreateNewMatterForm />
+            <CreateNewMatterForm matter={props.matter} />
           </FormProvider>
           <div className='float-end mt-2'>
             <Link href='/console/matters'>

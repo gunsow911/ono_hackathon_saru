@@ -1,6 +1,7 @@
 import InputForm from 'components/atoms/InputForm'
 import LatLngMapForm from 'components/atoms/LatLngMapForm'
 import SelectForm from 'components/atoms/SelectForm'
+import { Matter } from 'models/Matter'
 import React from 'react'
 import { Form } from 'react-bootstrap'
 
@@ -15,7 +16,7 @@ import { Form } from 'react-bootstrap'
   const evening = { value: 'evening', label: '夕方' }
   const night = { value: 'night', label: '夜' }
 
-const CreateNewMatterForm = () => {
+const CreateNewMatterForm = (props: Matter) => {
   return (
     <Form.Group>
       <div className='fullscreen-map' style={{ position: 'relative' }}>

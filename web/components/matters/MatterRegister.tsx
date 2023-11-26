@@ -67,7 +67,7 @@ const MatterRegister = (props: Props) => {
               loading ||
               !isToastEmpty ||
               // !formState.isDirty ||
-              !formState.isValid ||
+              // !formState.isValid ||
               getValues('numberSelect') === '' ||
               getValues('timeSelect') === ''
             }
