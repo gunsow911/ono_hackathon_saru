@@ -51,9 +51,7 @@ const MatterDetail = (props: Props) => {
 
   const loading = loadingUpdate || loadingRemove
 
-  type CreateNewMatterFormProps = {
-    matter: Matter
-  }
+  const matter = props.matter
 
   return (
     <>
@@ -66,7 +64,7 @@ const MatterDetail = (props: Props) => {
         </div>
         <Form onSubmit={handleSubmit(onUpdate)}>
           <FormProvider {...form}>
-            <CreateNewMatterForm matter={props.matter} />
+            <CreateNewMatterForm matter={matter} />
           </FormProvider>
           <div className='float-end mt-2'>
             <Link href='/console/matters'>

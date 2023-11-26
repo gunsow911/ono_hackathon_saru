@@ -16,7 +16,7 @@ import { Form } from 'react-bootstrap'
   const evening = { value: 'evening', label: '夕方' }
   const night = { value: 'night', label: '夜' }
 
-const CreateNewMatterForm = (props: Matter) => {
+const CreateNewMatterForm = (matter: Matter) => {
   return (
     <Form.Group>
       <div className='fullscreen-map' style={{ position: 'relative' }}>
