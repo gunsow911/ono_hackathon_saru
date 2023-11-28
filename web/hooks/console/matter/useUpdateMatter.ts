@@ -13,7 +13,10 @@ export type UpdateMatterForm = {
 }
 
 export const matterSchema = yup.object<UpdateMatterForm>().shape({
-  dateString: yup.date().required().label('日付'),
+  dateString: yup.string().required().label('日付'),
+  timeString: yup.string().required().label('時間'),
+  scaleType: yup.string().required().label('頭数'),
+  isDamaged: yup.bool().required().label('農業被害'),
 })
 
 /**

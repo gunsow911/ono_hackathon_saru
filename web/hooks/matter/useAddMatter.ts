@@ -2,6 +2,7 @@ import useAxios from 'axios-hooks'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
 import { Matter, ScaleType } from 'models/Matter'
+import yup from 'libs/yup'
 
 export type AddMatterForm = {
   latLng: LatLng
@@ -10,6 +11,13 @@ export type AddMatterForm = {
   scaleType: ScaleType
   isDamaged: boolean
 }
+
+export const matterSchema = yup.object<AddMatterForm>().shape({
+  dateString: yup.string().required().label('日付'),
+  timeString: yup.string().required().label('時間'),
+  scaleType: yup.string().required().label('頭数'),
+  isDamaged: yup.bool().required().label('農業被害'),
+})
 
 const useAddMatter = () => {
   const [{ data, loading, error }, exec] = useAxios<Matter>({

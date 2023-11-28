@@ -1,4 +1,7 @@
-import useAddMatter, { AddMatterForm } from 'hooks/matter/useAddMatter'
+import useAddMatter, {
+  AddMatterForm,
+  matterSchema,
+} from 'hooks/matter/useAddMatter'
 import { LatLng } from 'models/LatLng'
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
@@ -6,6 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import MatterForm from './MatterForm'
 import dayjs from 'dayjs'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type Props = {
   initLatLng: LatLng
@@ -17,6 +21,7 @@ const MatterRegister = (props: Props) => {
   const now = dayjs()
   const form = useForm<AddMatterForm>({
     mode: 'onSubmit',
+    resolver: yupResolver(matterSchema),
     defaultValues: {
       latLng: props.initLatLng,
       scaleType: 'SINGLE',
