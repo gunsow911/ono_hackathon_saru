@@ -10,8 +10,10 @@ import React, { useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import MatterForm from './MatterForm'
+// import MatterForm from './MatterForm'
 import AlertDialog from 'components/molecules/AlertDialog'
+import MatterForm from 'components/matters/MatterForm'
+import dayjs from 'dayjs'
 
 type Props = {
   matter: Matter
@@ -24,8 +26,14 @@ const MatterDetail = (props: Props) => {
     mode: 'onSubmit',
     resolver: yupResolver(matterSchema),
     defaultValues: {
-      appliedAt: props.matter.appliedAt,
       latLng: props.matter.latLng,
+      scaleType: props.matter.scaleType,
+      dateString: dayjs(props.matter.appliedAt).format('YYYY-MM-DD'),
+      timeString: dayjs(props.matter.appliedAt)
+        .set('minute', 0)
+        .set('second', 0)
+        .format('HH:mm:ss'),
+      isDamaged: props.matter.damageType === 'FARM' ? true : false,
     },
   })
   const { getValues, handleSubmit } = form

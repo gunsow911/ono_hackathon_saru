@@ -43,7 +43,7 @@ const ConsoleMatterDetail: NextPageWithLayout = () => {
           <h3>獣害情報詳細</h3>
         </Col>
       </Row>
-      <Row>
+      <Row className='report'>
         <Col>
           {matter && (
             <MatterDetail

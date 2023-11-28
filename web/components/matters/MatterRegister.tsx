@@ -5,6 +5,7 @@ import { Button, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import MatterForm from './MatterForm'
+import dayjs from 'dayjs'
 
 type Props = {
   initLatLng: LatLng
@@ -13,13 +14,18 @@ type Props = {
 }
 
 const MatterRegister = (props: Props) => {
+  const now = dayjs()
   const form = useForm<AddMatterForm>({
     mode: 'onSubmit',
     defaultValues: {
       latLng: props.initLatLng,
+      scaleType: 'SINGLE',
+      dateString: now.format('YYYY-MM-DD'),
+      timeString: now.set('minute', 0).set('second', 0).format('HH:mm:ss'),
+      isDamaged: false,
     },
   })
-  const { getValues, handleSubmit } = form
+  const { getValues, handleSubmit, formState } = form
   const { execute, loading } = useAddMatter()
   const [isToastEmpty, setIsToastEmpty] = useState<boolean>(true)
 
@@ -32,11 +38,11 @@ const MatterRegister = (props: Props) => {
     if (isToastEmpty) {
       execute(props.userId, getValues()).then(
         () => {
-          const id = toast.success('報告が完了しました！')
+          toast.success('報告が完了しました！')
           props.onCreate && props.onCreate()
         },
         () => {
-          const id = toast.error(
+          toast.error(
             <>
               <div>報告に失敗しました。</div>
               <div>
@@ -52,13 +58,13 @@ const MatterRegister = (props: Props) => {
   return (
     <>
       <div className='text-center mb-2'>獣害を受けた場所を選択してください</div>
-      <Form onSubmit={handleSubmit(onCreate)}>
+      <Form>
         <FormProvider {...form}>
           <MatterForm />
         </FormProvider>
         <div className='d-flex justify-content-center pt-2'>
           <Button
-            disabled={loading || !isToastEmpty}
+            disabled={loading || !isToastEmpty || !formState.isValid}
             onClick={handleSubmit(onCreate)}
           >
             {loading ? <>報告中…</> : <>獣害報告！</>}
