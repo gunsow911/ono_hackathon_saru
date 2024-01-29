@@ -2,6 +2,11 @@ import { LatLng } from './LatLng'
 import { User } from './User'
 
 /**
+ * 出現種類
+ */
+export type ApperType = 'SEEING' | 'HEARING'
+
+/**
  * 群れの規模
  */
 export type ScaleType = 'UNKNOWN' | 'SINGLE' | 'GROUP'
@@ -20,6 +25,7 @@ export type Matter = {
   appliedAt: string
   userId: string
   user?: User
+  apperType: ApperType
   scaleType: ScaleType
   damageType: DamageType
 }

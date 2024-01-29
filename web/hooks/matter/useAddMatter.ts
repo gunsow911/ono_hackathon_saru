@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
-import { Matter, ScaleType } from 'models/Matter'
+import { ApperType, Matter, ScaleType } from 'models/Matter'
 import yup from 'libs/yup'
 
 export type AddMatterForm = {
@@ -9,14 +9,13 @@ export type AddMatterForm = {
   dateString: string
   timeString: string
   scaleType: ScaleType
+  apperType: ApperType
   isDamaged: boolean
 }
 
 export const matterSchema = yup.object<AddMatterForm>().shape({
   dateString: yup.string().required().label('日付'),
   timeString: yup.string().required().label('時間'),
-  scaleType: yup.string().required().label('頭数'),
-  isDamaged: yup.bool().required().label('農業被害'),
 })
 
 const useAddMatter = () => {
@@ -35,6 +34,8 @@ const useAddMatter = () => {
           'YYYY-MM-DD HH:mm:ss',
         ),
         scaleType: form.scaleType,
+        apperType: form.apperType,
+        isDamaged: form.isDamaged,
       },
     })
   }

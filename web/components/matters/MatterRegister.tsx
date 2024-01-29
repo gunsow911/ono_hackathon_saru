@@ -24,10 +24,11 @@ const MatterRegister = (props: Props) => {
     resolver: yupResolver(matterSchema),
     defaultValues: {
       latLng: props.initLatLng,
-      scaleType: 'SINGLE',
+      apperType: 'SEEING',
+      scaleType: 'UNKNOWN',
       dateString: now.format('YYYY-MM-DD'),
       timeString: now.set('minute', 0).set('second', 0).format('HH:mm:ss'),
-      isDamaged: false,
+      isDamaged: true,
     },
   })
   const { getValues, handleSubmit, formState } = form
@@ -67,7 +68,7 @@ const MatterRegister = (props: Props) => {
         <FormProvider {...form}>
           <MatterForm />
         </FormProvider>
-        <div className='d-flex justify-content-center pt-2'>
+        <div className='d-flex justify-content-center pt-4'>
           <Button
             disabled={loading || !isToastEmpty || !formState.isValid}
             onClick={handleSubmit(onCreate)}

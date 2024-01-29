@@ -1,16 +1,28 @@
-import CheckForm from 'components/atoms/CheckForm'
+import ArToggleButtonGroup from 'components/atoms/ArToggleButtonGroup'
 import InputForm from 'components/atoms/InputForm'
 import LatLngMapForm from 'components/atoms/LatLngMapForm'
 import SelectForm from 'components/atoms/SelectForm'
 import React from 'react'
-import { Alert, Col, Form, Row } from 'react-bootstrap'
+import { Col, Form, Row } from 'react-bootstrap'
 
 const MatterForm = () => {
+  // 農業被害選択肢
+  const isDamageOptions = [
+    { value: true, label: 'はい' },
+    { value: false, label: 'いいえ' },
+  ]
+
+  // 出現選択肢
+  const apperTypeOptions = [
+    { value: 'SEEING', label: '見た' },
+    { value: 'HEARING', label: '声を聞いた' },
+  ]
+
   // 群れの規模選択肢
   const scaleTypeOptions = [
+    { value: 'UNKNOWN', label: 'わからない' },
     { value: 'SINGLE', label: '単独' },
     { value: 'GROUP', label: '群れ' },
-    { value: 'UNKNOWN', label: 'わからない' },
   ]
 
   // 出現時間選択肢
@@ -50,31 +62,42 @@ const MatterForm = () => {
           </div>
         </Col>
       </Row>
-      <Row className='pt-2'>
-        <Col>
+      <Row className='pt-2 gy-3'>
+        <Col xs={12}>
           <Form.Label>日時</Form.Label>
           <Row className='g-1'>
             <Col>
               <InputForm type='date' name='dateString' />
             </Col>
             <Col>
-              <SelectForm name='timeString' options={hourOptions} />
+              <SelectForm
+                name='timeString'
+                isSearchable={false}
+                options={hourOptions}
+              />
             </Col>
           </Row>
         </Col>
-        <Col>
-          <SelectForm
-            name='scaleType'
-            options={scaleTypeOptions}
-            label={'頭数'}
+        <Col xs={4}>
+          <ArToggleButtonGroup
+            name='apperType'
+            label='出没時の状況は？'
+            options={apperTypeOptions}
           />
         </Col>
-      </Row>
-      <Row className='pt-2'>
+        <Col xs={4}>
+          <ArToggleButtonGroup
+            name='scaleType'
+            label='頭数は？'
+            options={scaleTypeOptions}
+          />
+        </Col>
         <Col>
-          <Alert variant='warning'>
-            <CheckForm name='isDamaged' label='農業被害がありましたか？' />
-          </Alert>
+          <ArToggleButtonGroup
+            name='isDamaged'
+            label='農業被害がありましたか？'
+            options={isDamageOptions}
+          />
         </Col>
       </Row>
     </Form.Group>
