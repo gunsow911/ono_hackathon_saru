@@ -7,11 +7,6 @@ import { User } from './User'
 export type ApperType = 'SEEING' | 'HEARING'
 
 /**
- * 群れの規模
- */
-export type ScaleType = 'UNKNOWN' | 'SINGLE' | 'GROUP'
-
-/**
  * 被害種類
  */
 export type DamageType = 'UNKNOWN' | 'FARM'
@@ -26,6 +21,6 @@ export type Matter = {
   userId: string
   user?: User
   apperType: ApperType
-  scaleType: ScaleType
+  animalCount: number
   damageType: DamageType
 }

@@ -20,12 +20,12 @@ type Props = {
 const MatterRegister = (props: Props) => {
   const now = dayjs()
   const form = useForm<AddMatterForm>({
-    mode: 'onSubmit',
+    mode: 'onChange',
     resolver: yupResolver(matterSchema),
     defaultValues: {
       latLng: props.initLatLng,
       apperType: 'SEEING',
-      scaleType: 'UNKNOWN',
+      animalCount: 0,
       dateString: now.format('YYYY-MM-DD'),
       timeString: now.set('minute', 0).set('second', 0).format('HH:mm:ss'),
       isDamaged: true,

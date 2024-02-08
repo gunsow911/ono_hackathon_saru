@@ -1,6 +1,7 @@
 import ArToggleButtonGroup from 'components/atoms/ArToggleButtonGroup'
 import InputForm from 'components/atoms/InputForm'
 import LatLngMapForm from 'components/atoms/LatLngMapForm'
+import NumberInputForm from 'components/atoms/NumberInputForm'
 import SelectForm from 'components/atoms/SelectForm'
 import React from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
@@ -16,13 +17,6 @@ const MatterForm = () => {
   const apperTypeOptions = [
     { value: 'SEEING', label: '見た' },
     { value: 'HEARING', label: '声を聞いた' },
-  ]
-
-  // 群れの規模選択肢
-  const scaleTypeOptions = [
-    { value: 'UNKNOWN', label: 'わからない' },
-    { value: 'SINGLE', label: '単独' },
-    { value: 'GROUP', label: '群れ' },
   ]
 
   // 出現時間選択肢
@@ -78,21 +72,20 @@ const MatterForm = () => {
             </Col>
           </Row>
         </Col>
-        <Col xs={4}>
+        <Col lg={4} md={12}>
           <ArToggleButtonGroup
             name='apperType'
             label='出没時の状況は？'
             options={apperTypeOptions}
           />
         </Col>
-        <Col xs={4}>
-          <ArToggleButtonGroup
-            name='scaleType'
-            label='頭数は？'
-            options={scaleTypeOptions}
+        <Col lg={4} md={12}>
+          <NumberInputForm
+            name='animalCount'
+            label='頭数は？(わからない場合0を入力)'
           />
         </Col>
-        <Col>
+        <Col lg={4} md={12}>
           <ArToggleButtonGroup
             name='isDamaged'
             label='農業被害がありましたか？'
