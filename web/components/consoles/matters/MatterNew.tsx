@@ -1,12 +1,10 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import Link from 'next/link'
 import React from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import useAddMatter, {
-  AddMatterForm,
-  matterSchema,
+  MatterWithUserIdInputForm,
+  matterWithUserIdSchema,
 } from 'hooks/console/matter/useAddMatter'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
@@ -14,6 +12,8 @@ import { Matter } from 'models/Matter'
 import SelectForm from 'components/atoms/SelectForm'
 import useGetUserSelectList from 'hooks/console/user/useGetUserSelectList'
 import MatterForm from 'components/matters/MatterForm'
+import { yupResolver } from '@hookform/resolvers/yup'
+import Link from 'next/link'
 
 type Props = {
   initLatLng: LatLng
@@ -23,16 +23,17 @@ type Props = {
 
 const MatterNew = (props: Props) => {
   const now = dayjs()
-  const form = useForm<AddMatterForm>({
+  const form = useForm<MatterWithUserIdInputForm>({
     mode: 'onSubmit',
-    resolver: yupResolver(matterSchema),
+    resolver: yupResolver(matterWithUserIdSchema),
     defaultValues: {
       userId: undefined,
       latLng: props.initLatLng,
-      scaleType: 'SINGLE',
+      appearType: 'SEEING',
+      animalCount: 0,
       dateString: now.format('YYYY-MM-DD'),
       timeString: now.set('minute', 0).set('second', 0).format('HH:mm:ss'),
-      isDamaged: false,
+      isDamaged: true,
     },
   })
 
@@ -53,7 +54,8 @@ const MatterNew = (props: Props) => {
       form.reset({
         latLng: matter.data.latLng,
         userId: matter.data.userId,
-        scaleType: 'SINGLE',
+        animalCount: 0,
+        apperType: 'SEEING',
         dateString: appliedAt.format('YYYY-MM-DD'),
         timeString: appliedAt
           .set('minute', 0)

@@ -1,19 +1,19 @@
 import useAxios from 'axios-hooks'
 import dayjs from 'dayjs'
 import { LatLng } from 'models/LatLng'
-import { ApperType, Matter } from 'models/Matter'
+import { AppearType, Matter } from 'models/Matter'
 import yup from 'libs/yup'
 
-export type AddMatterForm = {
+export type MatterInputForm = {
   latLng: LatLng
   dateString: string
   timeString: string
   animalCount: number
-  apperType: ApperType
+  appearType: AppearType
   isDamaged: boolean
 }
 
-export const matterSchema = yup.object<AddMatterForm>().shape({
+export const matterSchema = yup.object<MatterInputForm>().shape({
   animalCount: yup
     .number()
     .min(0)
@@ -23,6 +23,7 @@ export const matterSchema = yup.object<AddMatterForm>().shape({
     .label('頭数'),
   dateString: yup.string().required().label('日付'),
   timeString: yup.string().required().label('時間'),
+  isDamaged: yup.bool().required().label('農業被害'),
 })
 
 const useAddMatter = () => {
@@ -31,7 +32,7 @@ const useAddMatter = () => {
     method: 'POST',
   })
 
-  const execute = (userId: string, form: AddMatterForm) => {
+  const execute = (userId: string, form: MatterInputForm) => {
     return exec({
       data: {
         userId: userId,
@@ -41,7 +42,7 @@ const useAddMatter = () => {
           'YYYY-MM-DD HH:mm:ss',
         ),
         animalCount: form.animalCount,
-        apperType: form.apperType,
+        appearType: form.appearType,
         isDamaged: form.isDamaged,
       },
     })

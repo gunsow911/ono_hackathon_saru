@@ -1,19 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
-import useUpdateMatter, {
-  matterSchema,
-  UpdateMatterForm,
-} from 'hooks/console/matter/useUpdateMatter'
+import useUpdateMatter from 'hooks/console/matter/useUpdateMatter'
 import { Matter } from 'models/Matter'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-// import MatterForm from './MatterForm'
 import AlertDialog from 'components/molecules/AlertDialog'
 import MatterForm from 'components/matters/MatterForm'
 import dayjs from 'dayjs'
+import { MatterInputForm, matterSchema } from 'hooks/matter/useAddMatter'
 
 type Props = {
   matter: Matter
@@ -22,12 +19,13 @@ type Props = {
 }
 
 const MatterDetail = (props: Props) => {
-  const form = useForm<UpdateMatterForm>({
+  const form = useForm<MatterInputForm>({
     mode: 'onSubmit',
     resolver: yupResolver(matterSchema),
     defaultValues: {
       latLng: props.matter.latLng,
-      scaleType: props.matter.scaleType,
+      appearType: props.matter.apperType,
+      animalCount: props.matter.animalCount,
       dateString: dayjs(props.matter.appliedAt).format('YYYY-MM-DD'),
       timeString: dayjs(props.matter.appliedAt)
         .set('minute', 0)

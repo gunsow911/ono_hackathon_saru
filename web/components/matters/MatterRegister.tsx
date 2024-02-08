@@ -1,5 +1,5 @@
 import useAddMatter, {
-  AddMatterForm,
+  MatterInputForm,
   matterSchema,
 } from 'hooks/matter/useAddMatter'
 import { LatLng } from 'models/LatLng'
@@ -19,12 +19,12 @@ type Props = {
 
 const MatterRegister = (props: Props) => {
   const now = dayjs()
-  const form = useForm<AddMatterForm>({
+  const form = useForm<MatterInputForm>({
     mode: 'onChange',
     resolver: yupResolver(matterSchema),
     defaultValues: {
       latLng: props.initLatLng,
-      apperType: 'SEEING',
+      appearType: 'SEEING',
       animalCount: 0,
       dateString: now.format('YYYY-MM-DD'),
       timeString: now.set('minute', 0).set('second', 0).format('HH:mm:ss'),

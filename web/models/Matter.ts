@@ -4,7 +4,7 @@ import { User } from './User'
 /**
  * 出現種類
  */
-export type ApperType = 'SEEING' | 'HEARING'
+export type AppearType = 'SEEING' | 'HEARING'
 
 /**
  * 被害種類
@@ -20,7 +20,7 @@ export type Matter = {
   appliedAt: string
   userId: string
   user?: User
-  apperType: ApperType
+  appearType: AppearType
   animalCount: number
   damageType: DamageType
 }
