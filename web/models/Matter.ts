@@ -7,11 +7,6 @@ import { User } from './User'
 export type AppearType = 'SEEING' | 'HEARING'
 
 /**
- * 被害種類
- */
-export type DamageType = 'UNKNOWN' | 'FARM'
-
-/**
  * 獣害データ
  */
 export type Matter = {
@@ -22,5 +17,5 @@ export type Matter = {
   user?: User
   appearType: AppearType
   animalCount: number
-  damageType: DamageType
+  isDamaged: boolean
 }

@@ -23,6 +23,9 @@ class MatterResource extends JsonResource
             'applied_at' => $resource->applied_at->format("Y-m-d"),
             'user_id' => $resource->user_id,
             'user' => new UserResource($this->whenLoaded('user')),
+            'animal_count' => $resource->animal_count,
+            'appear_type' => $resource->appear_type->name,
+            'is_damaged' => $resource->is_damaged,
         ];
     }
 }

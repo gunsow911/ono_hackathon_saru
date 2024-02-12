@@ -59,6 +59,10 @@ class MatterControllerTest extends ControllerTestCase
             'user_id' => $user->id,
             'lat' => "136.123",
             'lng' => "32.456",
+            'applied_at' => "2023-12-20 17:00:00",
+            'animal_count' => 3,
+            'appear_type' => 'SEEING',
+            'is_damaged' => true,
         ];
 
         // テスト実行

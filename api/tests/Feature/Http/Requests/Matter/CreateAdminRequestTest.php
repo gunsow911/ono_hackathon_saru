@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Requests\Matter;
 
+use App\Enums\AppearType;
 use Tests\FormRequestTestCase;
 use App\Http\Requests\Matter\CreateAdminRequest;
 use App\Models\User;
@@ -15,6 +16,9 @@ use function count;
 
 class CreateAdminRequestTest extends FormRequestTestCase
 {
+    private $user;
+    private $data;
+
     use RefreshDatabase;
 
     protected function setUp(): void
@@ -25,7 +29,10 @@ class CreateAdminRequestTest extends FormRequestTestCase
             'user_id' => $this->user->id,
             'lat' => "130.23",
             'lng' => "40.34",
-            'applied_at' => "2023-01-01",
+            'applied_at' => "2023-01-01 17:00:00",
+            'animal_count' => 3,
+            'appear_type' => 'SEEING',
+            'is_damaged' => true,
         ];
     }
 
@@ -40,7 +47,10 @@ class CreateAdminRequestTest extends FormRequestTestCase
         $this->assertSame($this->user->id, $entity->getUserId());
         $this->assertSame(130.23, $entity->getLat());
         $this->assertSame(40.34, $entity->getLng());
-        $this->assertEquals(new Carbon('2023-01-01'), $entity->getAppliedAt());
+        $this->assertEquals(new Carbon('2023-01-01 17:00:00'), $entity->getAppliedAt());
+        $this->assertEquals(3, $entity->getAnimalCount());
+        $this->assertEquals(AppearType::fromName('SEEING'), $entity->getAppearType());
+        $this->assertTrue($entity->getIsDamaged());
     }
 
     /**
@@ -164,22 +174,160 @@ class CreateAdminRequestTest extends FormRequestTestCase
     /**
      *  日付(至)はY-m-dの日付フォーマットであること
      */
-    public function testTo02()
+    public function testAppliedAt02()
     {
         // OK
         $data = array_merge($this->data, [
-            'applied_at' => "2023-01-01",
+            'applied_at' => "2023-01-01 17:00:00",
         ]);
         $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
         $this->assertSame(0, count($actual));
 
         // NG
         $data = array_merge($this->data, [
-            'applied_at' => "2023/01/01",
+            'applied_at' => "2023/01/01 17:00:00",
         ]);
         $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
         $this->assertSame(1, count($actual));
-        $this->assertSame('日付はY-m-d形式で指定してください。', Arr::get($actual, 'applied_at.0'));
+        $this->assertSame('日付はY-m-d H:i:s形式で指定してください。', Arr::get($actual, 'applied_at.0'));
+    }
+
+    /**
+     * 頭数は必須入力であること
+     */
+    public function testAnimalCount01()
+    {
+        unset($this->data['animal_count']);
+        $actual = $this->getValidateErrors($this->data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('頭数は必ず指定してください。', Arr::get($actual, 'animal_count.0'));
+    }
+
+    /**
+     * 頭数は0以上であること
+     */
+    public function testAnimalCount02()
+    {
+        // OK
+        $data = array_merge($this->data, [
+            'animal_count' => 0,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(0, count($actual));
+
+        // NG
+        $data = array_merge($this->data, [
+            'animal_count' => -1,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('頭数には、0以上の数字を指定してください。', Arr::get($actual, 'animal_count.0'));
+    }
+
+    /**
+     * 頭数は999以下であること
+     */
+    public function testAnimalCount03()
+    {
+        // OK
+        $data = array_merge($this->data, [
+            'animal_count' => 999,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(0, count($actual));
+
+        // NG
+        $data = array_merge($this->data, [
+            'animal_count' => 1000,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('頭数には、999以下の数字を指定してください。', Arr::get($actual, 'animal_count.0'));
+    }
+
+    /**
+     * 頭数は整数であること
+     */
+    public function testAnimalCount04()
+    {
+        $data = array_merge($this->data, [
+            'animal_count' => 100.5,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('頭数は整数で指定してください。', Arr::get($actual, 'animal_count.0'));
+    }
+
+    /**
+     * 出没時情報は必須入力であること
+     */
+    public function testAppearType01()
+    {
+        unset($this->data['appear_type']);
+        $actual = $this->getValidateErrors($this->data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('出没時情報は必ず指定してください。', Arr::get($actual, 'appear_type.0'));
+    }
+
+    /**
+     * 出没時情報はSEEING、HEARINGのどちらかであること
+     */
+    public function testAppearType02()
+    {
+        $data = array_merge($this->data, [
+            'appear_type' => 'SEEING',
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(0, count($actual));
+
+        $data = array_merge($this->data, [
+            'appear_type' => 'HEARING',
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(0, count($actual));
+
+        $data = array_merge($this->data, [
+            'appear_type' => 'UNKNOWN',
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('選択された出没時情報は正しくありません。', Arr::get($actual, 'appear_type.0'));
+    }
+
+    /**
+     * 農業被害は必須入力であること
+     */
+    public function testIsDamaged01()
+    {
+        unset($this->data['is_damaged']);
+        $actual = $this->getValidateErrors($this->data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('農業被害は必ず指定してください。', Arr::get($actual, 'is_damaged.0'));
+    }
+
+    /**
+     * 農業被害は真偽値であること
+     */
+    public function testIsDamaged02()
+    {
+        $data = array_merge($this->data, [
+            'is_damaged' => true,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(0, count($actual));
+
+        $data = array_merge($this->data, [
+            'is_damaged' => false,
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(0, count($actual));
+
+        $data = array_merge($this->data, [
+            'is_damaged' => "hogehoge",
+        ]);
+        $actual = $this->getValidateErrors($data, CreateAdminRequest::class);
+        $this->assertSame(1, count($actual));
+        $this->assertSame('農業被害は、trueかfalseを指定してください。', Arr::get($actual, 'is_damaged.0'));
     }
 }
 

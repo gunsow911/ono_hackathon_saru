@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AnimalKind;
+use App\Enums\AppearType;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,9 @@ use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
  * @property \MatanYadaev\EloquentSpatial\Objects\Point|null $location
  * @property \Illuminate\Support\Carbon $applied_at
  * @property AnimalKind $kind
- * @property bool $is_alone
+ * @property AppearType $appear_type
+ * @property bool $is_damaged
+ * @property int $animal_count
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -62,7 +65,7 @@ class Matter extends Model
         'applied_at' => 'datetime',
         'location' => Point::class,
         'kind' => AnimalKind::class,
-        'is_alone' => 'boolean',
+        'appear_type' => AppearType::class,
     ];
 
     /**
