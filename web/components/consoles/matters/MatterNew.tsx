@@ -55,13 +55,13 @@ const MatterNew = (props: Props) => {
         latLng: matter.data.latLng,
         userId: matter.data.userId,
         animalCount: 0,
-        apperType: 'SEEING',
+        appearType: 'SEEING',
         dateString: appliedAt.format('YYYY-MM-DD'),
         timeString: appliedAt
           .set('minute', 0)
           .set('second', 0)
           .format('HH:mm:ss'),
-        isDamaged: matter.data.damageType === 'FARM' ? true : false,
+        isDamaged: matter.data.isDamaged,
       })
       props.onCreateContinuous && props.onCreateContinuous(matter.data)
     })

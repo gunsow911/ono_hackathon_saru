@@ -24,14 +24,14 @@ const MatterDetail = (props: Props) => {
     resolver: yupResolver(matterSchema),
     defaultValues: {
       latLng: props.matter.latLng,
-      appearType: props.matter.apperType,
+      appearType: props.matter.appearType,
       animalCount: props.matter.animalCount,
       dateString: dayjs(props.matter.appliedAt).format('YYYY-MM-DD'),
       timeString: dayjs(props.matter.appliedAt)
         .set('minute', 0)
         .set('second', 0)
         .format('HH:mm:ss'),
-      isDamaged: props.matter.damageType === 'FARM' ? true : false,
+      isDamaged: props.matter.isDamaged,
     },
   })
   const { getValues, handleSubmit } = form

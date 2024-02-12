@@ -33,7 +33,7 @@ const useAddMatter = () => {
           'YYYY-MM-DD HH:mm:ss',
         ),
         animalCount: form.animalCount,
-        apperType: form.apperType,
+        appearType: form.appearType,
         isDamaged: form.isDamaged,
       },
     })

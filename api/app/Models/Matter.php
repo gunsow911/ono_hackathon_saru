@@ -66,6 +66,7 @@ class Matter extends Model
         'location' => Point::class,
         'kind' => AnimalKind::class,
         'appear_type' => AppearType::class,
+        'is_damaged' => 'bool',
     ];
 
     /**

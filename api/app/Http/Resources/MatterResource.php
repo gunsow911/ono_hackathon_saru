@@ -20,7 +20,7 @@ class MatterResource extends JsonResource
         return [
             'id' => $resource->id,
             'lat_lng' => new LatLngResource($resource->location),
-            'applied_at' => $resource->applied_at->format("Y-m-d"),
+            'applied_at' => $resource->applied_at->format("Y-m-d H:i:s"),
             'user_id' => $resource->user_id,
             'user' => new UserResource($this->whenLoaded('user')),
             'animal_count' => $resource->animal_count,

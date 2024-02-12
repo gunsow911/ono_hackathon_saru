@@ -14,7 +14,7 @@ const MatterForm = () => {
   ]
 
   // 出現選択肢
-  const apperTypeOptions = [
+  const appearTypeOptions = [
     { value: 'SEEING', label: '見た' },
     { value: 'HEARING', label: '声を聞いた' },
   ]
@@ -74,9 +74,9 @@ const MatterForm = () => {
         </Col>
         <Col lg={4} md={12}>
           <ArToggleButtonGroup
-            name='apperType'
+            name='appearType'
             label='出没時の状況は？'
-            options={apperTypeOptions}
+            options={appearTypeOptions}
           />
         </Col>
         <Col lg={4} md={12}>
