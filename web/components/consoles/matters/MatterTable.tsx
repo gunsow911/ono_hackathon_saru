@@ -25,10 +25,10 @@ const MatterTable = (props: Props) => {
     const columns: ColumnDef<Matter>[] = [
       {
         accessorKey: 'appliedAt',
-        header: '日付',
+        header: '日時',
         enableSorting: false,
         cell: (v) => {
-          return dayjs(v.row.original.appliedAt).format('YYYY-MM-DD')
+          return dayjs(v.row.original.appliedAt).format('YYYY-MM-DD HH時ごろ')
         },
       },
       {
@@ -45,18 +45,44 @@ const MatterTable = (props: Props) => {
       },
       {
         accessorKey: 'lat',
-        header: '緯度',
+        header: '緯度,経度',
         enableSorting: false,
         cell: (v) => {
-          return v.row.original.latLng.lat
+          const latLng = v.row.original.latLng
+          const lat = (Math.round(latLng.lat * 10 ** 6) / 10 ** 6).toFixed(6)
+          const lng = (Math.round(latLng.lng * 10 ** 6) / 10 ** 6).toFixed(6)
+          return `${lat},${lng}`
         },
       },
       {
-        accessorKey: 'lng',
-        header: '経度',
+        accessorKey: 'appearType',
+        header: '出没時の状況',
         enableSorting: false,
         cell: (v) => {
-          return v.row.original.latLng.lng
+          const appearType = v.row.original.appearType
+          if (appearType === 'SEEING') return '見た'
+          if (appearType === 'HEARING') return '声を聞いた'
+          return 'わからない'
+        },
+      },
+      {
+        accessorKey: 'isDamaged',
+        header: '農業被害',
+        enableSorting: false,
+        cell: (v) => {
+          const isDamaged = v.row.original.isDamaged
+          if (isDamaged) return '被害あり'
+          return '被害なし'
+        },
+      },
+      {
+        accessorKey: 'animalCount',
+        header: '頭数',
+        enableSorting: false,
+        cell: (v) => {
+          const animalCount = v.row.original.animalCount
+          if (animalCount > 0) return animalCount
+          return '-'
         },
       },
       {

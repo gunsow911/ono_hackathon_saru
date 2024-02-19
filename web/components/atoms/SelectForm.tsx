@@ -8,6 +8,7 @@ type Props = {
   options: { value: string; label: string }[]
   isClearable?: boolean
   isSearchable?: boolean
+  placeholder?: string
 }
 
 /**
@@ -30,7 +31,7 @@ const SelectForm = (props: Props) => {
         {...field}
         {...formControlProps}
         options={props.options}
-        placeholder='選択してください'
+        placeholder={props.placeholder ? props.placeholder : '選択してください'}
         isClearable={props.isClearable}
         onChange={(option) => field.onChange(option?.value ?? null)}
         value={props.options.filter((option) => field.value === option.value)}
