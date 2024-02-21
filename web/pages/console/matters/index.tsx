@@ -12,6 +12,10 @@ const ConsoleMatterList: NextPageWithLayout = () => {
     query: '',
     from: '',
     to: '',
+    appearType: null,
+    isDamaged: null,
+    max: undefined,
+    min: undefined,
   })
   const onChange = (value: Condition) => {
     setCondition(value)

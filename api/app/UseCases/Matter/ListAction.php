@@ -23,6 +23,10 @@ class ListAction
                 'query' => '',
                 'from' => null,
                 'to' => null,
+                'appear_type' => null,
+                'is_damaged' => null,
+                'max' => null,
+                'min' => null,
             ]);
         }
 
@@ -45,6 +49,18 @@ class ListAction
         }
         if ($entity->getTo() !== null) {
             $query->whereDate('matters.applied_at', '<=', $entity->getTo()->format('Y-m-d').' 23:59:59');
+        }
+        if ($entity->getAppearType() !== null) {
+            $query->where('matters.appear_type', '=', $entity->getAppearType());
+        }
+        if ($entity->getIsDamaged() !== null) {
+            $query->where('matters.is_damaged', '=', $entity->getIsDamaged() ? 1 : 0);
+        }
+        if ($entity->getMax() !== null) {
+            $query->where('matters.animal_count', '<=', $entity->getMax());
+        }
+        if ($entity->getMin() !== null) {
+            $query->where('matters.animal_count', '>=', $entity->getMin());
         }
 
         $query->orderBy('applied_at', 'desc');

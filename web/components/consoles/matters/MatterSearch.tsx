@@ -59,8 +59,8 @@ const MatterSearch = (props: Props) => {
               <SelectForm
                 name='isDamaged'
                 options={[
-                  { label: '被害あり', value: 'true' },
-                  { label: '被害なし', value: 'false' },
+                  { label: '被害あり', value: '1' },
+                  { label: '被害なし', value: '0' },
                 ]}
                 isClearable={true}
                 label='農業被害'
@@ -70,14 +70,14 @@ const MatterSearch = (props: Props) => {
             <Col sm={3}>
               <NumberInputForm
                 name='min'
-                label='最小(頭数)'
+                label='頭数(最小)'
                 placeholder='検索条件なし'
               />
             </Col>
             <Col sm={3}>
               <NumberInputForm
                 name='max'
-                label='最大(頭数)'
+                label='頭数(最大)'
                 placeholder='検索条件なし'
               />
             </Col>
