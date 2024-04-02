@@ -7,6 +7,8 @@ namespace Tests\Feature\Http\Controllers\Console;
 use App\Models\AdminUser;
 use Mockery;
 use App\Models\Matter;
+use App\Models\User;
+use App\UseCases\Matter\CreateAdminAction;
 use App\UseCases\Matter\MultipleRemoveSelectedAction;
 use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\RemoveAction;
@@ -93,6 +95,45 @@ class MatterControllerTest extends ControllerTestCase
     }
 
     /**
+     * 獣害情報を作成できること
+     */
+    public function testCreate()
+    {
+        // 管理者ユーザを用意
+        /** @var AdminUser */
+        $admin = AdminUser::factory()->create();
+        // 通常ユーザを用意
+        $user = User::factory()->create();
+
+        // テスト準備
+        /** @var Matter */
+        $matter = Matter::factory()->create();
+        $this->mockAction(CreateAdminAction::class, $matter);
+
+        $data = [
+            'user_id' => $user->id,
+            'applied_at' => "2023-04-01 17:00:00",
+            'lat' => "136.123",
+            'lng' => "32.456",
+            'animal_count' => 3,
+            'appear_type' => 'SEEING',
+            'is_damaged' => true,
+        ];
+
+        // テスト実行
+        // リクエストを送信する
+        // actingAsは、第1引数のユーザでログインしたことにするテスト用のメソッドです。
+        // 通常、第2引数を使うことはありませんが、ログインする「ユーザ」が複数ある場合は設定が必要です。
+        // これは、今後の開発で、通常ユーザのログインが必要になることを見越しています
+        $response = $this->actingAs($admin, 'admin')
+            ->postJson("api/console/matters", $data);
+
+        // テスト確認
+        // ステータスコードの検証
+        $response->assertStatus(201);
+    }
+
+    /**
      * 獣害情報を更新できること
      */
     public function testUpdate()
@@ -107,9 +148,12 @@ class MatterControllerTest extends ControllerTestCase
         $this->mockAction(UpdateAction::class, $matter);
 
         $data = [
-            'applied_at' => "2023-04-01",
+            'applied_at' => "2023-04-01 17:00:00",
             'lat' => "136.123",
             'lng' => "32.456",
+            'animal_count' => 3,
+            'appear_type' => 'SEEING',
+            'is_damaged' => true,
         ];
 
         // テスト実行

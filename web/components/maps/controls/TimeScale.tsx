@@ -2,7 +2,8 @@ import { Form } from 'react-bootstrap'
 import SelectForm from 'components/atoms/SelectForm'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
+import dayjs from 'libs/dayjs'
 
 type Props = {
   onChange?: (between: { from: Dayjs; to: Dayjs }) => void

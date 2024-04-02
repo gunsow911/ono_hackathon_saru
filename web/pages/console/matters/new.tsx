@@ -63,7 +63,7 @@ const ConsoleMatterNew: NextPageWithLayout = () => {
         )}
         <Row>
           <Col>
-            <Card className='py-3 px-4'>
+            <Card className='py-3 px-4 report'>
               {location ? (
                 <MatterNew initLatLng={location} onCreate={onCreate} />
               ) : (

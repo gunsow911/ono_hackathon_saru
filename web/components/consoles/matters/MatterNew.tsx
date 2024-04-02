@@ -1,19 +1,19 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import Link from 'next/link'
 import React from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import MatterForm from './MatterForm'
 import useAddMatter, {
-  AddMatterForm,
-  matterSchema,
+  MatterWithUserIdInputForm,
+  matterWithUserIdSchema,
 } from 'hooks/console/matter/useAddMatter'
-import dayjs from 'dayjs'
+import dayjs from 'libs/dayjs'
 import { LatLng } from 'models/LatLng'
 import { Matter } from 'models/Matter'
 import SelectForm from 'components/atoms/SelectForm'
 import useGetUserSelectList from 'hooks/console/user/useGetUserSelectList'
+import MatterForm from 'components/matters/MatterForm'
+import { yupResolver } from '@hookform/resolvers/yup'
+import Link from 'next/link'
 
 type Props = {
   initLatLng: LatLng
@@ -23,15 +23,20 @@ type Props = {
 
 const MatterNew = (props: Props) => {
   const now = dayjs()
-  const form = useForm<AddMatterForm>({
+  const form = useForm<MatterWithUserIdInputForm>({
     mode: 'onSubmit',
-    resolver: yupResolver(matterSchema),
+    resolver: yupResolver(matterWithUserIdSchema),
     defaultValues: {
       userId: undefined,
-      appliedAt: now.format('YYYY-MM-DD'),
       latLng: props.initLatLng,
+      appearType: 'SEEING',
+      animalCount: 0,
+      dateString: now.format('YYYY-MM-DD'),
+      timeString: now.set('minute', 0).set('second', 0).format('HH:mm:ss'),
+      isDamaged: true,
     },
   })
+
   const { getValues, handleSubmit } = form
   const { execute, loading } = useAddMatter()
 
@@ -45,10 +50,18 @@ const MatterNew = (props: Props) => {
   const onCreateContinuous = () => {
     execute(getValues()).then((matter) => {
       toast.success('作成しました。')
+      const appliedAt = dayjs(matter.data.appliedAt)
       form.reset({
-        appliedAt: matter.data.appliedAt,
         latLng: matter.data.latLng,
         userId: matter.data.userId,
+        animalCount: 0,
+        appearType: 'SEEING',
+        dateString: appliedAt.format('YYYY-MM-DD'),
+        timeString: appliedAt
+          .set('minute', 0)
+          .set('second', 0)
+          .format('HH:mm:ss'),
+        isDamaged: matter.data.isDamaged,
       })
       props.onCreateContinuous && props.onCreateContinuous(matter.data)
     })
@@ -65,12 +78,14 @@ const MatterNew = (props: Props) => {
       <Card className='py-3 px-4'>
         <Form onSubmit={handleSubmit(onCreate)}>
           <FormProvider {...form}>
-            <SelectForm
-              name='userId'
-              label='ユーザー名'
-              options={userSelectOptions}
-              isClearable
-            />
+            <div className='pb-2'>
+              <SelectForm
+                name='userId'
+                label='ユーザー名'
+                options={userSelectOptions}
+                isClearable
+              />
+            </div>
             <MatterForm />
           </FormProvider>
           <div className='float-end mt-2'>

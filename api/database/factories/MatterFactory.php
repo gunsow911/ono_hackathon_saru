@@ -23,7 +23,9 @@ class MatterFactory extends Factory
             'location' => new Point(fake()->latitude, fake()->longitude),
             'applied_at' => now(),
             'kind' => 1,
-            'is_alone' => false,
+            'animal_count' => 1,
+            'appear_type' => 0,
+            'is_damaged' => false,
         ];
     }
 }

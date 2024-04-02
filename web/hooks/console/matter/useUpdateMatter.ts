@@ -1,17 +1,7 @@
 import useAxios from 'axios-hooks'
-import dayjs from 'dayjs'
-import { LatLng } from 'models/LatLng'
+import dayjs from 'libs/dayjs'
 import { Matter } from 'models/Matter'
-import yup from 'libs/yup'
-
-export type UpdateMatterForm = {
-  appliedAt: string
-  latLng: LatLng
-}
-
-export const matterSchema = yup.object<UpdateMatterForm>().shape({
-  appliedAt: yup.date().required().label('日付'),
-})
+import { MatterInputForm } from 'hooks/matter/useAddMatter'
 
 /**
  * 獣害情報更新フック
@@ -21,13 +11,18 @@ const useUpdateMatter = () => {
     method: 'PUT',
   })
 
-  const execute = async (matterId: string, form: UpdateMatterForm) => {
+  const execute = async (matterId: string, form: MatterInputForm) => {
     return exec({
       url: `/api/console/matters/${matterId}`,
       data: {
         lat: form.latLng.lat,
         lng: form.latLng.lng,
-        appliedAt: dayjs(form.appliedAt).format('YYYY-MM-DD'),
+        appliedAt: dayjs(`${form.dateString} ${form.timeString}`).format(
+          'YYYY-MM-DD HH:mm:ss',
+        ),
+        animalCount: form.animalCount,
+        appearType: form.appearType,
+        isDamaged: form.isDamaged,
       },
     })
   }
