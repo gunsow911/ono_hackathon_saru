@@ -21,11 +21,10 @@ class CreateActionTest extends TestCase
     public function testCreate01()
     {
         // テスト準備
-        // 時間を固定
-        Carbon::setTestNow("2023-01-01 17:00:00");
         $entity = new CreateEntity([
             'lat' => 131.4729567,
             'lng' => 34.1880318,
+            'applied_at' => new Carbon("2023-01-01 17:00:00"),
             'animal_count' => 1,
             'appear_type' => AppearType::SEEING->value,
             'is_damaged' => true,

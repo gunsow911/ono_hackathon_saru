@@ -6,7 +6,7 @@ import useAddMatter, {
   MatterWithUserIdInputForm,
   matterWithUserIdSchema,
 } from 'hooks/console/matter/useAddMatter'
-import dayjs from 'dayjs'
+import dayjs from 'libs/dayjs'
 import { LatLng } from 'models/LatLng'
 import { Matter } from 'models/Matter'
 import SelectForm from 'components/atoms/SelectForm'

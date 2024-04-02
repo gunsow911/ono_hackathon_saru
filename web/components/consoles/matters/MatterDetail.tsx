@@ -9,7 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import AlertDialog from 'components/molecules/AlertDialog'
 import MatterForm from 'components/matters/MatterForm'
-import dayjs from 'dayjs'
+import dayjs from 'libs/dayjs'
 import { MatterInputForm, matterSchema } from 'hooks/matter/useAddMatter'
 
 type Props = {

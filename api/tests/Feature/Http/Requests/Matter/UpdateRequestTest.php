@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Http\Requests\Matter;
 
+use App\Enums\AppearType;
 use Tests\FormRequestTestCase;
 use App\Http\Requests\Matter\UpdateRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 
@@ -42,6 +44,10 @@ class UpdateRequestTest extends FormRequestTestCase
         $entity = $req->makeEntity();
         $this->assertSame(130.23, $entity->getLat());
         $this->assertSame(40.34, $entity->getLng());
+        $this->assertEquals(new Carbon('2023-01-01 17:00:00'), $entity->getAppliedAt());
+        $this->assertEquals(3, $entity->getAnimalCount());
+        $this->assertEquals(AppearType::fromName('SEEING'), $entity->getAppearType());
+        $this->assertTrue($entity->getIsDamaged());
     }
 
     /**

@@ -30,7 +30,7 @@ class CreateAdminEntity
         $this->userId = Arr::get($data, 'user_id');
         $this->lat = Arr::get($data, 'lat');
         $this->lng = Arr::get($data, 'lng');
-        $this->appliedAt = new Carbon(Arr::get($data, 'applied_at'));
+        $this->appliedAt = Arr::get($data, 'applied_at');
         $this->animal_count = Arr::get($data, 'animal_count');
         $this->appear_type = Arr::get($data, 'appear_type');
         $this->is_damaged = Arr::get($data, 'is_damaged');

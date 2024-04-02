@@ -6,6 +6,7 @@ use App\Enums\AppearType;
 use App\Models\User;
 use App\UseCases\Matter\CreateEntity;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
@@ -52,6 +53,7 @@ class CreateRequest extends FormRequest
         return new CreateEntity([
             'lat' => (float)$this->input('lat'),
             'lng' => (float)$this->input('lng'),
+            'applied_at' => new Carbon($this->input('applied_at')),
             'animal_count' => (int)$this->input('animal_count'),
             'appear_type' => AppearType::fromName($this->input('appear_type')),
             'is_damaged' => (bool)$this->input('is_damaged'),

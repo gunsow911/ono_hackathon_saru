@@ -27,7 +27,7 @@ class CreateAdminActionTest extends TestCase
             'user_id' => $user->id,
             'lat' => 131.4729567,
             'lng' => 34.1880318,
-            'applied_at' => '2023-01-01 17:00:00',
+            'applied_at' => new Carbon("2023-01-01 17:00:00"),
             'animal_count' => 1,
             'appear_type' => AppearType::SEEING->value,
             'is_damaged' => true,

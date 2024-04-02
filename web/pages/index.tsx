@@ -4,7 +4,8 @@ import { NextPageWithLayout } from '_app'
 import Layout from 'components/layouts/MenuLayout'
 import useListMatter from 'hooks/matter/useListMatter'
 import TimeScale from 'components/maps/controls/TimeScale'
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
+import dayjs from 'libs/dayjs'
 
 const Home: NextPageWithLayout = () => {
   const now = dayjs().endOf('day')

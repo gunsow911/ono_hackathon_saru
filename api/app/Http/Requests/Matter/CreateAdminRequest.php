@@ -5,6 +5,7 @@ namespace App\Http\Requests\Matter;
 use App\Enums\AppearType;
 use App\UseCases\Matter\CreateAdminEntity;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class CreateAdminRequest extends FormRequest
@@ -44,7 +45,7 @@ class CreateAdminRequest extends FormRequest
             'user_id' => $this->input('user_id'),
             'lat' => (float)$this->input('lat'),
             'lng' => (float)$this->input('lng'),
-            'applied_at' => $this->input('applied_at'),
+            'applied_at' => new Carbon($this->input('applied_at')),
             'animal_count' => (int)$this->input('animal_count'),
             'appear_type' => AppearType::fromName($this->input('appear_type')),
             'is_damaged' => (bool)$this->input('is_damaged'),

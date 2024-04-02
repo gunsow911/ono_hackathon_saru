@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import PaginationTable from 'components/atoms/PaginationTable'
 import AlertDialog from 'components/molecules/AlertDialog'
-import dayjs from 'dayjs'
+import dayjs from 'libs/dayjs'
 import useGetMatterPage, {
   Condition,
 } from 'hooks/console/matter/useGetMatterPage'

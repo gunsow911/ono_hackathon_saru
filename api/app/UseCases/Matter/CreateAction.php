@@ -5,7 +5,6 @@ use App\Enums\AnimalKind;
 use App\Models\Matter;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 
 /**
@@ -22,9 +21,8 @@ class CreateAction
     public function __invoke(CreateEntity $entity, User $user): Matter
     {
         return DB::transaction(function () use ($entity, $user) {
-            $date = new Carbon();
             $saveMatter = new Matter();
-            $saveMatter->applied_at = $date;
+            $saveMatter->applied_at = $entity->getAppliedAt();
             $saveMatter->location = new Point($entity->getLat(), $entity->getLng());
             $saveMatter->user_id = $user->id;
             // 現状はサル固定
