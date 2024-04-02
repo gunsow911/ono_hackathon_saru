@@ -8,12 +8,11 @@ use App\UseCases\Matter\ListAction;
 use App\UseCases\Matter\ListEntity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use MatanYadaev\EloquentSpatial\Objects\Point;
 use Tests\TestCase;
 use function count;
 
 class ListActionTest extends TestCase
-{ 
+{
     use RefreshDatabase;
 
     /**
@@ -25,22 +24,19 @@ class ListActionTest extends TestCase
         // テスト準備
         /** @var Matter */
         $matter1 = Matter::factory()->create([
-            'location' => new Point(131.0, 34.0),
             'applied_at' => "2023-02-01",
         ]);
         $matter2 = Matter::factory()->create([
-            'location' => new Point(132.0, 35.0),
             'applied_at' => "2023-03-01",
         ]);
         $matter3 = Matter::factory()->create([
-            'location' => new Point(130.0, 34.0),
             'applied_at' => "2023-01-01",
         ]);
 
         // 検索条件
         $entity = new ListEntity([
             'query' => '',
-            'from' => null, 
+            'from' => null,
             'to' => null,
         ]);
 
@@ -70,7 +66,6 @@ class ListActionTest extends TestCase
                 'name' => 'テスト太郎'
             ]))
             ->create([
-                'location' => new Point(131.0, 34.0),
                 'applied_at' => "2023-02-01",
             ]);
         /** @var Matter */
@@ -79,7 +74,6 @@ class ListActionTest extends TestCase
                 'name' => 'ほげほげ次郎'
             ]))
             ->create([
-                'location' => new Point(131.0, 34.0),
                 'applied_at' => "2023-02-01",
             ]);
         /** @var Matter */
@@ -88,7 +82,6 @@ class ListActionTest extends TestCase
                 'name' => 'テスト花子'
             ]))
             ->create([
-                'location' => new Point(131.0, 34.0),
                 'applied_at' => "2023-02-01",
             ]);
 
@@ -97,7 +90,7 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => '郎',
-            'from' => null, 
+            'from' => null,
             'to' => null,
         ]);
 
@@ -114,7 +107,7 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => 'テスト',
-            'from' => null, 
+            'from' => null,
             'to' => null,
         ]);
 
@@ -142,7 +135,6 @@ class ListActionTest extends TestCase
                 'name' => 'ほげほげ次郎'
             ]))
             ->create([
-                'location' => new Point(131.0, 34.0),
                 'applied_at' => "2023-02-01",
             ]);
 
@@ -151,7 +143,7 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => $matter->user_id,
-            'from' => null, 
+            'from' => null,
             'to' => null,
         ]);
 
@@ -167,7 +159,7 @@ class ListActionTest extends TestCase
         // 検索条件
         $entity = new ListEntity([
             'query' => substr($matter->user_id, 0, 5), // 部分文字列にする
-            'from' => null, 
+            'from' => null,
             'to' => null,
         ]);
 
@@ -188,22 +180,19 @@ class ListActionTest extends TestCase
         // テスト準備
         /** @var Matter */
         $matter1 = Matter::factory()->create([
-            'location' => new Point(131.0, 34.0),
             'applied_at' => "2023-02-01",
         ]);
         $matter2 = Matter::factory()->create([
-            'location' => new Point(132.0, 35.0),
             'applied_at' => "2023-03-01",
         ]);
         $matter3 = Matter::factory()->create([
-            'location' => new Point(130.0, 34.0),
             'applied_at' => "2023-01-01",
         ]);
 
         // 検索条件
         $entity = new ListEntity([
             'query' => '',
-            'from' => new Carbon('2023-02-01'), 
+            'from' => new Carbon('2023-02-01'),
             'to' => null,
         ]);
 
@@ -227,22 +216,19 @@ class ListActionTest extends TestCase
         // テスト準備
         /** @var Matter */
         $matter1 = Matter::factory()->create([
-            'location' => new Point(131.0, 34.0),
             'applied_at' => "2023-02-01",
         ]);
         $matter2 = Matter::factory()->create([
-            'location' => new Point(132.0, 35.0),
             'applied_at' => "2023-03-01",
         ]);
         $matter3 = Matter::factory()->create([
-            'location' => new Point(130.0, 34.0),
             'applied_at' => "2023-01-01",
         ]);
 
         // 検索条件
         $entity = new ListEntity([
             'query' => '',
-            'from' => null, 
+            'from' => null,
             'to' => new Carbon('2023-02-01'),
         ]);
 
@@ -256,6 +242,145 @@ class ListActionTest extends TestCase
         $this->assertSame(2, count($results));
         $this->assertSame($matter1->id, $results[0]->id);
         $this->assertSame($matter3->id, $results[1]->id);
+    }
+
+    /**
+     * 害獣情報一覧を取得できること
+     * 出現時状況を指定すると該当する獣害情報が取得できること
+     */
+    public function testAppearType01() {
+        // テスト準備
+        /** @var Matter */
+        $matter1 = Matter::factory()->create([
+            'appear_type' => 1,
+        ]);
+        $matter2 = Matter::factory()->create([
+            'appear_type' => 1,
+        ]);
+        $matter3 = Matter::factory()->create([
+            'appear_type' => 0,
+        ]);
+
+        // 検索条件
+        $entity = new ListEntity([
+            'query' => '',
+            'appear_type' => 1,
+        ]);
+
+        $action = new ListAction();
+
+        // テスト実行
+        /** @var Matter[] */
+        $results = $action($entity)->get();
+
+        // テスト確認
+        $this->assertSame(2, count($results));
+        $this->assertSame($matter1->id, $results[0]->id);
+        $this->assertSame($matter2->id, $results[1]->id);
+    }
+
+    /**
+     * 害獣情報一覧を取得できること
+     * 農業被害の有無を指定すると該当する獣害情報が取得できること
+     */
+    public function testIsDamaged01() {
+        // テスト準備
+        /** @var Matter */
+        $matter1 = Matter::factory()->create([
+            'is_damaged' => false,
+        ]);
+        $matter2 = Matter::factory()->create([
+            'is_damaged' => true,
+        ]);
+        $matter3 = Matter::factory()->create([
+            'is_damaged' => true,
+        ]);
+
+        // 検索条件
+        $entity = new ListEntity([
+            'query' => '',
+            'is_damaged' => false,
+        ]);
+
+        $action = new ListAction();
+
+        // テスト実行
+        /** @var Matter[] */
+        $results = $action($entity)->get();
+
+        // テスト確認
+        $this->assertSame(1, count($results));
+        $this->assertSame($matter1->id, $results[0]->id);
+    }
+
+    /**
+     * 害獣情報一覧を取得できること
+     * 頭数(最大)指定すると該当する獣害情報が取得できること
+     */
+    public function testMax01() {
+        // テスト準備
+        /** @var Matter */
+        $matter1 = Matter::factory()->create([
+            'animal_count' => 40,
+        ]);
+        $matter2 = Matter::factory()->create([
+            'animal_count' => 50,
+        ]);
+        $matter3 = Matter::factory()->create([
+            'animal_count' => 10,
+        ]);
+
+        // 検索条件
+        $entity = new ListEntity([
+            'query' => '',
+            'max' => 40,
+        ]);
+
+        $action = new ListAction();
+
+        // テスト実行
+        /** @var Matter[] */
+        $results = $action($entity)->get();
+
+        // テスト確認
+        $this->assertSame(2, count($results));
+        $this->assertSame($matter1->id, $results[0]->id);
+        $this->assertSame($matter3->id, $results[1]->id);
+    }
+
+    /**
+     * 害獣情報一覧を取得できること
+     * 頭数(最小)指定すると該当する獣害情報が取得できること
+     */
+    public function testMin01() {
+        // テスト準備
+        /** @var Matter */
+        $matter1 = Matter::factory()->create([
+            'animal_count' => 40,
+        ]);
+        $matter2 = Matter::factory()->create([
+            'animal_count' => 50,
+        ]);
+        $matter3 = Matter::factory()->create([
+            'animal_count' => 10,
+        ]);
+
+        // 検索条件
+        $entity = new ListEntity([
+            'query' => '',
+            'min' => 40,
+        ]);
+
+        $action = new ListAction();
+
+        // テスト実行
+        /** @var Matter[] */
+        $results = $action($entity)->get();
+
+        // テスト確認
+        $this->assertSame(2, count($results));
+        $this->assertSame($matter1->id, $results[0]->id);
+        $this->assertSame($matter2->id, $results[1]->id);
     }
 }
 
