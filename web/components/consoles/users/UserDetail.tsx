@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from 'libs/yup'
 import useRemoveUser from 'hooks/console/user/useRemoveUser'
 import useUpdateUser, {
   userSchema,

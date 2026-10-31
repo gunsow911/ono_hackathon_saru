@@ -12,7 +12,7 @@ import { Matter } from 'models/Matter'
 import SelectForm from 'components/atoms/SelectForm'
 import useGetUserSelectList from 'hooks/console/user/useGetUserSelectList'
 import MatterForm from 'components/matters/MatterForm'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from 'libs/yup'
 import Link from 'next/link'
 
 type Props = {

@@ -1,5 +1,5 @@
 import DeckGLMap from 'components/atoms/DeckGLMap'
-import { IconLayer } from '@deck.gl/layers/typed'
+import { IconLayer } from '@deck.gl/layers'
 import { LatLng } from 'models/LatLng'
 
 type Props = {

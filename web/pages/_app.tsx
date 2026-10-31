@@ -9,7 +9,6 @@ import Head from 'next/head'
 import { FunctionComponent, ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

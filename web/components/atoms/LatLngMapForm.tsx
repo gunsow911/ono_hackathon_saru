@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DeckGLMap from '../atoms/DeckGLMap'
-import { IconLayer } from '@deck.gl/layers/typed'
+import { IconLayer } from '@deck.gl/layers'
 import { useController, useFormContext } from 'react-hook-form'
 import { LatLng } from 'models/LatLng'
 import { Form } from 'react-bootstrap'
