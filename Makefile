@@ -24,8 +24,8 @@ coverage:
 package-install:
 	docker compose run --rm web yarn install
 	docker compose run --rm api composer install
-# ローカル .data (MySQL 8.0) を 8.4 経由で 9.7 へ上げる。8.0→9.x の直接アップグレードは不可のため2段階。
-# 9.x で削除された mysql_native_password のアカウントは 8.4 段階で caching_sha2_password へ変換する
+# ローカル .data (MySQL 8.0) を 8.4 へ上げる。本番 RDS は 8.4 が上限のためローカル/CI も 8.4 に揃える。
+# 8.4 では mysql_native_password が既定で無効なため、変換してから本来のイメージで起動する
 db-upgrade:
 	docker compose stop db
 	docker run --rm -d --name ono-db-upgrade -v $(CURDIR)/.data:/var/lib/mysql mysql:8.4 --mysql-native-password=ON
