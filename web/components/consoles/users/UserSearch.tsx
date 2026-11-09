@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from 'libs/yup'
 import InputForm from 'components/atoms/InputForm'
 import { Condition, searchSchema } from 'hooks/console/user/useGetUserPage'
 import React from 'react'

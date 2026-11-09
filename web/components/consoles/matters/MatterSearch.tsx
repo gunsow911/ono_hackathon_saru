@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from 'libs/yup'
 import InputForm from 'components/atoms/InputForm'
 import NumberInputForm from 'components/atoms/NumberInputForm'
 import SelectForm from 'components/atoms/SelectForm'

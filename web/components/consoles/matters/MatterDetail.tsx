@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from 'libs/yup'
 import useRemoveMatter from 'hooks/console/matter/useRemoveMatter'
 import useUpdateMatter from 'hooks/console/matter/useUpdateMatter'
 import { Matter } from 'models/Matter'

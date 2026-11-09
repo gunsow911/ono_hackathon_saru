@@ -1,7 +1,7 @@
-import DeckGL from '@deck.gl/react/typed'
-import { LayersList, PickingInfo } from '@deck.gl/core/typed'
-import { BitmapLayer } from '@deck.gl/layers/typed'
-import { TileLayer, GeoBoundingBox } from '@deck.gl/geo-layers/typed'
+import DeckGL from '@deck.gl/react'
+import { LayersList, PickingInfo } from '@deck.gl/core'
+import { BitmapLayer } from '@deck.gl/layers'
+import { TileLayer, GeoBoundingBox } from '@deck.gl/geo-layers'
 import { ReactNode } from 'react'
 
 type Props = {
@@ -28,7 +28,7 @@ const DeckGLMap = (props: Props) => {
       const { bbox } = props.tile
       const bounds = bbox as GeoBoundingBox
       return new BitmapLayer(props, {
-        data: null,
+        data: undefined,
         image: props.data,
         bounds: [bounds.west, bounds.south, bounds.east, bounds.north],
       })

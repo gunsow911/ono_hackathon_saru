@@ -1,4 +1,4 @@
-import { HeatmapLayer } from '@deck.gl/aggregation-layers/typed'
+import { HeatmapLayer } from '@deck.gl/aggregation-layers'
 import DeckGLMap from 'components/atoms/DeckGLMap'
 import { LatLng } from 'models/LatLng'
 import { ReactNode } from 'react'
